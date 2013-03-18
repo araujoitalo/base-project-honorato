@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  - Sample namespace-based configuration
+  -
+  -->
+
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:context="http://www.springframework.org/schema/context"
+	 xmlns:aop="http://www.springframework.org/schema/aop"
+    xmlns:beans="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+                        http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.1.xsd
+                        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+	<context:component-scan base-package="br.com.honorato" />
+	
+    <debug />
+
+    <global-method-security pre-post-annotations="enabled" jsr250-annotations="enabled"/>
+
+    <http pattern="/static/**" security="none"/>
+    <http pattern="/loggedout.jsp" security="none"/>
+
+    <http use-expressions="true">
+        <intercept-url pattern="/application/home.jsf" access="isAuthenticated()"/>
+        <intercept-url pattern="/application/**" access="hasRole('supervisor')"/>
+        <intercept-url pattern="/public/**" access="permitAll"/>
+        <!--
+             Allow all other requests. In a real application you should
+             adopt a whitelisting approach where access is not allowed by default
+          -->
+        <form-login login-page="/public/login.jsf" />
+        <logout logout-success-url="/public/logged-out.jsf" delete-cookies="JSESSIONID"/>
+        <remember-me />
+<!--
+    Uncomment to enable X509 client authentication support
+        <x509 />
+-->
+        <!-- Uncomment to limit the number of sessions a user can have -->
+        <session-management invalid-session-url="/public/time-out.jsf">
+            <concurrency-control max-sessions="1" error-if-maximum-exceeded="true" />
+        </session-management>
+
+    </http>
+
+	<!-- 
+	manager responsible for loading user account with assigned roles 
+	-->
+	<authentication-manager alias="authenticationManager" >
+		<authentication-provider
+			user-service-ref="userDetailsService" />
+	</authentication-manager> 
+</beans:beans>
