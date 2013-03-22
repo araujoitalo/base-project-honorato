@@ -26,23 +26,29 @@ public class LoginBean implements Serializable {
 
 
 	public String login() {
-		
+
 		boolean success = authenticationService.login(userLogin, password);
 		success = true;
 		String defaultPage = "home.jsf";
 		String loginPage = "login.jsf";
-		
+
 		if (success){
 			if (null!=getSpringSecuritySavedRequestKey()){
 				defaultPage = getSpringSecuritySavedRequestKey();
 			}
 			return defaultPage;
-			
+
 		}else{
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Login or password incorrect."));
 			return loginPage;
 		}
 	}
+
+	public String logout() {
+		String defaultPage = "home.jsf";
+		authenticationService.logout();
+		return defaultPage;
+	}	
 
 	public String getUserLogin() {
 		return userLogin;
@@ -63,20 +69,20 @@ public class LoginBean implements Serializable {
 	public void setAuthenticationService(AuthenticationService authenticationService) {
 		this.authenticationService = authenticationService;
 	}
-	
+
 	public String getSpringSecuritySavedRequestKey(){
-		
+
 		String out = null;
-		
+
 		try{
 			out = ((DefaultSavedRequest)((SecurityContextHolderAwareRequestWrapper)FacesContext.getCurrentInstance().getExternalContext().getRequest()).getSession().getAttribute("SPRING_SECURITY_SAVED_REQUEST")).getServletPath();
 		}catch(NullPointerException exception){
 			out = null;
 		}
-		
+
 		return out;
-		
+
 	}
 
-	
+
 }
