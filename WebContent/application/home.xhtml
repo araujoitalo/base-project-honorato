@@ -1,16 +1,70 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
+<html xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:p="http://primefaces.prime.com.tr/ui"
-	template="../layout/primeiro.xhtml">
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
 
-	<ui:define name="bodyPrincipal">
-		<h:panelGroup layout="block">
-			<h:outputText value="Home" />
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>Nome do Sistema</title>
+	<h:outputStylesheet library="default" name="css/style.css" />
+</h:head>
+
+<h:body
+	style="background-image:url('../resources/default/images/backGroundGreen.jpg');height:100%;padding:30px">
+
+	<h:panelGroup layout="block" style="float:left;width:99%;align:center;">
+		<h:panelGroup layout="block" style="float:left;width:10%;">
+			<h:panelGrid>
+				<h:column>
+					<h:outputLabel
+						style="font-family:Calibri;font-size:45px;text-align:right;color:#FFFFFF"
+						value="Start" />
+				</h:column>
+			</h:panelGrid>
 		</h:panelGroup>
-	</ui:define>
+		<h:panelGroup layout="block" style="float:left;width:79%;">
+			<h:panelGrid style="width:1340px;"></h:panelGrid>
+		</h:panelGroup>
+		<h:panelGroup layout="block" style="float:left;width:11%;">
+			<h:panelGrid columns="2">
+				<h:column>
+					<h:panelGrid style="text-align:right">
+						<h:column>
+							<h:outputLabel
+								style="font-family:Calibri;font-size:25px;text-align:right;color:#FFFFFF"
+								value="Marcelo" />
+						</h:column>
+						<h:column>
+							<h:outputLabel
+								style="font-family:Calibri;font-size:15px;text-align:right;color:#FFFFFF"
+								value="Honorato" />
+						</h:column>
+					</h:panelGrid>
+				</h:column>
+				<h:column>
 
-</ui:composition>
+					<h:form>
+						<h:graphicImage id="imgUser" library="default" width="50"
+							name="images/user.jpg">
+
+							<p:contextMenu for="imgUser">
+								<p:menuitem value="Alterar Usuário" actionListener="#{buttonBean.save}" icon="ui-icon-disk" />
+								<p:menuitem value="Alterar Imagem" actionListener="#{buttonBean.update}"
+									icon="ui-icon-arrowrefresh-1-w" />
+								<p:menuitem value="Alterar Senha" icon="ui-icon-close"
+									actionListener="#{buttonBean.delete}" ajax="false" />
+								<p:menuitem ajax="false" value="Sair" action="#{loginBean.logout()}" icon="ui-icon-extlink" />
+							</p:contextMenu>
+						</h:graphicImage>
+					</h:form>
+
+
+				</h:column>
+
+			</h:panelGrid>
+		</h:panelGroup>
+	</h:panelGroup>
+</h:body>
+</html>
