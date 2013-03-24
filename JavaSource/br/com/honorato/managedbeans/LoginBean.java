@@ -12,6 +12,7 @@ import org.springframework.security.web.savedrequest.DefaultSavedRequest;
 import org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestWrapper;
 
 import br.com.honorato.application.AuthenticationService;
+import ejb.UsuarioEJBService;
 
 @ManagedBean(name = "loginBean")
 @SessionScoped
@@ -31,6 +32,9 @@ public class LoginBean implements Serializable {
 		success = true;
 		String defaultPage = "home.jsf";
 		String loginPage = "login.jsf";
+		
+		UsuarioEJBService udud = new UsuarioEJBService();
+		udud.existeLogin("userLogin");
 
 		if (success){
 			if (null!=getSpringSecuritySavedRequestKey()){
