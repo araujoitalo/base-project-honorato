@@ -21,12 +21,26 @@
 					<h:outputLabel
 						style="font-family:Calibri;font-size:45px;text-align:right;color:#FFFFFF"
 						value="Sistem Operatin" />
+									<h3>
+				<h:outputText value="#{msgbundle['welcome.jsf']}" />
+			</h3>
 				</h:column>
 			</h:panelGrid>
 		</h:panelGroup>
 		<h:panelGroup layout="block" style="float:left;width:59%;">
 			<h:panelGrid style="width:1340px;"></h:panelGrid>
 		</h:panelGroup>
+		<h:form>
+			<h:panelGrid columns="2">
+				
+				Language : 
+				<h:selectOneMenu value="#{language.localeCode}" onchange="submit()"
+					valueChangeListener="#{language.countryLocaleCodeChanged}">
+   					<f:selectItems value="#{language.countriesInMap}" /> 
+   				</h:selectOneMenu>
+
+			</h:panelGrid>
+				</h:form>	
 		<h:panelGroup layout="block" style="float:left;width:11%;">
 			<h:panelGrid columns="2">
 				<h:column>
@@ -44,7 +58,6 @@
 					</h:panelGrid>
 				</h:column>
 				<h:column>
-
 					<h:form>
 						<h:graphicImage id="imgUser" library="default" width="50"
 							name="images/user.jpg">

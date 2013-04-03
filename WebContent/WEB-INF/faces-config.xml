@@ -10,16 +10,12 @@
 		<el-resolver>org.springframework.web.jsf.el.SpringBeanFacesELResolver</el-resolver>
 
 		<locale-config>
-			<default-locale>pl</default-locale>
-			<supported-locale>en</supported-locale>
-			<supported-locale>pl</supported-locale>
+			<default-locale>pt</default-locale>
 		</locale-config>
 
-		<message-bundle>br.com.honorato.i18n.resources</message-bundle>
-
 		<resource-bundle>
-			<base-name>br.com.honorato.i18n.messages</base-name>
-			<var>msg</var>
+			<base-name>messages</base-name>
+			<var>msgbundle</var>
 		</resource-bundle>
 
 	</application>
