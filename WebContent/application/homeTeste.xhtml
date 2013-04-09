@@ -1,16 +1,107 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
+<html xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:p="http://primefaces.prime.com.tr/ui"
-	template="../layout/primeiro.xhtml">
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<f:view contentType="text/html">
+	<h:head>
+		<f:facet name="first">
+			<meta http-equiv="X-UA-Compatible" content="EmulateIE8" />
+			<meta content='text/html; charset=UTF-8' http-equiv="Content-Type" />
+			<title>PrimeFaces - ShowCase</title>
+		</f:facet>
 
-	<ui:define name="bodyPrincipal">
-		<h:panelGroup layout="block">
-			<h:outputText value="Home" />
-		</h:panelGroup>
-	</ui:define>
+		<link type="text/css" rel="stylesheet"
+			href="#{request.contextPath}/css/default.css" />
+		<link type="text/css" rel="stylesheet"
+			href="#{request.contextPath}/css/syntaxhighlighter/syntaxhighlighter.css" />
+		<link type="text/css" rel="stylesheet" href="/base-project-honorato/javax.faces.resource/theme.css.jsf?ln=primefaces-aristo" /><link type="text/css" rel="stylesheet" href="/base-project-honorato/javax.faces.resource/primefaces.css.jsf?ln=primefaces" /><link type="text/css" rel="stylesheet" href="/base-project-honorato/javax.faces.resource/layout/layout.css.jsf?ln=primefaces" /><script type="text/javascript" src="/base-project-honorato/javax.faces.resource/jquery/jquery.js.jsf?ln=primefaces"></script><script type="text/javascript" src="/base-project-honorato/javax.faces.resource/jquery/jquery-plugins.js.jsf?ln=primefaces"></script><script type="text/javascript" src="/base-project-honorato/javax.faces.resource/primefaces.js.jsf?ln=primefaces"></script><script type="text/javascript" src="/base-project-honorato/javax.faces.resource/layout/layout.js.jsf?ln=primefaces"></script>
 
-</ui:composition>
+		<style type="text/css">
+.sui-layout-north {
+	z-index: 20 !important;
+	overflow: visible !important;;
+}
+
+.sui-layout-north .sui-layout-unit-content {
+	overflow: visible !important;
+	border: 0px !important;
+	background-color: red !important;
+	padding:0px 0px 0px 0px !important;
+	margin: 0px 0px 0px 0px !important;
+}
+
+.sui-layout-container{
+	background-color: yellow !important;
+	padding:0px 0px 0px 0px !important;
+	margin: 0px 0px 0px 0px !important;
+	cellpadding:0px 0px 0px 0px !important;
+}
+</style>
+
+<script>
+$(document).ready(function(){
+ // create page layout
+ pageLayout = $('body').layout({
+	applyDemoStyles:   true,
+    spacing_open:0,
+    spacing_closed: 0,
+    slidable:  false,
+    togglerLength_closed:  0
+    ,north:{spacing_open:0,size:'100',padding:'0'}
+ //,south:{paneSelector:'#j_idt11',size:'40',resizable:true,closable:true,spacing_open:0,spacing_closed:25},west:{paneSelector:'#j_idt13',size:'200',resizable:true,closable:true,spacing_open:0,spacing_closed:25},east:{paneSelector:'#j_idt15',spacing_open:0,size:'150',resizable:true,closable:false,fxName:'drop'},center:{paneSelector:'#j_idt17',spacing_open:0,size:'auto',resizable:false,closable:false
+    });
+ 
+// 	property = "border";
+// 	for(property in pageLayout.panes){
+// 	   if(pageLayout.panes.hasOwnProperty(property)){
+// 	       pageLayout.panes[property].css('border', 'none');
+// 	   }
+// 	}
+	
+	pageLayout.panes.north.css('backgroundColor','transparent');
+ 
+ // we need to remove the borders as well....
+
+});
+</script>
+	</h:head>
+	<h:body styleClass="tesstel">
+
+		<p:layout fullPage="true">
+
+			<p:layoutUnit position="north" size="200"  
+				resizable="false" closable="false" collapsible="false">
+				<h:outputText value="North unit content." />
+			</p:layoutUnit>
+
+			<p:layoutUnit position="south" size="40" 
+				resizable="true" closable="true" collapsible="true">
+				<h:outputText value="South unit content." />
+			</p:layoutUnit>
+
+			<p:layoutUnit position="west" size="200" header="Left" 
+				resizable="true" closable="true" collapsible="true">
+				<h:outputText value="West unit content." />
+			</p:layoutUnit>
+
+			<p:layoutUnit position="east" size="150" 
+				resizable="true" closable="false" collapsible="false" effect="drop"
+				
+				>
+				<h:outputText value="This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default. This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.  This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default. This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default." />
+			</p:layoutUnit>
+
+			<p:layoutUnit position="center">
+				<h:form>  
+            This fullPage layout consists of five different layoutUnits which are resizable and closable by default.  
+  
+        </h:form>
+			</p:layoutUnit>
+
+		</p:layout>
+	</h:body>
+
+</f:view>
+</html>
