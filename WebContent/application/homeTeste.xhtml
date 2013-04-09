@@ -42,7 +42,45 @@
 .ui-layout-west{
 	padding:0px 0px 0px 0px !important;
 	width:200px;
+	border: 0px !important;
 }
+
+.ui-layout-center{
+	padding:0px 0px 0px 0px !important;
+	border: 0px !important;
+}
+
+.ui-layout-east{
+	padding:0px 0px 0px 0px !important;
+	width:200px;
+	border: 0px !important;
+}
+
+.ui-layout-north{
+	padding:0px 0px 0px 0px !important;
+	border: 0px !important;
+}
+
+.ui-layout-south{
+	padding:0px 0px 0px 0px !important;
+	border: 0px !important;
+}
+
+.ui-widget-content{
+	background: transparent !important;
+	
+}
+
+.csonteudo { /* aqui é só para definir uma forma para termos noção */
+/* aqui entra as propriedades da transparência, aqui eu usei a cor Black */
+background: rgb(0, 0, 0) transparent !important;
+background: rgba(0, 0, 0, 0.7) !important;
+/* Para navegadores IE 5.5 - 7 */
+filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#000000, endColorstr=#000000) !important;
+/* Para navegadores IE 8 */
+-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#000000, endColorstr=#000000)" !important;
+}
+
 </style>
 
 <script>
@@ -54,7 +92,7 @@ $(document).ready(function(){
     spacing_closed: 0,
     slidable:  false,
     togglerLength_closed:  0
-    ,north:{spacing_open:0,size:'100',padding:'0'}
+    ,north:{spacing_open:0,size:'80',padding:'0'}
  //,south:{paneSelector:'#j_idt11',size:'40',resizable:true,closable:true,spacing_open:0,spacing_closed:25},west:{paneSelector:'#j_idt13',size:'200',resizable:true,closable:true,spacing_open:0,spacing_closed:25},east:{paneSelector:'#j_idt15',spacing_open:0,size:'150',resizable:true,closable:false,fxName:'drop'},center:{paneSelector:'#j_idt17',spacing_open:0,size:'auto',resizable:false,closable:false
     });
  
@@ -72,13 +110,13 @@ $(document).ready(function(){
 });
 </script>
 	</h:head>
-	<h:body styleClass="tesstel">
+	<h:body styleClass="tesstel" style="background-image:url('../resources/default/images/backGroundGreen.jpg');">
 
 		<p:layout fullPage="true">
 
 			<p:layoutUnit position="north" size="200"  
 				resizable="false" closable="false" collapsible="false">
-				<h:outputText value="North unit content." />
+				<h:outputText value="North unit content." styleClass="conteudo"  />
 			</p:layoutUnit>
 
 			<p:layoutUnit position="south" size="40" 
@@ -91,7 +129,7 @@ $(document).ready(function(){
 				<h:outputText value="West unit content." />
 			</p:layoutUnit>
 
-			<p:layoutUnit position="east" size="150" 
+			<p:layoutUnit position="east" size="200" 
 				resizable="true" closable="false" collapsible="false" effect="drop"
 				
 				>
@@ -100,7 +138,7 @@ $(document).ready(function(){
 
 			<p:layoutUnit position="center">
 				<h:form>  
-            This fullPage layout consists of five different layoutUnits which are resizable and closable by default.  
+            This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.  
   
         </h:form>
 			</p:layoutUnit>
