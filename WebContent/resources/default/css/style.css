@@ -1,0 +1,25 @@
+﻿.titleSystem{
+	font-family:Calibri;
+	font-size:45px;
+	text-align:right;
+	color:#FAFAFA;
+}
+
+.imgUser{
+	cursor:pointer;
+}
+
+.pri{
+	width: 20% !important;
+	background-color: transparent !important;
+}
+
+.sec{
+	width: 70% !important;
+	background-color: transparent !important;
+}
+
+.ter{
+	width: 10% !important;
+	background-color: transparent !important;
+}

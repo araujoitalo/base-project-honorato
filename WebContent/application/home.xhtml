@@ -3,81 +3,133 @@
 <html xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:p="http://primefaces.org/ui">
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:honorato="http://java.sun.com/jsf/composite/honorato">
 
 <h:head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	<title>Nome do Sistema</title>
+	<title>#{msgbundle['system.name']}</title>
 	<h:outputStylesheet library="default" name="css/style.css" />
 </h:head>
 
 <h:body
-	style="background-image:url('../resources/default/images/backGroundGreen.jpg');height:100%;padding:30px">
+	style="background-image:url('../resources/default/images/backGroundGreen.jpg');height:100%;margin:0px;">
+	<h:form id="generalPageForm">
+		<h:panelGroup id="generalPage" layout="block"
+			style="float:left;width:98%;align:center;padding:15px 5px 0px 20px">
+			<h:panelGroup layout="block" style="float:left;width:30%;">
+				<h:panelGrid>
+					<h:column>
+						<h:outputLabel styleClass="titleSistem"
+							value="#{msgbundle['system.name']}" />
+						<h3>
+							<h:outputText
+								value="#{msgbundle['system.buttom.positive.label']}" />
+						</h3>
+					</h:column>
+				</h:panelGrid>
+			</h:panelGroup>
 
-	<h:panelGroup layout="block" style="float:left;width:99%;align:center;">
-		<h:panelGroup layout="block" style="float:left;width:30%;">
-			<h:panelGrid>
-				<h:column>
-					<h:outputLabel
-						style="font-family:Calibri;font-size:45px;text-align:right;color:#FFFFFF"
-						value="Sistem Operatin" />
-									<h3>
-				<h:outputText value="#{msgbundle['welcome.jsf']}" />
-			</h3>
-				</h:column>
-			</h:panelGrid>
+			<h:panelGroup layout="block" style="float:left;width:59%;">
+				<h:panelGrid style="width:100%;">
+			Corpo</h:panelGrid>
+			</h:panelGroup>
+			<h:panelGroup layout="block" style="float:left;width:11%;">
+				<h:panelGrid columns="3">
+					<h:column>
+						<h:panelGrid style="text-align:right">
+							<h:column>
+								<h:outputLabel
+									style="font-family:Calibri;font-size:25px;text-align:right;color:#FAFAFA"
+									value="Marcelo" />
+							</h:column>
+							<h:column>
+								<h:outputLabel
+									style="font-family:Calibri;font-size:15px;text-align:right;color:#FAFAFA"
+									value="Honorato" />
+							</h:column>
+						</h:panelGrid>
+					</h:column>
+					<h:column>
+						<h:form>
+							<p:commandLink action="#{appSessionBean.setShowCockPit()}"
+								update=":notificationBar" ajax="true">
+								<p:graphicImage id="imgUser" width="50" styleClass="imgUser"
+									onclick="bar.show()"
+									value="#{resource['default/images:user.jpg']}" />
+							</p:commandLink>
+						</h:form>
+					</h:column>
+				</h:panelGrid>
+			</h:panelGroup>
 		</h:panelGroup>
-		<h:panelGroup layout="block" style="float:left;width:59%;">
-			<h:panelGrid style="width:1340px;"></h:panelGrid>
-		</h:panelGroup>
-		<h:form>
-			<h:panelGrid columns="2">
-				
-				Language : 
-				<h:selectOneMenu value="#{language.localeCode}" onchange="submit()"
-					valueChangeListener="#{language.countryLocaleCodeChanged}">
-   					<f:selectItems value="#{language.countriesInMap}" /> 
-   				</h:selectOneMenu>
-
-			</h:panelGrid>
-				</h:form>	
-		<h:panelGroup layout="block" style="float:left;width:11%;">
-			<h:panelGrid columns="2">
-				<h:column>
-					<h:panelGrid style="text-align:right">
-						<h:column>
-							<h:outputLabel
-								style="font-family:Calibri;font-size:25px;text-align:right;color:#FFFFFF"
-								value="Marcelo" />
-						</h:column>
-						<h:column>
-							<h:outputLabel
-								style="font-family:Calibri;font-size:15px;text-align:right;color:#FFFFFF"
-								value="Honorato" />
-						</h:column>
-					</h:panelGrid>
-				</h:column>
-				<h:column>
-					<h:form>
-						<h:graphicImage id="imgUser" library="default" width="50"
-							name="images/user.jpg">
-
-							<p:contextMenu for="imgUser">
-								<p:menuitem value="Alterar Usuário" actionListener="#{buttonBean.save}" icon="ui-icon-disk" />
-								<p:menuitem value="Alterar Imagem" actionListener="#{buttonBean.update}"
-									icon="ui-icon-arrowrefresh-1-w" />
-								<p:menuitem value="Alterar Senha" icon="ui-icon-close"
-									actionListener="#{buttonBean.delete}" ajax="false" />
-								<p:menuitem ajax="false" value="Sair" action="#{loginBean.logout()}" icon="ui-icon-extlink" />
-							</p:contextMenu>
-						</h:graphicImage>
-					</h:form>
-
-
-				</h:column>
-
-			</h:panelGrid>
-		</h:panelGroup>
-	</h:panelGroup>
+	</h:form>
 </h:body>
+
+
+<p:notificationBar id="notificationBar" position="bottom" effect="fade"
+	widgetVar="bar" styleClass="notificationBar"
+	autoDisplay="#{appSessionBean.showCockPit}">
+
+	<h:panelGroup layout="block" style="background-color:red;margin:5px;">
+		
+		<h:panelGrid columns="2"  style="background-color:blue;width:100%;">
+			<h:panelGrid styleClass="teste">A</h:panelGrid>
+			<h:panelGrid >
+
+				<h:form>
+					<p:commandLink action="#{appSessionBean.setHideCockPit()}"
+						update=":notificationBar" ajax="true">
+						<p:graphicImage id="imgClose" width="16" styleClass="imgUser"
+							onclick="bar.hide()"
+							value="#{resource['default/images:Close-icon.png']}" />
+					</p:commandLink>
+				</h:form>
+
+			</h:panelGrid>
+<ui:remove>		<h:panelGroup layout="block" style="float:left;width:92%;">
+			<h:panelGrid columns="3">
+
+				<h:panelGrid columns="3">
+					<h:outputText
+						value="What PrimeFaces has so far is just the beginning!"
+						style="color:#FFCC00;font-size:36px;" />
+
+					<h:form>
+						<p:commandButton value="Hide" type="submit"
+							action="#{appSessionBean.setHideCockPit()}"
+							update=":notificationBar" ajax="true" />
+					</h:form>
+					<h:form>
+						<p:commandLink actionListener="#{language.changeLocaleCode}"
+							update=":generalPage" ajax="false">
+							<f:param id="newLocale" name="newLocale"
+								value="#{language.simplifiedChinese}" />
+							<p:graphicImage library="default" name="images/China-icon.png"
+								width="16" />
+						</p:commandLink>
+					</h:form>
+					<h:form>
+						<p:commandLink actionListener="#{language.changeLocaleCode}"
+							update=":generalPage" ajax="false">
+							<f:param id="newLocale" name="newLocale"
+								value="#{language.portuguesBr}" />
+							<p:graphicImage library="default" name="images/Brazil-icon.png"
+								width="16" />
+						</p:commandLink>
+					</h:form>
+				</h:panelGrid>
+
+
+			</h:panelGrid>
+		</h:panelGroup>
+		<h:panelGroup layout="block" style="float:left;width:5%;align:right;background-color:green;height:100%">
+			<p:graphicImage library="default" name="images/Close-icon.png" style="background-color:red;position:relative;left:50%;top:-30px;" width="16" />
+		</h:panelGroup></ui:remove>
+		</h:panelGrid>
+	</h:panelGroup>
+</p:notificationBar>
+
+
+
 </html>

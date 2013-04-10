@@ -1,0 +1,42 @@
+
+.ui-layout-west{
+	padding:0px 0px 0px 0px !important;
+	width:200px;
+	border: 0px !important;
+}
+
+.ui-layout-center{
+	padding:0px 0px 0px 0px !important;
+	border: 0px !important;
+}
+
+.ui-layout-east{
+	padding:0px 0px 0px 0px !important;
+	width:200px;
+	border: 0px !important;
+}
+
+.ui-layout-north{
+	padding:5px 10px 0px 15px !important;
+	border: 0px !important;
+}
+
+.ui-layout-south{
+	padding:0px 0px 0px 0px !important;
+	border: 0px !important;
+}
+
+.ui-widget-content{
+	background: transparent !important;
+	
+}
+
+.ui-notificationbar{
+	background: black !important;
+	position: relative !important;
+	height: 85px !important;
+	opacity: 0.8 !important;
+	padding:0px 0px 0px 0px !important;
+	width: 200px !important;
+	float: right !important;	
+}

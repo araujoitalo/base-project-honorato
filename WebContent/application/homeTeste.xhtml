@@ -4,141 +4,110 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui">
+
 <f:view contentType="text/html">
-	<h:head>
-		<f:facet name="first">
-			<meta http-equiv="X-UA-Compatible" content="EmulateIE8" />
-			<meta content='text/html; charset=UTF-8' http-equiv="Content-Type" />
-			<title>PrimeFaces - ShowCase</title>
-		</f:facet>
 
-		<link type="text/css" rel="stylesheet"
-			href="#{request.contextPath}/css/default.css" />
-		<link type="text/css" rel="stylesheet"
-			href="#{request.contextPath}/css/syntaxhighlighter/syntaxhighlighter.css" />
-		<link type="text/css" rel="stylesheet" href="/base-project-honorato/javax.faces.resource/theme.css.jsf?ln=primefaces-aristo" /><link type="text/css" rel="stylesheet" href="/base-project-honorato/javax.faces.resource/primefaces.css.jsf?ln=primefaces" /><link type="text/css" rel="stylesheet" href="/base-project-honorato/javax.faces.resource/layout/layout.css.jsf?ln=primefaces" /><script type="text/javascript" src="/base-project-honorato/javax.faces.resource/jquery/jquery.js.jsf?ln=primefaces"></script><script type="text/javascript" src="/base-project-honorato/javax.faces.resource/jquery/jquery-plugins.js.jsf?ln=primefaces"></script><script type="text/javascript" src="/base-project-honorato/javax.faces.resource/primefaces.js.jsf?ln=primefaces"></script><script type="text/javascript" src="/base-project-honorato/javax.faces.resource/layout/layout.js.jsf?ln=primefaces"></script>
-
-		<style type="text/css">
-.sui-layout-north {
-	z-index: 20 !important;
-	overflow: visible !important;;
-}
-
-.sui-layout-north .sui-layout-unit-content {
-	overflow: visible !important;
-	border: 0px !important;
-	background-color: red !important;
-	padding:0px 0px 0px 0px !important;
-	margin: 0px 0px 0px 0px !important;
-}
-
-.sui-layout-container{
-	background-color: yellow !important;
-	padding:0px 0px 0px 0px !important;
-	margin: 0px 0px 0px 0px !important;
-	cellpadding:0px 0px 0px 0px !important;
-}
-
-.ui-layout-west{
-	padding:0px 0px 0px 0px !important;
-	width:200px;
-	border: 0px !important;
-}
-
-.ui-layout-center{
-	padding:0px 0px 0px 0px !important;
-	border: 0px !important;
-}
-
-.ui-layout-east{
-	padding:0px 0px 0px 0px !important;
-	width:200px;
-	border: 0px !important;
-}
-
-.ui-layout-north{
-	padding:0px 0px 0px 0px !important;
-	border: 0px !important;
-}
-
-.ui-layout-south{
-	padding:0px 0px 0px 0px !important;
-	border: 0px !important;
-}
-
-.ui-widget-content{
-	background: transparent !important;
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>#{msgbundle['system.name']}</title>
+	<h:outputStylesheet library="default" name="css/style.css" />
+	<h:outputStylesheet library="default" name="css/stylePrime.css" />
 	
-}
+	<script>
+		$(document).ready(
+				function(){
+					pageLayout = $('body').layout(
+							{
+								applyDemoStyles:   true,
+								spacing_open:0,
+								spacing_closed: 0,
+								slidable:  false,
+								togglerLength_closed:  0,
+								north:{spacing_open:0,size:'85',padding:'0'}
+							}
+						);
+		 			pageLayout.panes.north.css('backgroundColor','transparent');
+				}
+			);
+	</script>
+</h:head>
 
-.csonteudo { /* aqui é só para definir uma forma para termos noção */
-/* aqui entra as propriedades da transparência, aqui eu usei a cor Black */
-background: rgb(0, 0, 0) transparent !important;
-background: rgba(0, 0, 0, 0.7) !important;
-/* Para navegadores IE 5.5 - 7 */
-filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#000000, endColorstr=#000000) !important;
-/* Para navegadores IE 8 */
--ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#000000, endColorstr=#000000)" !important;
-}
-
-</style>
-
-<script>
-$(document).ready(function(){
- // create page layout
- pageLayout = $('body').layout({
-	applyDemoStyles:   true,
-    spacing_open:0,
-    spacing_closed: 0,
-    slidable:  false,
-    togglerLength_closed:  0
-    ,north:{spacing_open:0,size:'80',padding:'0'}
- //,south:{paneSelector:'#j_idt11',size:'40',resizable:true,closable:true,spacing_open:0,spacing_closed:25},west:{paneSelector:'#j_idt13',size:'200',resizable:true,closable:true,spacing_open:0,spacing_closed:25},east:{paneSelector:'#j_idt15',spacing_open:0,size:'150',resizable:true,closable:false,fxName:'drop'},center:{paneSelector:'#j_idt17',spacing_open:0,size:'auto',resizable:false,closable:false
-    });
- 
-// 	property = "border";
-// 	for(property in pageLayout.panes){
-// 	   if(pageLayout.panes.hasOwnProperty(property)){
-// 	       pageLayout.panes[property].css('border', 'none');
-// 	   }
-// 	}
-	
-	pageLayout.panes.north.css('backgroundColor','transparent');
- 
- // we need to remove the borders as well....
-
-});
-</script>
-	</h:head>
-	<h:body styleClass="tesstel" style="background-image:url('../resources/default/images/backGroundGreen.jpg');">
+	<h:body
+		style="background-image:url('../resources/default/images/backGroundGreen.jpg');">
 
 		<p:layout fullPage="true">
 
-			<p:layoutUnit position="north" size="200"  
-				resizable="false" closable="false" collapsible="false">
-				<h:outputText value="North unit content." styleClass="conteudo"  />
+			<p:layoutUnit position="north" size="215" resizable="false"
+				closable="false" collapsible="false">
+
+				<h:panelGroup layout="block"
+					style="float:left;width:100%;">
+					<h:panelGrid columns="4" width="100%"
+						columnClasses="pri,sec,ter">
+
+						<h:panelGroup layout="block" style="float:left;width:30%;">
+							<h:panelGrid>
+								<h:column>
+									<h:outputLabel styleClass="titleSystem"
+										value="#{msgbundle['system.name']}" />
+								</h:column>
+							</h:panelGrid>
+						</h:panelGroup>
+
+						<h:outputText value="North unit content." styleClass="conteudo" />
+
+						<h:panelGroup layout="block" style="float:left;width:11%;">
+							<h:panelGrid columns="3">
+								<h:column>
+									<h:panelGrid style="text-align:right">
+										<h:column>
+											<h:outputLabel
+												style="font-family:Calibri;font-size:25px;text-align:right;color:#FAFAFA"
+												value="Marcelo" />
+										</h:column>
+										<h:column>
+											<h:outputLabel
+												style="font-family:Calibri;font-size:15px;text-align:right;color:#FAFAFA"
+												value="Honorato" />
+										</h:column>
+									</h:panelGrid>
+								</h:column>
+								<h:column>
+									<h:form>
+										<p:commandLink action="#{appSessionBean.setShowCockPit()}"
+											ajax="true" update=":notificationBar">
+											<p:graphicImage id="imgUser" width="50" styleClass="imgUser"
+												onclick="bar.show()"
+												value="#{resource['default/images:user.jpg']}" />
+										</p:commandLink>
+									</h:form>
+								</h:column>
+							</h:panelGrid>
+						</h:panelGroup>
+					</h:panelGrid>
+
+				</h:panelGroup>
+
 			</p:layoutUnit>
 
-			<p:layoutUnit position="south" size="40" 
-				resizable="true" closable="true" collapsible="true">
+			<p:layoutUnit position="south" size="40" resizable="true"
+				closable="true" collapsible="true">
 				<h:outputText value="South unit content." />
 			</p:layoutUnit>
 
-			<p:layoutUnit position="west" size="200" header="Left" 
+			<p:layoutUnit position="west" size="200" header="Left"
 				resizable="true" closable="true" collapsible="true">
 				<h:outputText value="West unit content." />
 			</p:layoutUnit>
 
-			<p:layoutUnit position="east" size="200" 
-				resizable="true" closable="false" collapsible="false" effect="drop"
-				
-				>
-				<h:outputText value="This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default. This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.  This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default. This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default." />
+			<p:layoutUnit position="east" size="200" resizable="true"
+				closable="false" collapsible="false" effect="drop">
+				<h:outputText value="This fullPage layout." />
 			</p:layoutUnit>
 
 			<p:layoutUnit position="center">
 				<h:form>  
-            This fullPage layout consists of five different layoutUnits which are resizable and closable by default.This fullPage layout consists of five different layoutUnits which are resizable and closable by default.  
+            This fullPage layout consists of five different   
   
         </h:form>
 			</p:layoutUnit>
@@ -146,5 +115,28 @@ $(document).ready(function(){
 		</p:layout>
 	</h:body>
 
+
+<p:notificationBar id="notificationBar" position="top" style="float: right" effect="fade"
+	widgetVar="bar" 
+	autoDisplay="#{appSessionBean.showCockPit}">
+
+	<h:panelGroup layout="block" style="background-color:red;margin:5px;">
+		
+		<h:panelGrid columns="2"  style="background-color:blue;width:100%;">
+			<h:panelGrid styleClass="teste">A</h:panelGrid>
+			<h:panelGrid >
+				<h:form>
+					<p:commandLink action="#{appSessionBean.setHideCockPit()}"
+						update=":notificationBar" ajax="true">
+						<p:graphicImage id="imgClose" width="16" styleClass="imgUser"
+							onclick="bar.hide()"
+							value="#{resource['default/images:Close-icon.png']}" />
+					</p:commandLink>
+				</h:form>
+
+			</h:panelGrid>
+		</h:panelGrid>
+	</h:panelGroup>
+</p:notificationBar>
 </f:view>
 </html>
