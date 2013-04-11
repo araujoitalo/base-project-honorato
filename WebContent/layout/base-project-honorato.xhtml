@@ -3,8 +3,7 @@
 <html xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:p="http://primefaces.org/ui"
-	xmlns:sec="http://www.springframework.org/security/tags">
+	xmlns:p="http://primefaces.org/ui">
 
 <f:view contentType="text/html">
 
@@ -40,6 +39,7 @@
 
 			<p:layoutUnit position="north" size="215" resizable="false"
 				closable="false" collapsible="false">
+				<ui:insert name="header" />
 
 				<h:panelGroup layout="block"
 					style="float:left;width:100%;">
@@ -75,7 +75,7 @@
 								</h:column>
 								<h:column>
 									<h:form>
-										<p:commandLink action="#{appSessionBean.setShowCockPit()}" onmouseover="bar.show()"
+										<p:commandLink action="#{appSessionBean.setShowCockPit()}"
 											ajax="true" update=":notificationBar">
 											<p:graphicImage id="imgUser" width="50" styleClass="imgUser"
 												onclick="bar.show()"
@@ -93,36 +93,28 @@
 
 			<p:layoutUnit position="south" size="40" resizable="true"
 				closable="true" collapsible="true">
-				<h:outputText value="South unit content." />
+				<ui:insert name="footer" />
 			</p:layoutUnit>
 
 			<p:layoutUnit position="west" size="200" header="Left"
-				resizable="true" closable="true" collapsible="true">
-				<h:outputText value="West unit content." />
+				resizable="false" closable="false" collapsible="false">
+				<ui:insert name="sideLeft" />
 			</p:layoutUnit>
 
 			<p:layoutUnit position="east" size="200" resizable="true"
 				closable="false" collapsible="false" effect="drop">
-				<h:outputText value="This fullPage layout." />
+				<ui:insert name="sideRigth" />
 			</p:layoutUnit>
 
 			<p:layoutUnit position="center">
-				<h:form>
-				
-	<sec:authorize ifAnyGranted="ROLE_ADMIN" >
-		Caraleo
-	</sec:authorize>				
-				
-            Marcelo This fullPage layout consists of five different   
-  
-        </h:form>
+				<ui:insert name="bodyPrincipal" />
 			</p:layoutUnit>
 
 		</p:layout>
 	</h:body>
 
 
-<p:notificationBar id="notificationBar" position="top"  style="float: right" effect="fade"
+<p:notificationBar id="notificationBar" position="top" style="float: right" effect="fade"
 	widgetVar="bar" 
 	autoDisplay="#{appSessionBean.showCockPit}">
 
@@ -131,10 +123,9 @@
 		<h:panelGrid columns="2"  style="background-color:blue;width:100%;">
 			<h:panelGrid styleClass="teste">A</h:panelGrid>
 			<h:panelGrid >
-
 				<h:form>
 					<p:commandLink action="#{appSessionBean.setHideCockPit()}"
-						update=":notificationBar" ajax="false">
+						update=":notificationBar" ajax="true">
 						<p:graphicImage id="imgClose" width="16" styleClass="imgUser"
 							onclick="bar.hide()"
 							value="#{resource['default/images:Close-icon.png']}" />
