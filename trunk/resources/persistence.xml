@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<persistence xmlns="http://java.sun.com/xml/ns/persistence"
+	version="1.0">
+
+	<persistence-unit name="Project" transaction-type="JTA">
+		<provider>org.hibernate.ejb.HibernatePersistence</provider>
+		<!-- <jta-data-source>java:/projectDS</jta-data-source> -->
+		<non-jta-data-source>java:jboss/datasources/projectDS</non-jta-data-source>
+		
+		<properties>
+			<property name="hibernate.archive.autodetection" value="class" />
+			<property name="hibernate.show_sql" value="true" />
+			<property name="hibernate.format_sql" value="true" />
+			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect" />
+
+			<property name="hibernate.c3p0.min_size" value="5" />
+
+			<!-- O número máximo de conexões no pool. Uma exceção será propagada em 
+				tempo de execução se este número for superado. -->
+			<property name="hibernate.c3p0.max_size" value="20" />
+
+			<!-- O tempo que leva para uma conexão sem uso ser removida do pool: neste 
+				caso, 10 minutos ou 600 segundos. -->
+			<property name="hibernate.c3p0.timeout" value="360" />
+
+			<!-- O número máximo de prepared statements que sofrerão cache. O cache 
+				de PreparedStatements é essencial para se obter o melhor desempenho com o 
+				Hibernate. -->
+
+			<property name="hibernate.c3p0.max_statements" value="50" />
+
+			<!-- O tempo em segundos que leva para que uma conexão fora de uso seja 
+				automaticamente validada. Neste caso, 6 minutos. -->
+			<property name="hibernate.c3p0.idle_test_period" value="300" />
+
+
+		</properties>
+	</persistence-unit>
+
+</persistence>

@@ -8,30 +8,30 @@
 
 <f:view contentType="text/html">
 
-<h:head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	<title>#{msgbundle['system.name']}</title>
-	<h:outputStylesheet library="default" name="css/style.css" />
-	<h:outputStylesheet library="default" name="css/stylePrime.css" />
-	
-	<script>
-		$(document).ready(
-				function(){
-					pageLayout = $('body').layout(
-							{
-								applyDemoStyles:   true,
-								spacing_open:0,
-								spacing_closed: 0,
-								slidable:  false,
-								togglerLength_closed:  0,
-								north:{spacing_open:0,size:'85',padding:'0'}
-							}
-						);
-		 			pageLayout.panes.north.css('backgroundColor','transparent');
-				}
-			);
-	</script>
-</h:head>
+	<h:head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<title>#{msgbundle['system.name']}</title>
+		<h:outputStylesheet library="default" name="css/style.css" />
+		<h:outputStylesheet library="default" name="css/stylePrime.css" />
+
+		<script>
+			$(document).ready(function() {
+				pageLayout = $('body').layout({
+					applyDemoStyles : true,
+					spacing_open : 0,
+					spacing_closed : 0,
+					slidable : false,
+					togglerLength_closed : 0,
+					north : {
+						spacing_open : 0,
+						size : '85',
+						padding : '0'
+					}
+				});
+				pageLayout.panes.north.css('backgroundColor', 'transparent');
+			});
+		</script>
+	</h:head>
 
 	<h:body
 		style="background-image:url('../resources/default/images/backGroundGreen.jpg');">
@@ -41,10 +41,8 @@
 			<p:layoutUnit position="north" size="215" resizable="false"
 				closable="false" collapsible="false">
 
-				<h:panelGroup layout="block"
-					style="float:left;width:100%;">
-					<h:panelGrid columns="4" width="100%"
-						columnClasses="pri,sec,ter">
+				<h:panelGroup layout="block" style="float:left;width:100%;">
+					<h:panelGrid columns="4" width="100%" columnClasses="pri,sec,ter">
 
 						<h:panelGroup layout="block" style="float:left;width:30%;">
 							<h:panelGrid>
@@ -75,8 +73,9 @@
 								</h:column>
 								<h:column>
 									<h:form>
-										<p:commandLink action="#{appSessionBean.setShowCockPit()}" onmouseover="bar.show()"
-											ajax="true" update=":notificationBar">
+										<p:commandLink action="#{appSessionBean.setShowCockPit()}"
+											onmouseover="bar.show()" ajax="true"
+											update=":notificationBar">
 											<p:graphicImage id="imgUser" width="50" styleClass="imgUser"
 												onclick="bar.show()"
 												value="#{resource['default/images:user.jpg']}" />
@@ -108,8 +107,8 @@
 
 			<p:layoutUnit position="center">
 				<h:form>
-				
-	<sec:authorize ifAnyGranted="ROLE_ADMIN" >
+
+					<sec:authorize ifAnyGranted="ROLE_ADMIN">
 		Caraleo
 	</sec:authorize>				
 				
@@ -122,28 +121,28 @@
 	</h:body>
 
 
-<p:notificationBar id="notificationBar" position="top"  style="float: right" effect="fade"
-	widgetVar="bar" 
-	autoDisplay="#{appSessionBean.showCockPit}">
+	<p:notificationBar id="notificationBar" position="top"
+		style="float: right" effect="fade" widgetVar="bar"
+		autoDisplay="#{appSessionBean.showCockPit}">
 
-	<h:panelGroup layout="block" style="background-color:red;margin:5px;">
-		
-		<h:panelGrid columns="2"  style="background-color:blue;width:100%;">
-			<h:panelGrid styleClass="teste">A</h:panelGrid>
-			<h:panelGrid >
+		<h:panelGroup layout="block" style="background-color:red;margin:5px;">
 
-				<h:form>
-					<p:commandLink action="#{appSessionBean.setHideCockPit()}"
-						update=":notificationBar" ajax="false">
-						<p:graphicImage id="imgClose" width="16" styleClass="imgUser"
-							onclick="bar.hide()"
-							value="#{resource['default/images:Close-icon.png']}" />
-					</p:commandLink>
-				</h:form>
+			<h:panelGrid columns="2" style="background-color:blue;width:100%;">
+				<h:panelGrid styleClass="teste">A</h:panelGrid>
+				<h:panelGrid>
 
+					<h:form>
+						<p:commandLink action="#{appSessionBean.setHideCockPit()}"
+							update=":notificationBar" ajax="false">
+							<p:graphicImage id="imgClose" width="16" styleClass="imgUser"
+								onclick="bar.hide()"
+								value="#{resource['default/images:Close-icon.png']}" />
+						</p:commandLink>
+					</h:form>
+
+				</h:panelGrid>
 			</h:panelGrid>
-		</h:panelGrid>
-	</h:panelGroup>
-</p:notificationBar>
+		</h:panelGroup>
+	</p:notificationBar>
 </f:view>
 </html>
