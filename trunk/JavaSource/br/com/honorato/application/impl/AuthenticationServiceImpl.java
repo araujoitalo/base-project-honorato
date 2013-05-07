@@ -15,7 +15,7 @@ public class AuthenticationServiceImpl implements br.com.honorato.application.Au
 
 	@Resource(name = "authenticationManager")
 	private AuthenticationManager authenticationManager; // specific for Spring Security
-
+	
 	@Override
 	public boolean login(String username, String password) {
 		
@@ -24,6 +24,7 @@ public class AuthenticationServiceImpl implements br.com.honorato.application.Au
 			Authentication authenticate = authenticationManager
 					.authenticate(new UsernamePasswordAuthenticationToken(
 							username, password));
+			
 			if (authenticate.isAuthenticated()) {
 				SecurityContextHolder.getContext().setAuthentication(
 						authenticate);				
