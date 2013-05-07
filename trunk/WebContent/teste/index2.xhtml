@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:sec="http://www.springframework.org/security/tags">
+	
+	<h:head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+		<title>#{msgbundle['system.name']}</title>
+		<meta name="description" content="#{msgbundle['system.meta.description']}" />
+		<meta name="keywords" content="#{msgbundle['system.meta.keywords']}" />
+		<meta name="author" content="#{msgbundle['system.meta.author']}" />
+		<h:outputStylesheet library="default" name="css/default.css" />
+		<h:outputStylesheet library="default" name="css/component.css" />
+		<h:outputScript library="default" name="js/modernizr.custom.js"/>
+			
+		<link rel="shortcut icon" href="../favicon.ico"/>
+	</h:head>
+	<body>
+		<div class="container">
+			<header class="clearfix">
+				<span>#{msgbundle['system.name']}</span>
+				<h1>#{msgbundle['system.sub.title']}</h1>
+				<nav>
+					<a href="http://tympanus.net/Blueprints/FullWidthImageSlider/" class="icon-arrow-left" data-info="previous Blueprint">Previous Blueprint</a>
+					<a href="http://tympanus.net/codrops/?p=14426" class="icon-drop" data-info="back to the Codrops article">back to the Codrops article</a>
+				</nav>
+			</header>
+			<div class="main">
+				<nav id="cbp-hrmenu" class="cbp-hrmenu">
+					<ul>
+					<sec:authorize ifAnyGranted="ROLE_ADMIN" >
+						<li>
+							<a href="#">Products</a>
+							<div class="cbp-hrsub">
+								<div class="cbp-hrsub-inner">
+									<div>
+										<h4>Learning &amp; Games</h4>
+										<ul>
+											<li><a href="#">Catch the Bullet</a></li>
+											<li><a href="#">Snoopydoo</a></li>
+											<li><a href="#">Fallen Angel</a></li>
+											<li><a href="#">Sui Maker</a></li>
+											<li><a href="#">Wave Master</a></li>
+											<li><a href="#">Golf Pro</a></li>
+										</ul>
+									</div>
+									<div>
+										<h4>Utilities</h4>
+										<ul>
+											<li><a href="#">Gadget Finder</a></li>
+											<li><a href="#">Green Tree Express</a></li>
+											<li><a href="#">Green Tree Pro</a></li>
+											<li><a href="#">Wobbler 3.0</a></li>
+											<li><a href="#">Coolkid</a></li>
+										</ul>
+									</div>
+									<div>
+										<h4>Education</h4>
+										<ul>
+											<li><a href="#">Learn Thai</a></li>
+											<li><a href="#">Math Genius</a></li>
+											<li><a href="#">Chemokid</a></li>
+										</ul>
+										<h4>Professionals</h4>
+										<ul>
+											<li><a href="#">Success 1.0</a></li>
+											<li><a href="#">Moneymaker</a></li>
+										</ul>
+									</div>
+								</div><!-- /cbp-hrsub-inner -->
+							</div><!-- /cbp-hrsub -->
+						</li>
+						</sec:authorize>
+						<li>
+							<a href="#">Downloads</a>
+							<div class="cbp-hrsub">
+								<div class="cbp-hrsub-inner">
+									<div>
+										<h4>Education &amp; Learning</h4>
+										<ul>
+											<li><a href="../application/homeTeste.jsf#">Learn Thai</a></li>
+											<li><a href="#">Math Genius</a></li>
+											<li><a href="#">Chemokid</a></li>
+										</ul>
+										<h4>Professionals</h4>
+										<ul>
+											<li><a href="#">Success 1.0</a></li>
+											<li><a href="#">Moneymaker</a></li>
+										</ul>
+									</div>
+									<div>
+										<h4>Entertainment</h4>
+										<ul>
+											<li><a href="#">Gadget Finder</a></li>
+											<li><a href="#">Green Tree Express</a></li>
+											<li><a href="#">Green Tree Pro</a></li>
+											<li><a href="#">Holy Cannoli</a></li>
+											<li><a href="#">Wobbler 3.0</a></li>
+											<li><a href="#">Coolkid</a></li>
+										</ul>
+									</div>
+									<div>
+										<h4>Games</h4>
+										<ul>
+											<li><a href="#">Catch the Bullet</a></li>
+											<li><a href="#">Snoopydoo</a></li>
+											<li><a href="#">Fallen Angel</a></li>
+											<li><a href="#">Sui Maker</a></li>
+											<li><a href="#">Wave Master</a></li>
+											<li><a href="#">Golf Pro</a></li>
+										</ul>
+									</div>
+								</div><!-- /cbp-hrsub-inner -->
+							</div><!-- /cbp-hrsub -->
+						</li>
+						<li>
+							<a href="#">Applications</a>
+							<div class="cbp-hrsub">
+								<div class="cbp-hrsub-inner">
+									<div>
+										<h4>Learning &amp; Games</h4>
+										<ul>
+											<li><a href="#">Catch the Bullet</a></li>
+											<li><a href="#">Snoopydoo</a></li>
+										</ul>
+										<h4>Utilities</h4>
+										<ul>
+											<li><a href="#">Gadget Finder</a></li>
+											<li><a href="#">Green Tree Express</a></li>
+											<li><a href="#">Green Tree Pro</a></li>
+											<li><a href="#">Wobbler 3.0</a></li>
+											<li><a href="#">Coolkid</a></li>
+										</ul>
+									</div>
+									<div>
+										<h4>Education</h4>
+										<ul>
+											<li><a href="#">Learn Thai</a></li>
+											<li><a href="#">Math Genius</a></li>
+											<li><a href="#">Chemokid</a></li>
+										</ul>
+										<h4>Professionals</h4>
+										<ul>
+											<li><a href="#">Success 1.0</a></li>
+											<li><a href="#">Moneymaker</a></li>
+										</ul>
+									</div>
+								</div><!-- /cbp-hrsub-inner -->
+							</div><!-- /cbp-hrsub -->
+						</li>
+						<li>
+							<a href="#">Projects</a>
+							<div class="cbp-hrsub">
+								<div class="cbp-hrsub-inner">
+									<div>
+										<h4>Learning &amp; Games</h4>
+										<ul>
+											<li><a href="#">Catch the Bullet</a></li>
+											<li><a href="#">Snoopydoo</a></li>
+											<li><a href="#">Fallen Angel</a></li>
+											<li><a href="#">Sui Maker</a></li>
+											<li><a href="#">Wave Master</a></li>
+											<li><a href="#">Golf Pro</a></li>
+										</ul>
+										<h4>Utilities</h4>
+										<ul>
+											<li><a href="#">Gadget Finder</a></li>
+											<li><a href="#">Green Tree Express</a></li>
+										</ul>
+									</div>
+									<div>
+										<h4>Entertainment</h4>
+										<ul>
+											<li><a href="#">Gadget Finder</a></li>
+											<li><a href="#">Green Tree Express</a></li>
+											<li><a href="#">Green Tree Pro</a></li>
+											<li><a href="#">Holy Cannoli</a></li>
+											<li><a href="#">Wobbler 3.0</a></li>
+											<li><a href="#">Coolkid</a></li>
+										</ul>
+									</div>
+									<div>
+										<h4>Entertainment</h4>
+										<ul>
+											<li><a href="#">Gadget Finder</a></li>
+											<li><a href="#">Green Tree Express</a></li>
+											<li><a href="#">Green Tree Pro</a></li>
+											<li><a href="#">Holy Cannoli</a></li>
+											<li><a href="#">Wobbler 3.0</a></li>
+											<li><a href="#">Coolkid</a></li>
+										</ul>
+									</div>									
+								</div><!-- /cbp-hrsub-inner -->
+							</div><!-- /cbp-hrsub -->
+						</li>
+						<li>
+							<a href="#">Freeware</a>
+							<div class="cbp-hrsub">
+								<div class="cbp-hrsub-inner">
+									<div>
+										<h4>Utilities</h4>
+										<ul>
+											<li><a href="#">Green Tree Pro</a></li>
+											<li><a href="#">Wobbler 3.0</a></li>
+											<li><a href="#">Coolkid</a></li>
+										</ul>
+										<h4>Education</h4>
+										<ul>
+											<li><a href="#">Learn Thai</a></li>
+											<li><a href="#">Math Genius</a></li>
+											<li><a href="#">Chemokid</a></li>
+										</ul>
+									</div>
+									<div>
+										<h4>Professionals</h4>
+										<ul>
+											<li><a href="#">Success 1.0</a></li>
+											<li><a href="#">Moneymaker</a></li>
+										</ul>
+									</div>
+									<div >
+										<h4>Learning &amp; Games</h4>
+										<ul>
+											<li><a href="#">Catch the Bullet</a></li>
+											<li><a href="#">Snoopydoo</a></li>
+											<li><a href="#">Fallen Angel</a></li>
+											<li><a href="#">Sui Maker</a></li>
+											<li><a href="#">Wave Master</a></li>
+											<li>
+												<h3>Cadastro de Usuários</h3>
+												<div class="cbp-hrsub-inner2">
+													<div>
+													
+										<ul>
+											<li><a href="#">Gadget Finder</a></li>
+											<li><a href="#">Green Tree Express</a></li>
+											<li><a href="#">Green Tree Pro</a></li>
+											<li><a href="#">Holy Cannoli</a></li>
+											<li><a href="#">Wobbler 3.0</a></li>
+											<li><a href="#">Coolkid</a></li>
+										</ul>
+																						
+													</div>
+												</div>
+											</li>
+										</ul>
+									</div>
+								</div><!-- /cbp-hrsub-inner -->
+							</div><!-- /cbp-hrsub -->
+						</li>
+					</ul>
+				</nav>
+			</div>
+		</div>
+		<h:outputScript library="default" name="js/jquery.min.v1.9.1.js"/>
+		<h:outputScript library="default" name="js/cbpHorizontalMenu.min.js"/>
+		<script src="js/cbpHorizontalMenu.min.js"></script>
+		<script>
+			$(function() {
+				cbpHorizontalMenu.init();
+			});
+		</script>
+		<div>Rodapé</div>
+	</body>
+</html>
