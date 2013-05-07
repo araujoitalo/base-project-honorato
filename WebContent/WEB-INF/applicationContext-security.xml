@@ -17,7 +17,6 @@
 	<context:component-scan base-package="br.com.honorato" />
 	
     <debug />
-
     <global-method-security pre-post-annotations="enabled" jsr250-annotations="enabled"/>
 
     <http pattern="/static/**" security="none"/>
@@ -41,7 +40,7 @@
 -->
         <!-- Uncomment to limit the number of sessions a user can have -->
         <session-management invalid-session-url="/public/time-out.jsf">
-            <concurrency-control max-sessions="1" error-if-maximum-exceeded="true" />
+            <concurrency-control max-sessions="1" error-if-maximum-exceeded="true"  />
         </session-management>
 
     </http>
