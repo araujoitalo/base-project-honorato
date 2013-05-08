@@ -3,6 +3,7 @@
         <wb-resource deploy-path="/" source-path="/WebContent" tag="defaultRootSource"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/JavaSource"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/br.com.honorato.messages"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/resources"/>
         <property name="context-root" value="Base-Project"/>
         <property name="java-output-path" value="/Base-Project/WebContent/WEB-INF/classes"/>
     </wb-module>
