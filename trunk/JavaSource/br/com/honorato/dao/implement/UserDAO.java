@@ -4,7 +4,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 
-import br.com.honorato.dao.model.User;
+import br.com.honorato.dao.entity.User;
 
 public class UserDAO extends JpaDAO<User> {
 
