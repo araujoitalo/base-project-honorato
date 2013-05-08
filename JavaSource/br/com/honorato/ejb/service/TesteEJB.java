@@ -8,8 +8,8 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import br.com.honorato.dao.entity.User;
 import br.com.honorato.dao.implement.UserDAO;
-import br.com.honorato.dao.model.User;
 
 /**
  * Session Bean implementation class TesteEJB
