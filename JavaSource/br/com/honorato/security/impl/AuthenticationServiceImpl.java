@@ -10,7 +10,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 @Service("authenticationService")
-public class AuthenticationServiceImpl implements br.com.honorato.security.application.AuthenticationService {
+public class AuthenticationServiceImpl implements br.com.honorato.security.AuthenticationService {
 
 
 	@Resource(name = "authenticationManager")
