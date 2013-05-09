@@ -13,7 +13,7 @@ import org.springframework.security.web.savedrequest.DefaultSavedRequest;
 import org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestWrapper;
 
 import br.com.honorato.ejb.service.TesteEJB;
-import br.com.honorato.security.application.AuthenticationService;
+import br.com.honorato.security.AuthenticationService;
 
 @ManagedBean(name = "loginBean")
 @SessionScoped
