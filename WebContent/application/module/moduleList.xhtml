@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/layout/base-project-honorato.xhtml"
+	xmlns:sec="http://www.springframework.org/security/tags"
+	xmlns:honorato="http://java.sun.com/jsf/composite/honorato" >
+
+	<ui:define name="bodyPrincipal">
+
+		<p:spacer styleClass="fmt_spacer" />
+		<h:panelGroup layout="block">
+
+			<h:panelGroup layout="block" style="text-align:left">
+				<h:outputText value="Listar Modulos" />
+			</h:panelGroup>
+			<ui:include src="/layout/ajaxStatus.xhtml" />
+			<h:form prependId="false" id="moduleListForm">
+
+				<h:panelGroup layout="block">
+
+					<h:panelGrid columns="4" cellspacing="3" cellpadding="3">
+
+						<h:outputLabel value="Código" />
+						<p:inputText id="moduleCode" value="a" size="50" maxlength="50"/>
+						<h:outputLabel value="Nome" />
+						<p:inputText id="moduleName" value="a" size="50" maxlength="50"/>
+	
+					</h:panelGrid>
+
+					<h:panelGroup layout="block">
+						<p:commandButton  value="Pesquisar" update="@form, tableModulos" ajax="true" 
+						action="#{moduleBean.searchModules()}" />
+					</h:panelGroup>	
+
+				</h:panelGroup>
+
+				<br />
+				<br />
+
+				<p:dataTable var="entity" 
+							 id="tableModulos"
+							 value="#{moduleBean.moduleList}"
+							 paginator="true" 
+				 			 paginatorPosition="bottom" 
+				 			 emptyMessage="Mensagem de lista vazia"
+				 			 style="width:100%"
+				 			 rows="10">
+
+                 	<p:column headerText="Código" style="width:20%">  
+            			<h:outputText value="#{entity.code}" />  
+        			</p:column>
+
+                 	<p:column headerText="Nome" style="width:20%">  
+            			<h:outputText value="#{entity.name}" />  
+        			</p:column>
+
+                 </p:dataTable>
+
+			</h:form>
+
+		</h:panelGroup>
+
+	</ui:define>
+
+</ui:composition>
