@@ -44,7 +44,7 @@
         </session-management>
 
     </http>
-
+    
 	<!-- 
 	manager responsible for loading user account with assigned roles 
 	-->
