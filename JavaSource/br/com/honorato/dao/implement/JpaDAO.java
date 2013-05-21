@@ -6,8 +6,11 @@ import java.lang.reflect.Type;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceException;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+
+import br.com.honorato.exception.DAOException;
 
 public class JpaDAO<T> implements GenericDAO<T>, Serializable {
 	/**
@@ -37,34 +40,39 @@ public class JpaDAO<T> implements GenericDAO<T>, Serializable {
 	
 
 	@Override
-	public T lerPorId(Object id) {
+	public T selectByKey(Object id) {
 		return (T) this.getEntityManager().find(this.persistentClass, id);
 	}
 
 	@Override
-	public List<T> lerTodos() {
+	public List<T> selectAll() {
 		
 		CriteriaBuilder cb = this.getEntityManager().getCriteriaBuilder();
 		CriteriaQuery<T> c = cb.createQuery(this.persistentClass);
 		c.select(c.from(this.persistentClass));
-
-		List<T> resultado = this.getEntityManager().createQuery(c).getResultList();
-		return resultado;
+		List<T> result = this.getEntityManager().createQuery(c).getResultList();
+		return result;
 		
 	}
 
 	@Override
-	public T salvar(T objeto) {
+	public T save(T object) throws DAOException {
 
-		this.getEntityManager().merge(objeto);
-		return objeto;
+		try {
 
+			this.getEntityManager().merge(object);
+			return object;
+			
+		}catch(PersistenceException ex){
+			throw new DAOException("",ex.getMessage());
+		}
+		
 	}
 
 	@Override
-	public void excluir(T objeto) {
+	public void delete(T object) {
 
-		this.getEntityManager().remove(objeto);
+		this.getEntityManager().remove(object);
 
 	}
 }
