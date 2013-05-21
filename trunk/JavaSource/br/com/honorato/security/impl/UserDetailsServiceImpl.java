@@ -3,7 +3,11 @@ package br.com.honorato.security.impl;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+
 import javax.annotation.PostConstruct;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.GrantedAuthorityImpl;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,12 +15,16 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import br.com.honorato.ejb.service.AuthenticationEJB;
+
 /*
  * Spring-security requires an implementation of UserDetailService. 
  */
+@SuppressWarnings("deprecation")
 @Service("userDetailsService")
 public class UserDetailsServiceImpl implements UserDetailsService {
-
+	
+	private AuthenticationEJB authenticateEJB;	
 	/* 
 	 * Mock for users from database. 
 	 * In the real application users will be retrieved from database and 
@@ -25,10 +33,23 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	private HashMap<String, org.springframework.security.core.userdetails.User> users = new HashMap<String, org.springframework.security.core.userdetails.User>();
 	
 	@Override
-	public UserDetails loadUserByUsername(String username)
-			throws UsernameNotFoundException{
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException{
 		
-		org.springframework.security.core.userdetails.User user = users.get(username);
+		org.springframework.security.core.userdetails.User user = null;
+		
+		try {
+			InitialContext ini = new InitialContext();
+			authenticateEJB = (AuthenticationEJB) ini.lookup("java:module/AuthenticationEJB!br.com.honorato.ejb.service.AuthenticationEJB");
+			user = authenticateEJB.authenticateUser(username);
+		} catch (NamingException ex) {
+			ex.printStackTrace();
+		}
+
+		//AuthenticationEJB authenticateEJB = new AuthenticationEJB();
+		
+//		UserDetails user = authenticateEJB.authenticateUser(username); 
+
+//		org.springframework.security.core.userdetails.User user = users.get(username);
 		
 		if (user == null) {
 			throw new UsernameNotFoundException("UserAccount for name \""
@@ -60,4 +81,14 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		users.put("user", new org.springframework.security.core.userdetails.User("user", "user", enabled, accountNonExpired,
 				credentialsNonExpired, accountNonLocked, userAuthorities));
 	}
+	
+	public AuthenticationEJB getAuthenticateEJB() {
+		return authenticateEJB;
+	}
+
+	public void setAuthenticateEJB(AuthenticationEJB authenticateEJB) {
+		this.authenticateEJB = authenticateEJB;
+	}
+
+	
 }
