@@ -1,25 +1,34 @@
 package br.com.honorato.dao.entity;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotBlank;
+
+import br.com.honorato.constraints.UniqueLoginCheck;
+import br.com.honorato.constraints.UserStatusCheck;
+import br.com.honorato.dao.enumeration.EUserStatus;
 
 /**
  * The persistent class for the tb_usuario database table.
  * 
  */
 @Entity
-@Table(name="TB_USER", uniqueConstraints={@UniqueConstraint(columnNames={"cd_login"})})
+@Table(name="TB_USER", uniqueConstraints={@UniqueConstraint(columnNames={"CD_LOGIN"})})
 @Inheritance(strategy=InheritanceType.JOINED)
 public class User implements Serializable {
 	
@@ -27,23 +36,41 @@ public class User implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="id_user")
-	private Integer identificador;
-	
-	@Column(name="cd_login")
+	@Column(name="ID_USER")
+	private Integer idUser;
+
+	@Column(name="CD_LOGIN")
+	/*TODO RECUPERAR DO BUNDLE*/
+	@NotBlank(message = "Campo no não pode ser branco nem vazio")
+	@Length(max=100,message="Informe no máximo 100 caracteres")
+	@UniqueLoginCheck(value="CD_LOGIN")
 	private String login;
 
-	@Column(name="de_password")
-	private String senha;
+	@Column(name="DE_PASSWORD")
+	private String password;
 
+	@Column(name="NM_USER")
+	/*TODO RECUPERAR DO BUNDLE*/
+	@NotBlank(message = "Campo no não pode ser branco nem vazio")
+	@Length(max=100,message="Informe no máximo 100 caracteres")
+	private String name;
+	
+	@Enumerated(EnumType.STRING)
+	@UserStatusCheck(properties={"status","name"})
+	@Column(name ="IN_STATUS", nullable = false)
+	public EUserStatus status;
+	
+	@OneToMany(mappedBy="owner")
+	private List<Contact> contactList;	
+	
 	public User() {
     }
     
-	public User(Integer identificador, String login, String senha) {
+	public User(Integer iduser, String login, String password) {
 		super();
-		this.identificador = identificador;
+		this.idUser = iduser;
 		this.login = login;
-		this.senha = senha;
+		this.password = password;
 	}
 
 	public String getLogin() {
@@ -54,22 +81,46 @@ public class User implements Serializable {
 		this.login = login;
 	}
 
-	public String getSenha() {
-		return senha;
+	public String getPassword() {
+		return password;
 	}
 
-	public void setSenha(String senha) {
-		this.senha = senha;
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
-	 public Integer getIdentificador() {
-		return identificador;
+	 public Integer getIdUser() {
+		return idUser;
 	}
 
-	public void setIdentificador(Integer identificador) {
-		this.identificador = identificador;
+	public void setIdUser(Integer idUser) {
+		this.idUser = idUser;
 	}
 	
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public EUserStatus getStatus() {
+		return status;
+	}
+
+	public void setStatus(EUserStatus status) {
+		this.status = status;
+	}
+
+	public List<Contact> getContactList() {
+		return contactList;
+	}
+
+	public void setContactList(List<Contact> contactList) {
+		this.contactList = contactList;
+	}
+
 	@Override
 	 public boolean equals(Object obj) {
 
@@ -94,7 +145,7 @@ public class User implements Serializable {
 	 @Override
 	 public String toString() {
 
-		 return "Identificador: " + identificador + " Login: " + login;
+		 return "Identificador: " + idUser + " Login: " + login;
 
 	 }	
 }
