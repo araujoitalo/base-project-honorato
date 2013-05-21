@@ -2,7 +2,6 @@ package br.com.honorato.view.managedbean;
 
 import java.io.Serializable;
 
-import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -12,7 +11,6 @@ import javax.faces.context.FacesContext;
 import org.springframework.security.web.savedrequest.DefaultSavedRequest;
 import org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestWrapper;
 
-import br.com.honorato.ejb.service.TesteEJB;
 import br.com.honorato.security.AuthenticationService;
 
 @ManagedBean(name = "loginBean")
@@ -23,12 +21,8 @@ public class LoginBean implements Serializable {
 	private String userLogin;
 	private String password;
 	
-	@EJB
-	TesteEJB teste;
-
 	@ManagedProperty(value = "#{authenticationService}")
 	private AuthenticationService authenticationService; // injected Spring defined service for bikes
-
 
 	public String login() {
 
@@ -36,8 +30,6 @@ public class LoginBean implements Serializable {
 		success = true;
 		String defaultPage = "/application/home";
 		String loginPage = "login";
-		
-		teste.escreve("Olá");
 		
 		if (success){
 			if (null!=getSpringSecuritySavedRequestKey()){
@@ -95,6 +87,5 @@ public class LoginBean implements Serializable {
 		return out;
 
 	}
-
 
 }
