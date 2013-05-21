@@ -4,22 +4,22 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 
-import br.com.honorato.dao.entity.User;
+import br.com.honorato.dao.entity.Module;
 
-public class UserDAO extends JpaDAO<User> {
+public class ModuleDAO extends JpaDAO<Module> {
 
 	private static final long serialVersionUID = 1291101069692295470L;
 	
-	public UserDAO(EntityManager manager){
+	public ModuleDAO(EntityManager manager){
 		super(manager);
 	}
 	
-	public User login(String login){
+	public Module getFullTree(String rootCode){
 		
-		User result;
+		Module result;
 
-		TypedQuery<User> consult = this.getEntityManager().createQuery("from User u where u.login = :login", this.persistentClass);
-		consult.setParameter("login", login);
+		TypedQuery<Module> consult = this.getEntityManager().createQuery("from Module m where m.code = :rootCode", this.persistentClass);
+		consult.setParameter("rootCode", rootCode);
 
 		try {
 			
@@ -33,5 +33,4 @@ public class UserDAO extends JpaDAO<User> {
 
 		return result;
 	}
-
 }
