@@ -38,7 +38,7 @@
 		<p:layout fullPage="true">
 
 			<p:layoutUnit position="north" size="215" resizable="false"
-				closable="false" collapsible="false">
+				closable="false" collapsible="false" collapsed="true" >
 				<ui:insert name="header" />
 
 				<h:panelGroup layout="block"
@@ -91,8 +91,7 @@
 
 			</p:layoutUnit>
 
-			<p:layoutUnit position="south" size="40" resizable="true"
-				closable="true" collapsible="true">
+			<p:layoutUnit position="south" size="40" resizable="true" closable="true" collapsible="true">
 				<ui:insert name="footer" />
 			</p:layoutUnit>
 
@@ -111,7 +110,9 @@
 			</p:layoutUnit>
 
 		</p:layout>
+		<ui:insert name="pops" />
 	</h:body>
+
 
 
 <p:notificationBar id="notificationBar" position="top" style="float: right" effect="fade"
