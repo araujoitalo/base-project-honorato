@@ -22,22 +22,26 @@ public class AuthenticationEJB extends BaseEJB {
 
 	public AuthenticationEJB() {
 	}
-	
+
 	public org.springframework.security.core.userdetails.User authenticateUser(String login){
-		
+
 		User user = new UserDAO(getEm()).login(login);
 
+		if (user==null){
+			return null;
+		}
+		
 		List<Rule> ruleList = new RuleDAO(getEm()).selectAll();
 		List<GrantedAuthority> userGrantedAuthorityList = new ArrayList<GrantedAuthority>(); 
-		
+
 		for (Rule rule : ruleList) {
 			userGrantedAuthorityList.add(new GrantedAuthorityImpl(rule.getCodeRule()));
 		}
-		 
+
 		org.springframework.security.core.userdetails.User userOut = 
-		new org.springframework.security.core.userdetails.User(user.getLogin(), user.getPassword(), true, true,
-				true, true, userGrantedAuthorityList);
-		
+				new org.springframework.security.core.userdetails.User(user.getLogin(), user.getPassword(), true, true,
+						true, true, userGrantedAuthorityList);
+
 		return userOut;
 	}
 }
