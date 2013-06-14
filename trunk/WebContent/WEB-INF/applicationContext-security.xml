@@ -14,10 +14,19 @@
 
 	<debug />
 		
-	<global-method-security
+		<!-- 
+	<global-method-security 
+		mode="aspectj"
 		secured-annotations="enabled" jsr250-annotations="disabled"
 		pre-post-annotations="enabled"/>		
-
+		
+	<global-method-security 
+		pre-post-annotations="enabled"
+		jsr250-annotations="enabled" />		
+ -->
+ 
+ 	<global-method-security pre-post-annotations="enabled"/>	
+		
 	<http pattern="/static/**" security="none" />
 	<http pattern="/loggedout.jsp" security="none" />
 
