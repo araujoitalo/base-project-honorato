@@ -27,7 +27,6 @@ public class LoginBean implements Serializable {
 	public String login() {
 
 		boolean success = authenticationService.login(userLogin, password);
-		success = true;
 		String defaultPage = "/application/home";
 		String loginPage = "login";
 		
@@ -43,11 +42,6 @@ public class LoginBean implements Serializable {
 		}
 	}
 	
-	public String ola(){
-		System.out.println("Olalalalala");
-		return ""; 
-	}
-
 	public String logout() {
 		String defaultPage = "home.jsf";
 		authenticationService.logout();
