@@ -11,7 +11,7 @@ public interface GenericDAO<T> {
 	public EntityManager getEntityManager();
 	public T selectByKey(Object id);
 	public List<T> selectAll();
-	public T save(T objeto) throws DAOException;
-	public void delete(T objeto);
+	public T save(T object) throws DAOException;
+	public void delete(T object) throws DAOException;
 
 }
