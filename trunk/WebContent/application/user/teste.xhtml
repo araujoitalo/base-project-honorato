@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<f:view contentType="text/html">
+	<h:head>
+
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<title>#{msgbundle['system.name']}</title>
+
+		<h:outputStylesheet library="default" name="css/style.css" />
+		<h:outputStylesheet library="default" name="css/stylePrime.css" />
+
+		<h:outputScript name="js/jquery.min.js" library="default" />
+		<h:outputScript name="js/jquery-ui.min.js" library="default" />
+
+		<h:outputScript name="js/jquery.sizes.js" library="default" />
+		<h:outputScript name="js/jlayout.border.js" library="default" />
+		<h:outputScript name="js/jquery.jlayout.js" library="default" />
+
+		<script type="text/javascript">
+			jQuery(function($)
+			{
+				var container = $('.layout');
+
+				function relayout() {
+					container.layout({resize: false});
+				}
+				relayout();
+
+				$(window).resize(relayout);
+
+				$('#toggle-west').click(function () {
+					$('.west').animate({width: 'toggle'}, {duration: 150, complete: relayout, step: relayout});
+				});
+
+				$('#toggle-east').click(function () {
+					$('.east').animate({width: 'toggle'}, {duration: 150, complete: relayout, step: relayout});
+				});
+
+				$('#toggle-north').click(function () {
+					$('.north').animate({height: 'toggle'}, {duration: 150, complete: relayout, step: relayout});
+				});
+
+				$('#toggle-south').click(function () {
+					$('.south').animate({height: 'toggle'}, {duration: 150, complete: relayout, step: relayout});
+				});
+			});
+		</script>
+
+		<style>
+html,body {
+	width: 100%;
+	height: 100%;
+	padding: 0;
+	margin: 0;
+	overflow: hidden;
+}
+
+.layout {
+	height: 100%;
+}
+
+.center,.east,.west,.north,.south {
+	background-color: rgb(220, 220, 220);
+	border: 1px solid rgb(200, 200, 200);
+	text-align: center;
+	display: inline-block;
+}
+
+.west,.east {
+	width: 200px;
+}
+
+.north,.south {
+	height: 40px;
+}
+
+.north {
+	height: 80px;
+}
+</style>
+	</h:head>
+	<h:body>
+		<div data-layout='{"type": "border", "hgap": 0, "vgap": 0}'
+			class="layout">
+			<div class="center" style="overflow:auto;">
+				Center
+				<h1>
+				</h1>
+				<button id="toggle-north">Toggle North</button>
+				<button id="toggle-west">Toggle West</button>
+				<button id="toggle-south">Toggle South</button>
+				<button id="toggle-east">Toggle East</button>
+				<ui:insert name="bodyPrincipal" />
+			</div>
+			<div class="east">East</div>
+			<div class="west">West</div>
+			<div class="north">North</div>
+			<div class="south">South</div>
+		</div>
+	</h:body>
+</f:view>
+</html>

@@ -1,0 +1,69 @@
+<h:panelGroup xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+	<h:panelGroup layout="block">
+
+		<h:panelGroup layout="block" style="text-align:left">
+			<h:outputText value="Contato" />
+			<p:separator />
+		</h:panelGroup>
+
+		<h:form prependId="false" id="formContact">
+			<p:growl id="growl2" showDetail="true" life="4000" redisplay="false"
+				infoIcon="img_edit.png"
+				rendered="#{facesContext.maximumSeverity eq 'INFO 0'}" />
+			<p:outputPanel autoUpdate="true">
+				<p:messages id="mensagensContact" showDetail="false"
+					showSummary="true" />
+			</p:outputPanel>
+
+			<br />
+
+			<p:panel>
+				<h:panelGrid style="background-color:red;width:100%">
+
+					<h:panelGrid columns="2" style="margin-bottom:10px;">
+
+						<h:outputLabel for="newContactType" value="Tipo de Contato:" />
+						<h:selectOneMenu id="newContactType"
+							value="#{userBean.newContact.type}">
+							<f:selectItems value="#{userBean.getTypeContactList()}"
+								var="contactType" itemLabel="#{contactType.name}"
+								itemValue="#{contactType}" />
+							<f:converter converterId="typeContactConverter" />
+							<p:ajax event="change" update="formContact" />
+						</h:selectOneMenu>
+
+						<h:outputLabel for="content" value="??:" />
+						<p:inputMask mask="#{userBean.newContact.type.mask}"
+							value="#{userBean.newContact.content}" id="content"
+							required="true" />
+						<h:message for="content" />
+					</h:panelGrid>
+
+
+					<h:panelGroup>
+						<p:spacer width="10" />
+						<p:commandButton id="submitButton2" value="Submit"
+							update="#{idRender},formContact" action="#{userBean.putContact}" process="@form" />
+						<p:commandButton value="Sair" oncomplete="dlgContact.hide();"
+							rendered="#{!empty idRender}" update="#{idRender}"
+							process="@this" />
+					</h:panelGroup>
+
+
+				</h:panelGrid>
+
+			</p:panel>
+
+			<br />
+
+
+		</h:form>
+
+	</h:panelGroup>
+
+</h:panelGroup>

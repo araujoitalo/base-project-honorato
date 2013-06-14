@@ -4,65 +4,170 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:p="http://primefaces.org/ui"
-	template="/layout/base-project-honorato.xhtml"
+	xmlns:p="http://primefaces.org/ui" template="/layout/base.xhtml"
 	xmlns:sec="http://www.springframework.org/security/tags"
-	xmlns:honorato="http://java.sun.com/jsf/composite/honorato" >
+	xmlns:honorato="http://java.sun.com/jsf/composite/honorato">
 
 	<ui:define name="bodyPrincipal">
-
 		<h:panelGroup layout="block">
 
 			<h:panelGroup layout="block" style="text-align:left">
-				<h:outputText value="Listar usuários" />
+				<h:outputText value="Pesquisar Usuários" />
 			</h:panelGroup>
+
 			<ui:include src="/layout/ajaxStatus.xhtml" />
-			<h:form prependId="false" id="userListForm">
 
-				<h:panelGroup layout="block">
+			<h:form prependId="false" id="searchUserForm">
+			
+				<f:validateBean disabled="true">
 
-					<h:panelGrid columns="4" cellspacing="3" cellpadding="3">
+					<p:outputPanel autoUpdate="true">
+						<p:messages id="mensagens" showDetail="true" showSummary="true" />
+					</p:outputPanel>
+					
+					<h:panelGroup layout="block">
 
-						<h:outputLabel value="Login" />
-						<p:inputText id="userLogin" value="login" size="50" maxlength="100"/>
-						<h:outputLabel value="Nome" />
-						<p:inputText id="userName" value="Name" size="50" maxlength="250"/>
-	
-					</h:panelGrid>
+						<h:panelGrid columns="3" cellspacing="3" cellpadding="3">
+
+							<h:outputLabel value="Login" />
+
+							<p:inputText id="userLogin" value="#{userBean.filter.login}"
+								size="50" maxlength="100" />
+							<h:message for="userLogin" style="color:red" />
+
+							<h:outputLabel value="Nome" />
+							<p:inputText id="userName" value="#{userBean.filter.name}"
+								size="50" maxlength="100" />
+							<h:message for="userName" style="color:red" />
+
+							<h:outputLabel value="Status" />
+							<h:selectOneRadio id="userStatus"
+								value="#{userBean.filter.status}">
+								<f:selectItem value="#{NULL}"
+									itemLabel="TODOS - Recuperar do Bundle" />
+								<f:selectItems value="#{userBean.userStatusList()}"
+									var="userStatus" itemLabel="#{userStatus.label}"
+									itemValue="#{userStatus}" />
+							</h:selectOneRadio>
+							<h:message for="userStatus" style="color:red" />
+
+						</h:panelGrid>
+
+						<h:panelGroup layout="block">
+							<p:commandButton value="Pesquisar --- bundle" update="@form,tableUser"
+								action="#{userBean.searchUsers()}" />
+							<p:commandButton value="Incluir --- bundle" update="@form,tableUser"
+								action="#{userBean.redirect('userInsert')}" >
+								<f:setPropertyActionListener target="#{userBean.filter}"
+										value="#{userBean.filter}" />
+								</p:commandButton>
+						</h:panelGroup>
+
+					</h:panelGroup>
+
+					<br />
+					<br />
+
 
 					<h:panelGroup layout="block">
-						<p:commandButton  value="Pesquisar" update="@form, tableUser" ajax="true" 
-						action="#{userBean.searchList()}" />
-					</h:panelGroup>	
+						<p:dataTable 
+							var="entity" 
+							id="tableUser"
+							value="#{userBean.searchList}"
+							emptyMessage="Mensagem de lista vazia" 
+							sortMode="multiple"
+							draggableColumns="true" 
+							paginator="true"
+							paginatorPosition="bottom" 
+							rows="10"
+							rowsPerPageTemplate="10,15,20" 
+							pageLinks="5" 
+							resizableColumns="true"
+							paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {CurrentPageReport} {RowsPerPageDropdown}"
+							scrollable="true"
+							scrollWidth="1017"
+							scrollHeight="200"
+							style="width:100%;"
+							>
+							<p:column headerText="Login" style="width:20%;" 
+								sortBy="#{entity.login}">
+								<h:outputText value="#{entity.login}" />
+							</p:column>
 
-				</h:panelGroup>
+							<p:column headerText="Nome" style="width:80%;white-space:normal !important;"
+								sortBy="#{entity.name}">
+								<h:outputText escape="true" value="#{entity.name}" />
+							</p:column>
 
-				<br />
-				<br />
+							<p:column headerText="Ações" style="width:140px;"
+								resizable="false">
+								<p:commandLink action="#{userBean.redirect('userEdit')}">
+									<f:setPropertyActionListener target="#{userBean.user}"
+										value="#{entity}" />
+									<f:setPropertyActionListener target="#{userBean.filter}"
+										value="#{userBean.filter}" />
+									<p:graphicImage id="imgBtAlterUser" width="16" styleClass="imgUser"
+										value="#{resource['default/images:coringa.png']}"
+										title="Alterarar --- BUNDLE" />
+								</p:commandLink>
+								<p:spacer/>
+								<p:commandLink update=":searchUserForm:display"
+									oncomplete="deleteConfirmDlg.show()">
+									<f:setPropertyActionListener value="#{entity}"
+										target="#{userBean.user}" />
+									
+									<p:graphicImage id="imgBtDeleteUser" width="16" styleClass="imgUser"
+										value="#{resource['default/images:coringa.png']}"
+										title="Excluir --- BUNDLE" />
+								</p:commandLink>
+							</p:column>
+							<f:facet name="footer">  
+            					In total there are #{userBean.searchList.size()} cars.  
+        					</f:facet>
+        												
+						</p:dataTable>
 
-				<p:dataTable var="entity" 
-							 id="tableUser"
-							 value="#{userBean.searchList}"
-							 paginator="true" 
-				 			 paginatorPosition="bottom" 
-				 			 emptyMessage="Mensagem de lista vazia"
-				 			 style="width:100%"
-				 			 rows="5">
 
-                 	<p:column headerText="Login" style="width:20%">  
-            			<h:outputText value="#{entity.login}" />  
-        			</p:column>
+						<p:confirmDialog id="deleteConfirmDialog" message="Are you sure?"
+							header="Delete user" severity="alert"
+							widgetVar="deleteConfirmDlg" appendToBody="false">
 
-                 	<p:column headerText="Nome" style="width:20%">  
-            			<h:outputText value="#{entity.name}" />  
-        			</p:column>
+							<h:panelGrid id="display" columns="2" cellpadding="4"
+								style="margin:0 auto;">
 
-                 </p:dataTable>
+								<h:outputText value="Model:" />
+								<h:outputText value="#{userBean.user.login}"
+									style="font-weight:bold" />
 
+								<h:outputText value="Year:" />
+								<h:outputText value="#{userBean.user.login}"
+									style="font-weight:bold" />
+
+
+								<h:outputText value="Manufacturer:" />
+								<h:outputText value="#{userBean.user.login}"
+									style="font-weight:bold" />
+
+								<h:outputText value="Color:" />
+								<h:outputText value="#{userBean.user.login}"
+									style="font-weight:bold" />
+
+							</h:panelGrid>
+							<h:form>
+								<p:commandButton id="confirmDelete" value="Yes --BUNDLE"
+									oncomplete="deleteConfirmDlg.hide()"
+									update=":searchUserForm:tableUser"
+									actionListener="#{userBean.deleteInList()}" />
+								<p:commandButton id="declineDelete" value="Não ---BUNDLEo"
+									onclick="deleteConfirmDlg.hide()" type="button" />
+							</h:form>
+						</p:confirmDialog>
+					</h:panelGroup>
+				</f:validateBean>
 			</h:form>
 
 		</h:panelGroup>
-
 	</ui:define>
-
 </ui:composition>
+
+
