@@ -2,6 +2,7 @@ package br.com.honorato.util;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.faces.context.Flash;
 
 public class FacesUtil {
 
@@ -68,9 +69,9 @@ public class FacesUtil {
 	 * Metodo que retorna um objeto Flash para permitir que sejam armazenados valores entre diversas páginas.
 	 * @return
 	 */
-//	public static Flash getFlash(){
-//		return FacesContext.getCurrentInstance().getExternalContext().getFlash();
-//	}
+	public static Flash getFlash(){
+		return FacesContext.getCurrentInstance().getExternalContext().getFlash();
+	}
 
 	/**
 	 * Metodo que recupera um objeto
