@@ -1,12 +1,15 @@
 package br.com.honorato.dao.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -20,7 +23,6 @@ import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
 
 import br.com.honorato.constraints.UniqueLoginCheck;
-import br.com.honorato.constraints.UserStatusCheck;
 import br.com.honorato.dao.enumeration.EUserStatus;
 
 /**
@@ -56,11 +58,11 @@ public class User implements Serializable {
 	private String name;
 	
 	@Enumerated(EnumType.STRING)
-	@UserStatusCheck(properties={"status","name"})
+	/*@SampleStatusCheck(properties={"status","name"})*/
 	@Column(name ="IN_STATUS", nullable = false)
 	public EUserStatus status;
 	
-	@OneToMany(mappedBy="owner")
+	@OneToMany(mappedBy="owner",cascade=CascadeType.ALL,fetch=FetchType.EAGER)
 	private List<Contact> contactList;	
 	
 	public User() {
@@ -114,6 +116,8 @@ public class User implements Serializable {
 	}
 
 	public List<Contact> getContactList() {
+		if (contactList==null)
+			contactList = new ArrayList<Contact>();
 		return contactList;
 	}
 

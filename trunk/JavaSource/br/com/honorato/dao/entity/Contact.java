@@ -41,8 +41,8 @@ public class Contact implements Serializable {
 	@Length(max=150,message="Informe no máximo 150 caracteres")
 	private String content;
 	
-	@ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)  
-	@JoinColumn(name = "ID_TYPE_CONTACT", updatable = false, insertable = false)
+	@ManyToOne(fetch = FetchType.EAGER)  
+	@JoinColumn(name = "ID_TYPE_CONTACT")
 	@NotNull(message = "Campo no não pode ser branco nem vazio")
 	private TypeContact type;
 

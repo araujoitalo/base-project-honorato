@@ -51,6 +51,11 @@ public abstract class DomainBase implements Serializable {
 	@Length(max=250, message= "Campo não pode exceder 250 caracteres")
 	private String description;
 
+	@Column(name="DE_MASK",length=100)
+	/*TODO RECUPERAR DO BUNDLE*/
+	@Length(max=100, message= "Campo não pode exceder 100 caracteres")
+	private String mask;
+
 	@Column(name="NR_PRIORITY")
 	private Integer priority;
 
@@ -90,7 +95,15 @@ public abstract class DomainBase implements Serializable {
 		return priority;
 	}
 
-	public void setPriority(Integer priority) {
+	public void setPriority(String mask) {
+		this.mask = mask;
+	}
+
+	public String getMask() {
+		return mask;
+	}
+
+	public void setMask(Integer priority) {
 		this.priority = priority;
 	}
 
