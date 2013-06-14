@@ -3,11 +3,11 @@ package br.com.honorato.constraints;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-public class UserStatusValidator implements ConstraintValidator<UserStatusCheck, Object> {
+public class SampleStatusValidator implements ConstraintValidator<SampleStatusCheck, Object> {
 
 	private String[] fields;
 
-	public void initialize(UserStatusCheck constraintAnnotation) {
+	public void initialize(SampleStatusCheck constraintAnnotation) {
 		this.fields = constraintAnnotation.properties();
 	}
 

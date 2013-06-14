@@ -16,9 +16,9 @@ import br.com.honorato.dao.enumeration.EUserStatus;
 
 @Target( { METHOD, FIELD, ANNOTATION_TYPE })
 @Retention(RUNTIME)
-@Constraint(validatedBy = UserStatusValidator.class)
+@Constraint(validatedBy = SampleStatusValidator.class)
 @Documented
-public @interface UserStatusCheck {
+public @interface SampleStatusCheck {
 	
 	String message() default "{com.mycompany.constraints.checkcase}";
 
