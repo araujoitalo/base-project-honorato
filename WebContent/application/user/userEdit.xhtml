@@ -4,8 +4,7 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:p="http://primefaces.org/ui"
-	template="/layout/base.xhtml"
+	xmlns:p="http://primefaces.org/ui" template="/layout/base.xhtml"
 	xmlns:sec="http://www.springframework.org/security/tags"
 	xmlns:honorato="http://java.sun.com/jsf/composite/honorato">
 
@@ -14,9 +13,9 @@
 		<h:panelGroup layout="block">
 
 			<h:panelGroup layout="block" style="text-align:left">
-				<h:outputText value="Incluir Usuário" />
+				<h:outputText value="Editar Usuário ----- BUNDLE" />
 			</h:panelGroup>
-			<ui:include src="/layout/ajaxStatus.xhtml"  />
+			<ui:include src="/layout/ajaxStatus.xhtml" />
 
 			<h:form prependId="false" id="insertUserForm">
 
@@ -29,21 +28,23 @@
 					<h:panelGrid columns="3" cellspacing="3" cellpadding="3">
 
 						<h:outputLabel value="Login" />
-						
-						<p:inputText id="userLogin" value="#{userBean.user.login}" size="50" maxlength="100" />
+
+						<p:inputText id="userLogin" value="#{userBean.user.login}"
+							size="50" maxlength="100" />
 						<h:message for="userLogin" style="color:red" />
 
 						<h:outputLabel value="Nome" />
-						<p:inputText id="userName" value="#{userBean.user.name}" size="50" maxlength="100" />
+						<p:inputText id="userName" value="#{userBean.user.name}" size="50"
+							maxlength="100" />
 						<h:message for="userName" style="color:red" />
 
 						<h:outputLabel value="Status" />
-						<h:selectOneRadio id="userStatus" value="#{userBean.user.status}" 
-						disabled="#{empty userBean.user.idUser}">
-						
-						<f:selectItems value="#{userBean.userStatusList()}" 
-							var="userStatus" itemLabel="#{userStatus.label}"
-							itemValue="#{userStatus}" />
+						<h:selectOneRadio id="userStatus" value="#{userBean.user.status}"
+							disabled="#{userBean.user.idUser != 0}">
+
+							<f:selectItems value="#{userBean.userStatusList()}"
+								var="userStatus" itemLabel="#{userStatus.label}"
+								itemValue="#{userStatus}" />
 						</h:selectOneRadio>
 						<h:message for="userStatus" style="color:red" />
 
@@ -54,67 +55,65 @@
 							</ui:repeat>
 						</h:panelGroup>
 					</h:panelGrid>
-
 					<h:panelGroup layout="block">
 						<p:commandButton value="Salvar--- BUNDLE" update="@form"
 							ajax="true" action="#{userBean.save()}" />
 						<br />
-						
+
 						<p:commandLink oncomplete="deleteConfirmDlg.show()">
 							<f:setPropertyActionListener value="#{userBean.user}"
-							target="#{userBean.user}" />
-								<p:graphicImage id="imgBtDeleteUser" width="16" styleClass="imgUser"
+								target="#{userBean.user}" />
+							<p:graphicImage id="imgBtDeleteUser" width="16"
+								styleClass="imgUser"
 								value="#{resource['default/images:coringa.png']}"
 								title="Excluir --- BUNDLE" />
 						</p:commandLink>
-															
-						<br/>
-						
-						<p:commandButton value="+" immediate="true" update="contactList" process="@this"
-							onclick="dlgContact.show()" action="#{userBean.addContact()}" />
-							<f:validateBean disabled="true">
-				<p:confirmDialog id="deleteConfirmDialog"  message="Are you sure?"
-							header="Delete user" severity="alert"
-							widgetVar="deleteConfirmDlg" appendToBody="false">
 
-							<h:form>
-								<p:commandButton id="confirmDelete" value="Yes --BUNDLE" action="#{userBean.redirect('userList')}"
-									oncomplete="deleteConfirmDlg.hide()"
-									actionListener="#{userBean.delete()}" />
-								<p:commandButton id="declineDelete" value="Não ---BUNDLEo"
-									onclick="deleteConfirmDlg.hide()" type="button" />
-							</h:form>
-							
-						</p:confirmDialog>
-						</f:validateBean>								
+						<br />
+
+						<p:commandButton value="+" immediate="true" update="contactList"
+							process="@this" onclick="dlgContact.show()"
+							action="#{userBean.addContact()}" />
+						<f:validateBean disabled="true">
+							<p:confirmDialog id="deleteConfirmDialog" message="Are you sure?"
+								header="Delete user" severity="alert"
+								widgetVar="deleteConfirmDlg" appendToBody="false">
+
+								<h:form>
+									<p:commandButton id="confirmDelete" value="Yes --BUNDLE"
+										action="#{userBean.redirect('userList')}"
+										oncomplete="deleteConfirmDlg.hide()"
+										actionListener="#{userBean.delete()}" />
+									<p:commandButton id="declineDelete" value="Não ---BUNDLEo"
+										onclick="deleteConfirmDlg.hide()" type="button" />
+								</h:form>
+
+							</p:confirmDialog>
+						</f:validateBean>
 					</h:panelGroup>
-					
-					
+
+
 
 				</h:panelGroup>
 
 				<br />
 				<br />
 
-			
+				<p:dialog id="panelEdit" appendToBody="true" widgetVar="dlgContact"
+					resizable="false" closable="false" showHeader="false"
+					position="center" modal="true" showEffect="clip" hideEffect="fold">
+
+					<ui:include src="contactEdit.xhtml">
+						<ui:param name="idRender" value=":insertUserForm:contactList" />
+					</ui:include>
+
+				</p:dialog>
 
 			</h:form>
 
 		</h:panelGroup>
 
 	</ui:define>
-	<ui:define name="pops">
 
-		<p:dialog id="panelEdit" widgetVar="dlgContact" resizable="false" closable="false" showHeader="false"  
-			position="center" modal="true" showEffect="clip" hideEffect="fold">
-
-			<ui:include src="contactEdit.xhtml">
-				<ui:param name="idRender" value=":insertUserForm:contactList"/>
-			</ui:include>
-
-		</p:dialog>
-
-
-	</ui:define>
 </ui:composition>
 
