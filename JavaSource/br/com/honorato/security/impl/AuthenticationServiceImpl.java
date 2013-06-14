@@ -30,7 +30,7 @@ public class AuthenticationServiceImpl implements br.com.honorato.security.Authe
 						authenticate);				
 				return true;
 			}
-		} catch (AuthenticationException e) {			
+		} catch (AuthenticationException e) {	
 		}
 		return false;
 	}
