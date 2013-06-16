@@ -75,11 +75,11 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		boolean accountNonLocked = true;
 		
 		// sample users with roles set
-		users.put("admin", new org.springframework.security.core.userdetails.User("admin", "admin", enabled, accountNonExpired,
-				credentialsNonExpired, accountNonLocked, adminAuthorities));
-		
-		users.put("user", new org.springframework.security.core.userdetails.User("user", "user", enabled, accountNonExpired,
-				credentialsNonExpired, accountNonLocked, userAuthorities));
+//		users.put("admin", new org.springframework.security.core.userdetails.User("admin", "admin", enabled, accountNonExpired,
+//				credentialsNonExpired, accountNonLocked, adminAuthorities));
+//		
+//		users.put("user", new org.springframework.security.core.userdetails.User("user", "user", enabled, accountNonExpired,
+//				credentialsNonExpired, accountNonLocked, userAuthorities));
 	}
 	
 	public AuthenticationEJB getAuthenticateEJB() {
