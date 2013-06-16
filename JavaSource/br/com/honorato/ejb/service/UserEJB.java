@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.ejb.Stateless;
 
+import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 
 import br.com.honorato.dao.entity.TypeContact;
@@ -45,6 +46,7 @@ public class UserEJB extends BaseEJB {
 	}
 	
 	@PreAuthorize("hasRole('ssds')")
+	@PostAuthorize("hasRole('ssdsmm')")	
 	public void deleteUser(User user) throws EJBException {
 		
 		try {

@@ -5,7 +5,8 @@ import javax.validation.ConstraintValidatorContext;
 
 public class UniqueLoginValidator implements ConstraintValidator<UniqueLoginCheck, String> {
 
-    private String login;
+    @SuppressWarnings("unused")
+	private String login;
 
     public void initialize(UniqueLoginCheck constraintAnnotation) {
         this.login = constraintAnnotation.value();
