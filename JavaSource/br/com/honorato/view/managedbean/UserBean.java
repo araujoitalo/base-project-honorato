@@ -10,6 +10,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
+import org.springframework.security.access.prepost.PreAuthorize;
+
 import br.com.honorato.dao.entity.Contact;
 import br.com.honorato.dao.entity.TypeContact;
 import br.com.honorato.dao.entity.User;
@@ -97,6 +99,8 @@ public class UserBean extends BaseBean implements Serializable {
 		
 	}		
 	
+	
+	@PreAuthorize("hasRole('ROLE_ssds')")
 	public void delete() {
 		
 		try {
