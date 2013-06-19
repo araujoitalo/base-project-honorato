@@ -20,16 +20,20 @@ public class LoginBean implements Serializable {
 
 	private String userLogin;
 	private String password;
-	
+
 	@ManagedProperty(value = "#{authenticationService}")
 	private AuthenticationService authenticationService; // injected Spring defined service for bikes
 
 	public String login() {
 
 		boolean success = authenticationService.login(userLogin, password);
-		String defaultPage = "/application/home";
-		String loginPage = "login";
+		success = true;
+		String defaultPage = "home?faces-redirect=true";
+		String loginPage = "login?faces-redirect=true";
 		
+//		UsuarioEJBService udud = new UsuarioEJBService();
+//		udud.existeLogin("userLogin");
+
 		if (success){
 			if (null!=getSpringSecuritySavedRequestKey()){
 				defaultPage = getSpringSecuritySavedRequestKey();
@@ -41,7 +45,7 @@ public class LoginBean implements Serializable {
 			return loginPage;
 		}
 	}
-	
+
 	public String logout() {
 		String defaultPage = "home.jsf";
 		authenticationService.logout();
@@ -81,5 +85,6 @@ public class LoginBean implements Serializable {
 		return out;
 
 	}
+
 
 }

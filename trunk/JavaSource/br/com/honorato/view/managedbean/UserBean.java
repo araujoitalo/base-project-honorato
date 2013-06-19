@@ -7,6 +7,7 @@ import javax.annotation.PostConstruct;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
@@ -37,6 +38,9 @@ public class UserBean extends BaseBean implements Serializable {
 	private List<User> searchList;
 	
 	private static final long serialVersionUID = 1L;
+	
+	@ManagedProperty(value = "#{customerService}")
+	private CustomerService teste; // injected Spring defined service for bikes
 
 	public UserBean() {
 		
@@ -104,7 +108,6 @@ public class UserBean extends BaseBean implements Serializable {
 	public void delete() {
 		
 		try {
-			
 			userEJB.deleteUser(user);
 			FacesUtil.showSucessMessage("Operação Efetuada com Sucesso!", "Sucesso", true);
 			//this.setDlgSucessOpen(true);
@@ -264,6 +267,14 @@ public class UserBean extends BaseBean implements Serializable {
 		
 		addContact();
 		
+	}
+
+	public CustomerService getTeste() {
+		return teste;
+	}
+
+	public void setTeste(CustomerService teste) {
+		this.teste = teste;
 	}
 
 }
