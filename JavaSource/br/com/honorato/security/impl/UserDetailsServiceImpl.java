@@ -15,7 +15,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import br.com.honorato.ejb.service.AuthenticationEJB;
+import br.com.honorato.ejb.service.implement.AuthenticationEJB;
 
 /*
  * Spring-security requires an implementation of UserDetailService. 
