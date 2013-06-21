@@ -10,7 +10,7 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
 import br.com.honorato.dao.entity.TypeContact;
-import br.com.honorato.ejb.service.TypeContactEJB;
+import br.com.honorato.ejb.service.implement.TypeContactEJB;
 import br.com.honorato.exception.EJBException;
 
 @FacesConverter("typeContactConverter")
