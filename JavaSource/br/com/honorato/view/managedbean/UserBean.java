@@ -17,7 +17,7 @@ import br.com.honorato.dao.entity.Contact;
 import br.com.honorato.dao.entity.TypeContact;
 import br.com.honorato.dao.entity.User;
 import br.com.honorato.dao.enumeration.EUserStatus;
-import br.com.honorato.ejb.service.UserEJB;
+import br.com.honorato.ejb.service.implement.UserEJB;
 import br.com.honorato.exception.EJBException;
 import br.com.honorato.util.FacesUtil;
 
@@ -102,7 +102,6 @@ public class UserBean extends BaseBean implements Serializable {
 		addContact();
 		
 	}		
-	
 	
 	@PreAuthorize("hasRole('ROLE_ssds')")
 	public void delete() {

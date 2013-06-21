@@ -8,7 +8,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
 import br.com.honorato.dao.entity.Module;
-import br.com.honorato.ejb.service.ModuleEJB;
+import br.com.honorato.ejb.service.implement.ModuleEJB;
 
 @ManagedBean(name = "moduleBean")
 @ViewScoped

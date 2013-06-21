@@ -9,7 +9,7 @@ import javax.faces.bean.ViewScoped;
 
 import br.com.honorato.dao.entity.Sample;
 import br.com.honorato.dao.entity.SampleType;
-import br.com.honorato.ejb.service.SampleEJB;
+import br.com.honorato.ejb.service.implement.SampleEJB;
 import br.com.honorato.exception.EJBException;
 import br.com.honorato.util.FacesUtil;
 

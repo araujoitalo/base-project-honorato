@@ -28,17 +28,14 @@ public class LoginBean implements Serializable {
 
 		boolean success = authenticationService.login(userLogin, password);
 		success = true;
-		String defaultPage = "home?faces-redirect=true";
-		String loginPage = "login?faces-redirect=true";
+		String defaultPage = "/application/home?faces-redirect=true";
+		String loginPage = "/application/login?faces-redirect=true";
 		
-//		UsuarioEJBService udud = new UsuarioEJBService();
-//		udud.existeLogin("userLogin");
-
 		if (success){
 			if (null!=getSpringSecuritySavedRequestKey()){
-				defaultPage = getSpringSecuritySavedRequestKey();
+				defaultPage = getSpringSecuritySavedRequestKey() + "?faces-redirect=true";
 			}
-			return defaultPage + "?faces-redirect=true";
+			return defaultPage;
 
 		}else{
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Login or password incorrect."));
@@ -85,6 +82,4 @@ public class LoginBean implements Serializable {
 		return out;
 
 	}
-
-
 }
