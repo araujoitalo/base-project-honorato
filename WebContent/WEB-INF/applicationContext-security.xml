@@ -12,7 +12,11 @@
                         http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
 
 	<context:component-scan base-package="br.com.honorato" />
-
+	
+	<!-- 
+	<context:annotation-config />
+	<aop:aspectj-autoproxy/>
+ -->
 	<debug />
 
 	<!-- <global-method-security mode="aspectj" secured-annotations="enabled" 
@@ -54,7 +58,5 @@
 			<password-encoder hash="md5" />
 		</authentication-provider>
 	</authentication-manager>
-	<beans:bean id="customerService"
-		class="br.com.honorato.view.managedbean.CustomerService" scope="prototype" />
 
 </beans:beans>
