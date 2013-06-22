@@ -3,8 +3,10 @@ package br.com.honorato.ejb.service.implement;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.ejb.Local;
 import javax.ejb.Stateless;
+import javax.ejb.TransactionManagement;
+import javax.ejb.TransactionManagementType;
+import javax.interceptor.Interceptors;
 
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -16,13 +18,16 @@ import br.com.honorato.dao.implement.TypeContactDAO;
 import br.com.honorato.dao.implement.UserDAO;
 import br.com.honorato.exception.DAOException;
 import br.com.honorato.exception.EJBException;
-import br.com.honorato.util.Logger;
+import br.com.honorato.util.Depurador;
+import br.com.honorato.util.InterceptorDeCallback;
+import br.com.honorato.util.LoggerInterceptor;
 
 /**
  * Session Bean implementation class UserEJB
  */
 @Stateless
-@Local
+@TransactionManagement(TransactionManagementType.CONTAINER)
+@Interceptors({Depurador.class, InterceptorDeCallback.class})
 public class UserEJB extends BaseEJB {
 
 	public UserEJB() {
@@ -34,7 +39,7 @@ public class UserEJB extends BaseEJB {
 		
 	}
 	
-	@Logger
+	@LoggerInterceptor
 	public void saveUser(User user) throws EJBException {
 		
 		try {
