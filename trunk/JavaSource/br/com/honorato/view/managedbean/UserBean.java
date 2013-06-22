@@ -13,6 +13,8 @@ import javax.faces.context.FacesContext;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 
+import samples.CustomerService;
+
 import br.com.honorato.dao.entity.Contact;
 import br.com.honorato.dao.entity.TypeContact;
 import br.com.honorato.dao.entity.User;
