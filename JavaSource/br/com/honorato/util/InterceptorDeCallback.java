@@ -6,9 +6,11 @@ import javax.ejb.PostActivate;
 import javax.ejb.PrePassivate;
 import javax.interceptor.InvocationContext;
 
-public class InterceptorOfCallback {	
+import org.apache.log4j.Logger;
+
+public class InterceptorDeCallback {
 	
-	//Logger logger = Logger.getRootLogger();
+	Logger logger = Logger.getRootLogger();
 	
 	// Life cycle callback methods não podem propagar exceções checked e
 	// não retornam nada. Não faz sentido um método deste tipo  propagar
@@ -23,21 +25,21 @@ public class InterceptorOfCallback {
 	@PostConstruct 
 	public void postconstruct(InvocationContext context) {	
 		
-		//logger.info(">>>>>>>>>>>> Executando postConstruct() de InterceptadorDeCallback");
+		logger.info(">>>>>>>>>>>> Executando postConstruct() de InterceptadorDeCallback");
 		
-		try {	
-			// A chamada ao método proceed() garante que o próximo método 
+		try {	// A chamada ao método proceed() garante que o próximo método 
 			// interceptador do ciclo de vida do bean será chamado.
 			context.proceed();
 		} catch(Exception e) {	
 			throw new RuntimeException(e);
 		}
+		
 	}
 
 	@PrePassivate
 	public void prePassivate(InvocationContext context) {	
 		
-		//logger.info(">>>>>>>>>>>> Executando prePassivate() de InterceptadorDeCallback");
+		logger.info(">>>>>>>>>>>> Executando prePassivate() de InterceptadorDeCallback");
 		
 		try {	
 			context.proceed();
@@ -49,24 +51,26 @@ public class InterceptorOfCallback {
 	@PostActivate
 	public void postActivate(InvocationContext context) {	
 		
-		//logger.info(">>>>>>>>>>>> Executando postActivate() de InterceptadorDeCallback");
+		logger.info(">>>>>>>>>>>> Executando postActivate() de InterceptadorDeCallback");
 		
 		try {	
 			context.proceed();
 		} catch(Exception e) {	
 			throw new RuntimeException(e);
 		}
+		
 	}
 
 	@PreDestroy
 	public void preDestroy(InvocationContext context) {	
-
-		//logger.info(">>>>>>>>>>>> Executando preDestroy() de InterceptadorDeCallback");
+		
+		logger.info(">>>>>>>>>>>> Executando preDestroy() de InterceptadorDeCallback");
 		
 		try {	
 			context.proceed();
 		} catch(Exception e) {	
 			throw new RuntimeException(e);
 		}
+		
 	}
 }
