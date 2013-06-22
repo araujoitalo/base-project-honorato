@@ -27,9 +27,8 @@ public class LoginBean implements Serializable {
 	public String login() {
 
 		boolean success = authenticationService.login(userLogin, password);
-		success = true;
 		String defaultPage = "/application/home?faces-redirect=true";
-		String loginPage = "/application/login?faces-redirect=true";
+		String loginPage = "/public/login?faces-redirect=true";
 		
 		if (success){
 			if (null!=getSpringSecuritySavedRequestKey()){
