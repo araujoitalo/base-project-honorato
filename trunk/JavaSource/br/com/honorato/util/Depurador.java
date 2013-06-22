@@ -3,11 +3,13 @@ package br.com.honorato.util;
 import javax.interceptor.AroundInvoke;
 import javax.interceptor.InvocationContext;
 
+import org.apache.log4j.Logger;
+
 public class Depurador {	
 
 	@AroundInvoke
-	public Object efetuaLog(InvocationContext invocationContext) throws Exception {	
-
+	public Object efetuaLog(InvocationContext invocationContext) throws Exception {
+		
 		// O objeto InvocationContext, que deve constar como argumento do
 		// método  anotado   com  @AroundInvoke,   provê  uma   série  de
 		// características que tornam o mecanismo AOP muito flexível. Com
@@ -42,16 +44,19 @@ public class Depurador {
 		// 3. Interceptador de método
 		// É possível mudar esta ordem no ejb-jar.xml
 		
-//		Log.debug(this.getClass(), "Depurando .... ");
 
 		Object objeto = null;
-		boolean ocorreuErro = false;
-		Exception erroOcorrido = null;
-		StringBuilder builder = new StringBuilder();
 
-		if (invocationContext.getMethod().isAnnotationPresent(Logger.class)){
+		if (invocationContext.getMethod().isAnnotationPresent(LoggerInterceptor.class)){
 
-//			if(Log.getLogger().isDebugEnabled()){
+			LogUtil.debug(this.getClass(), "Depurando .... ");
+			LogUtil.info(this.getClass(), "Depurando INFO .... ");
+			
+			boolean ocorreuErro = false;
+			Exception erroOcorrido = null;
+			StringBuilder builder = new StringBuilder();
+			
+			//if(LogUtil.getLogger().isDebugEnabled()){
 
 				builder.append("O método ");
 				builder.append(invocationContext.getTarget() + "." + invocationContext.getMethod().getName() +  "() ");
@@ -61,8 +66,8 @@ public class Depurador {
 				}
 				builder.append(" )");
 
-//				Log.debug(invocationContext.getTarget().getClass(), builder.toString());
-//			}
+				LogUtil.debug(invocationContext.getTarget().getClass(), builder.toString());
+			//}
 
 			try {
 				objeto = invocationContext.proceed();
@@ -81,20 +86,20 @@ public class Depurador {
 				builder.append((fim - inicio));
 				builder.append(" milissegundos o método ");
 				builder.append(invocationContext.getTarget() + "." + invocationContext.getMethod().getName() +  "() ");
-//				Log.error(invocationContext.getTarget().getClass(), builder.toString(),erroOcorrido);
+				LogUtil.error(invocationContext.getTarget().getClass(), builder.toString(),erroOcorrido);
 				
 				throw erroOcorrido;
 			} else {
 
-//				if(Log.getLogger().isDebugEnabled()) {
+				if(LogUtil.getLogger().isDebugEnabled()) {
 					
 					builder.append("Executado com sucesso em ");
 					builder.append((fim - inicio));
 					builder.append(" milissegundos o método ");
 					builder.append(invocationContext.getTarget() + "." + invocationContext.getMethod().getName() +  "() ");
 
-//					Log.debug(invocationContext.getTarget().getClass(), builder.toString());
-//				}
+					LogUtil.debug(invocationContext.getTarget().getClass(), builder.toString());
+				}
 			}
 		} else {
 
