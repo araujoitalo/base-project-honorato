@@ -39,7 +39,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		
 		try {
 			InitialContext ini = new InitialContext();
-			authenticateEJB = (AuthenticationEJB) ini.lookup("java:module/AuthenticationEJB!br.com.honorato.ejb.service.AuthenticationEJB");
+			authenticateEJB = (AuthenticationEJB) ini.lookup("java:module/AuthenticationEJB!br.com.honorato.ejb.service.implement.AuthenticationEJB");
 			user = authenticateEJB.authenticateUser(username);
 		} catch (NamingException ex) {
 			ex.printStackTrace();
