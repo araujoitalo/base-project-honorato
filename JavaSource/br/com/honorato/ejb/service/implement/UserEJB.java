@@ -3,13 +3,11 @@ package br.com.honorato.ejb.service.implement;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
 import javax.interceptor.Interceptors;
-
-import org.springframework.security.access.prepost.PostAuthorize;
-import org.springframework.security.access.prepost.PreAuthorize;
 
 import br.com.honorato.dao.entity.TypeContact;
 import br.com.honorato.dao.entity.User;
@@ -33,6 +31,8 @@ public class UserEJB extends BaseEJB {
 	public UserEJB() {
 	}
 	
+	@LoggerInterceptor
+	@RolesAllowed({"USER_SEARCH"})
 	public List<User> searchUsers(){
 		
 		return new UserDAO(getEm()).selectAll();
@@ -40,6 +40,7 @@ public class UserEJB extends BaseEJB {
 	}
 	
 	@LoggerInterceptor
+	@RolesAllowed({"USER_SAVE"})
 	public void saveUser(User user) throws EJBException {
 		
 		try {
@@ -54,8 +55,8 @@ public class UserEJB extends BaseEJB {
 		
 	}
 	
-	@PreAuthorize("hasRole('ssds')")
-	@PostAuthorize("hasRole('ssdsmm')")	
+	@LoggerInterceptor
+	@RolesAllowed({"USER_DELETE"})
 	public void deleteUser(User user) throws EJBException {
 		
 		try {
@@ -68,6 +69,8 @@ public class UserEJB extends BaseEJB {
 		
 	}	
 	
+	@LoggerInterceptor
+	@RolesAllowed({"USER_SEARCH"})
 	public List<User> searchUser(User filter) throws EJBException {
 		
 		try {
