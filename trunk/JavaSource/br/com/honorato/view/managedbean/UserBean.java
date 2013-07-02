@@ -4,17 +4,13 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
-import org.springframework.security.access.prepost.PreAuthorize;
-
 import samples.CustomerService;
-
 import br.com.honorato.dao.entity.Contact;
 import br.com.honorato.dao.entity.TypeContact;
 import br.com.honorato.dao.entity.User;
@@ -105,16 +101,15 @@ public class UserBean extends BaseBean implements Serializable {
 		
 	}		
 	
-	@PreAuthorize("hasRole('ROLE_ssds')")
 	public void delete() {
 		
 		try {
 			userEJB.deleteUser(user);
 			FacesUtil.showSucessMessage("Operação Efetuada com Sucesso!", "Sucesso", true);
 			//this.setDlgSucessOpen(true);
-		} catch (EJBException err) {
+		} catch (EJBException | javax.ejb.EJBAccessException err) {
 			/*TODO recuperar do bundle*/
-			FacesUtil.showFatalMessage("Erro Inesperado", err.getMessage(),false);
+			FacesUtil.showFatalMessage("Erro Inesperado", err.getMessage(),true);
 		}
 		
 	}
@@ -142,9 +137,6 @@ public class UserBean extends BaseBean implements Serializable {
 		}
 		
 	}	
-	
-	
-	
 	
 //	public void searchList(){
 //		searchList = userEJB.searchUsers();
@@ -177,7 +169,6 @@ public class UserBean extends BaseBean implements Serializable {
 		this.newContact = newContact;
 	}	
 	
-	@RolesAllowed({"MIMIM"})
 	public void save() {
 		
 		try {
