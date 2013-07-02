@@ -26,12 +26,20 @@ public class AuthenticationEJB extends BaseEJB {
 	public org.springframework.security.core.userdetails.User authenticateUser(String login){
 
 		User user = new UserDAO(getEm()).login(login);
-
+		List<Rule> ruleList = null;
+		
 		if (user==null){
 			return null;
 		}
 		
-		List<Rule> ruleList = new RuleDAO(getEm()).selectAll();
+		//TODO: recuperar usuario administrador padrão do banco tabela de configuração
+		if (login=="admin"){
+			ruleList = new RuleDAO(getEm()).selectAll();	
+		}else{
+			//TODO: recuperar somente RULES do referido usuario			
+			ruleList = new RuleDAO(getEm()).selectAll();
+		}
+		
 		List<GrantedAuthority> userGrantedAuthorityList = new ArrayList<GrantedAuthority>(); 
 
 		for (Rule rule : ruleList) {

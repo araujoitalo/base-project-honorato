@@ -34,8 +34,10 @@
 		<!-- <intercept-url pattern="/application/**" access="hasRole('supervisor')"/> -->
 		<!--<intercept-url pattern="/application/**" access="isAuthenticated()" 
 			/> -->
+			<!-- 
 		<intercept-url pattern="/application/user/userInsert.jsf"
 			access="hasIpAddress('10.168.1.0/24')" />
+			 -->
 		<intercept-url pattern="/public/**" access="permitAll" />
 		<!-- Allow all other requests. In a real application you should adopt a 
 			whitelisting approach where access is not allowed by default -->
