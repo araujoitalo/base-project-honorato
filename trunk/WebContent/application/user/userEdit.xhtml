@@ -74,6 +74,7 @@
 						<p:commandButton value="+" immediate="true" update="contactList"
 							process="@this" onclick="dlgContact.show()"
 							action="#{userBean.addContact()}" />
+							
 						<f:validateBean disabled="true">
 							<p:confirmDialog id="deleteConfirmDialog" message="Are you sure?"
 								header="Delete user" severity="alert"
@@ -90,6 +91,7 @@
 
 							</p:confirmDialog>
 						</f:validateBean>
+						
 					</h:panelGroup>
 
 
