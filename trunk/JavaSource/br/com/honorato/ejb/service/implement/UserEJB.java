@@ -3,7 +3,6 @@ package br.com.honorato.ejb.service.implement;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
@@ -16,7 +15,9 @@ import br.com.honorato.dao.implement.TypeContactDAO;
 import br.com.honorato.dao.implement.UserDAO;
 import br.com.honorato.exception.DAOException;
 import br.com.honorato.exception.EJBException;
+import br.com.honorato.exception.EncriptException;
 import br.com.honorato.util.Depurador;
+import br.com.honorato.util.Hashing;
 import br.com.honorato.util.InterceptorDeCallback;
 import br.com.honorato.util.LoggerInterceptor;
 
@@ -30,35 +31,45 @@ public class UserEJB extends BaseEJB {
 
 	public UserEJB() {
 	}
-	
+
 	@LoggerInterceptor
-	@RolesAllowed({"USER_SEARCH"})
+	//@RolesAllowed({"USER_SEARCH"})
 	public List<User> searchUsers(){
-		
+
 		return new UserDAO(getEm()).selectAll();
-		
+
 	}
-	
+
 	@LoggerInterceptor
-	@RolesAllowed({"USER_SAVE"})
 	public void saveUser(User user) throws EJBException {
-		
+
 		try {
-			//TODO: gerar senha automática
-			user.setPassword("default");
 			new UserDAO(getEm()).save(user);
 			//TODO: enviar senha por email
-		} catch (DAOException e) {
+		} catch ( DAOException e ) {
 			/*TODO: RECUPERAR MENSAGEM DO BUNDLE*/
 			throw new EJBException(e.getErrorCode(), e.getMessage());
 		}
-		
+
 	}
-	
+
 	@LoggerInterceptor
-	@RolesAllowed({"USER_DELETE"})
+	public void saveNewUser(User user) throws EJBException {
+
+		try {
+			//TODO: gerar senha automática
+			user.setPassword(Hashing.toMD5Hashing("1"));
+			saveUser(user);
+			//TODO: enviar senha por email
+		} catch ( EncriptException e ) {
+			throw new EJBException(e.getErrorCode(), e.getMessage());
+		}
+
+	}	
+
+	@LoggerInterceptor
 	public void deleteUser(User user) throws EJBException {
-		
+
 		try {
 			user = getEm().find(User.class, user.getIdUser());
 			new UserDAO(getEm()).delete(user);
@@ -66,33 +77,79 @@ public class UserEJB extends BaseEJB {
 			/*TODO: RECUPERAR MENSAGEM DO BUNDLE*/
 			throw new EJBException(e.getErrorCode(), e.getMessage());
 		}
-		
+
 	}	
-	
+
 	@LoggerInterceptor
-	@RolesAllowed({"USER_SEARCH"})
+	//@RolesAllowed({"ROLE_USER_SEARCH"})
 	public List<User> searchUser(User filter) throws EJBException {
-		
+
 		try {
-			//TODO: gerar senha automática
 			return new UserDAO(getEm()).recoveryByCriteria(filter);
 		} catch (DAOException e) {
 			/*TODO: RECUPERAR MENSAGEM DO BUNDLE*/
 			throw new EJBException(e.getErrorCode(), e.getMessage());
 		}
-		
-	}	
-	
+
+	}
+
+	public void changePassword(String login, String currentPassword, String newPassord) throws EJBException {
+
+		User currentUser = getUserByLogin(login);
+
+		if (currentUser==null){
+			/*TODO: RECUPERAR MENSAGEM DO BUNDLE*/
+			throw new EJBException("changePassword", "Usuário não encontrado para alteração de senha!");
+		}else{
+			try {
+
+				if(currentUser.getPassword().equals(Hashing.toMD5Hashing(currentPassword))){
+					currentUser.setPassword(Hashing.toMD5Hashing(newPassord));
+					saveUser(currentUser);
+				}else{
+					throw new EJBException("changePassword", "Senha atual não confere.");
+				}
+				
+			} catch (EncriptException err) {
+				throw new EJBException(err.getErrorCode(), err.getMessage());
+			}
+
+		}
+
+	}
+
 	public List<EUserStatus> getUserStatusList() throws EJBException {
-		
+
 		return Arrays.asList(EUserStatus.values());
-		
+
 	}	
-	
+
 	public List<TypeContact> getTypeContactList() throws EJBException {
-		
+
 		return new TypeContactDAO(getEm()).selectAll();
-		
+
+	}
+
+	@LoggerInterceptor
+	public User getUserByLogin(String login) throws EJBException {
+
+		User out = null;
+
+		try {
+
+			User filter = new User();
+			filter.setLogin(login);
+			for (User user : new UserDAO(getEm()).recoveryByCriteria(filter)) {
+				out = user;
+				break;
+			}
+
+			return out;
+
+		} catch (DAOException e) {
+			/*TODO: RECUPERAR MENSAGEM DO BUNDLE*/
+			throw new EJBException(e.getErrorCode(), e.getMessage());
+		}
+
 	}	
-	
 }

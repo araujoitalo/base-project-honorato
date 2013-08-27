@@ -33,7 +33,7 @@ public class AuthenticationEJB extends BaseEJB {
 		}
 		
 		//TODO: recuperar usuario administrador padrão do banco tabela de configuração
-		if (login=="admin"){
+		if ("admin".equalsIgnoreCase(login)){
 			ruleList = new RuleDAO(getEm()).selectAll();	
 		}else{
 			//TODO: recuperar somente RULES do referido usuario			
