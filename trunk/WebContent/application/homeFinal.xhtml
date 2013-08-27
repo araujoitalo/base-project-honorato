@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:honorato="http://java.sun.com/jsf/composite/honorato">
+
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>#{msgbundle['system.name']}</title>
+	<h:outputStylesheet library="default" name="css/style.css" />
+</h:head>
+
+<h:body
+	style="background-image:url('../resources/default/images/backGroundGreen.jpg');height:100%;margin:0px;">
+	<h:form id="generalPageForm">
+	
+		<h:panelGroup id="generalPage" layout="block"
+			style="float:left;width:98%;align:center;padding:15px 5px 0px 20px">
+			<h:panelGroup layout="block" style="float:left;width:25%;">
+				<h:panelGrid>
+					<h:column>
+						<h:outputLabel styleClass="titleSistem"
+							value="#{msgbundle['system.name']}" />
+						<h3>
+							<h:outputText
+								value="#{msgbundle['system.buttom.positive.label']}" />
+						</h3>
+					</h:column>
+				</h:panelGrid>
+			</h:panelGroup>
+
+			<h:panelGroup layout="block" style="float:left;width:60%;">
+				<h:panelGrid style="width:60%;">
+				<br/>
+				<h:commandLink action="/application/sample/sampleInsert.jsf"  value="Teste" />
+				<br/>
+				<h:commandLink action="/application/user/userInsert.jsf"  value="User" />
+				<br/>
+			Corpo</h:panelGrid>
+			</h:panelGroup>
+			<h:panelGroup layout="block" style="float:left;width:10%;">
+				<h:panelGrid columns="3">
+					<h:column>
+						<h:panelGrid style="text-align:right">
+							<h:column>
+								<h:outputLabel
+									style="font-family:Calibri;font-size:25px;text-align:right;color:#FAFAFA"
+									value="#{appSessionBean.loggedUser.name}" />
+							</h:column>
+							<h:column>
+								<h:outputLabel
+									style="font-family:Calibri;font-size:15px;text-align:right;color:#FAFAFA"
+									value="Honorato" />
+							</h:column>
+						</h:panelGrid>
+					</h:column>
+					<h:column>
+						<p:graphicImage id="imgUser" width="50" styleClass="imgUser"									value="#{resource['default/images:user.jpg']}" />
+					</h:column>
+				</h:panelGrid>
+			</h:panelGroup>
+		</h:panelGroup>
+
+
+		<p:overlayPanel id="imgPanel" for="imgUser" showEffect="blind"
+			hideEffect="blind" showEvent="mouseover" hideEvent="mousedown"
+			dismissable="false" showCloseIcon="true">
+			<p:commandButton oncomplete="dlgChangePassword.show()" process="@this" value="Alterar senha BUNDLE!!"/>
+		</p:overlayPanel>
+
+		<p:dialog id="panelEdit" widgetVar="dlgChangePassword"
+			resizable="false" closable="false" showHeader="false"
+			position="center" modal="true" showEffect="clip" hideEffect="fold">
+			<ui:include src="/public/changePassword.xhtml"/>
+		</p:dialog>
+
+	</h:form>
+</h:body>
+</html>
