@@ -40,10 +40,6 @@ public class Resource implements Serializable {
 	@Column(name="NM_MODULE", nullable = false)
 	private String name;
 
-	@Column(name="IN_TYPE", nullable = false)
-	private String type;
-	
-	
 	@ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)  
 	@JoinColumn(name = "ID_MODULE_REFERENCE", referencedColumnName = "ID_MODULE", updatable = false, insertable = false)
 	private Resource moduleReference;
@@ -85,14 +81,6 @@ public class Resource implements Serializable {
 		this.name = name;
 	}
 
-	public String getType() {
-		return type;
-	}
-
-	public void setType(String type) {
-		this.type = type;
-	}
-
 	public Resource getModuleReference() {
 		return moduleReference;
 	}
@@ -108,4 +96,32 @@ public class Resource implements Serializable {
 	public void setResources(List<Resource> resources) {
 		this.resources = resources;
 	}
+
+	@Override
+	public String toString() {
+		return name;
+	}
+	
+	@Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 31 * hash + this.idModule;
+        return hash;
+    }
+	
+	 
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Resource other = (Resource) obj;
+        if (this.idModule != other.idModule) {
+            return false;
+        }
+        return true;
+    }	
 }
