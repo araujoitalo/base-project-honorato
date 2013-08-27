@@ -115,6 +115,7 @@
 										title="Alterarar --- BUNDLE" />
 								</p:commandLink>
 								<p:spacer/>
+								
 								<p:commandLink update=":searchUserForm:display"
 									oncomplete="deleteConfirmDlg.show()">
 									<f:setPropertyActionListener value="#{entity}"
@@ -124,6 +125,7 @@
 										value="#{resource['default/images:coringa.png']}"
 										title="Excluir --- BUNDLE" />
 								</p:commandLink>
+								
 							</p:column>
 							<f:facet name="footer">  
             					In total there are #{userBean.searchList.size()} cars.  
