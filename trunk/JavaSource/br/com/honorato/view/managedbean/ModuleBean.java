@@ -8,14 +8,15 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
 import br.com.honorato.dao.entity.Module;
-import br.com.honorato.ejb.service.implement.ModuleEJB;
+import br.com.honorato.dao.entity.Resource;
+import br.com.honorato.ejb.service.implement.ResourceEJB;
 
 @ManagedBean(name = "moduleBean")
 @ViewScoped
 public class ModuleBean implements Serializable {
 	
 	@EJB
-	private ModuleEJB moduleEJB;
+	private ResourceEJB moduleEJB;
 
 	List<Module> moduleList;
 	
@@ -29,7 +30,7 @@ public class ModuleBean implements Serializable {
 	
 	public void searchModules(){
 		
-		moduleList = moduleEJB.searchModules();
+		moduleList = moduleEJB.selectAllModules();
 		
 	}
 

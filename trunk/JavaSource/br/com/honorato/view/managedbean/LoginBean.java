@@ -4,29 +4,26 @@ import java.io.Serializable;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
 import org.springframework.security.web.savedrequest.DefaultSavedRequest;
 import org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestWrapper;
 
-import br.com.honorato.security.AuthenticationService;
-
 @ManagedBean(name = "loginBean")
-@SessionScoped
-public class LoginBean implements Serializable {
+@ViewScoped
+public class LoginBean extends BaseBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	private String userLogin;
-	private String password;
+	private String userLogin = "admin";
+	private String password = "admin";
 
-	@ManagedProperty(value = "#{authenticationService}")
-	private AuthenticationService authenticationService; // injected Spring defined service for bikes
+//	@ManagedProperty(value = "#{authenticationService}")
+//	private AuthenticationService authenticationService; // injected Spring defined service for bikes
 
 	public String login() {
 
-		boolean success = authenticationService.login(userLogin, password);
+		boolean success = getAppSessionBean().getAuthenticationService().login(userLogin, password);
 		String defaultPage = "/application/home?faces-redirect=true";
 		String loginPage = "/public/login?faces-redirect=true";
 		
@@ -44,7 +41,7 @@ public class LoginBean implements Serializable {
 
 	public String logout() {
 		String defaultPage = "home.jsf";
-		authenticationService.logout();
+		getAppSessionBean().getAuthenticationService().logout();
 		return defaultPage;
 	}	
 
@@ -64,14 +61,14 @@ public class LoginBean implements Serializable {
 		this.password = password;
 	}
 
-	public void setAuthenticationService(AuthenticationService authenticationService) {
-		this.authenticationService = authenticationService;
-	}
-
+//	public void setAuthenticationService(AuthenticationService authenticationService) {
+//		this.authenticationService = authenticationService;
+//	}
+//
 	public String getSpringSecuritySavedRequestKey(){
 
 		String out = null;
-
+		
 		try{
 			out = ((DefaultSavedRequest)((SecurityContextHolderAwareRequestWrapper)FacesContext.getCurrentInstance().getExternalContext().getRequest()).getSession().getAttribute("SPRING_SECURITY_SAVED_REQUEST")).getServletPath();
 		}catch(NullPointerException exception){
@@ -81,4 +78,5 @@ public class LoginBean implements Serializable {
 		return out;
 
 	}
+	
 }
