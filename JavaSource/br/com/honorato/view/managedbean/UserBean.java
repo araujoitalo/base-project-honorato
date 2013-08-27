@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.ejb.EJBAccessException;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
@@ -63,7 +64,7 @@ public class UserBean extends BaseBean implements Serializable {
 	public void initList(){
 
 		if (filter==null){
-			
+			//getAppSessionBean().
 			if (FacesUtil.getFlash().containsKey("userFilter")){
 				filter = (User) FacesUtil.getFlash().get("userFilter");	
 			}
@@ -126,13 +127,19 @@ public class UserBean extends BaseBean implements Serializable {
 		try {
 			
 			if (filter!=null){
+				
 				setSearchList(userEJB.searchUser(filter));
 			}
 			
 			//FacesUtil.showSucessMessage("Operação Efetuada com Sucesso!", "Sucesso", false);
 			//this.setDlgSucessOpen(true);
+		} catch (EJBAccessException err) {
+			/*TODO recuperar do bundle*/
+			/*TODO retirar err.getMessage()*/
+			FacesUtil.showFatalMessage("Usuário sem acesso", err.getMessage(),false);
 		} catch (EJBException err) {
 			/*TODO recuperar do bundle*/
+			/*TODO retirar err.getMessage()*/
 			FacesUtil.showFatalMessage("Erro Inesperado", err.getMessage(),false);
 		}
 		
@@ -151,33 +158,41 @@ public class UserBean extends BaseBean implements Serializable {
 	}
 
 	public User getUser() {
+		
 		return user;
+		
 	}
 
 	public void setUser(User user) {
+		
 		this.user = user;
+		
 	}
 	
 	public Contact getNewContact() {
+		
 		if (newContact==null)
 			newContact = new Contact();
-
 		return newContact;
+
 	}
 
 	public void setNewContact(Contact newContact) {
+		
 		this.newContact = newContact;
+		
 	}	
 	
 	public void save() {
 		
 		try {
-			userEJB.saveUser(user);
+		
+			userEJB.saveNewUser(user);
 			FacesUtil.showSucessMessage("Operação Efetuada com Sucesso!", "Sucesso", false);
 			//this.setDlgSucessOpen(true);
+
 		} catch (EJBException err) {
-			/*TODO recuperar do bundle*/
-			FacesUtil.showFatalMessage("Erro Inesperado", err.getMessage(),false);
+			FacesUtil.showFatalMessage(err.getErrorCode(), err.getMessage(),false);
 		}
 		
 	}
@@ -267,6 +282,14 @@ public class UserBean extends BaseBean implements Serializable {
 
 	public void setTeste(CustomerService teste) {
 		this.teste = teste;
+	}
+
+	public UserEJB getUserEJB() {
+		return userEJB;
+	}
+
+	public void setUserEJB(UserEJB userEJB) {
+		this.userEJB = userEJB;
 	}
 
 }
