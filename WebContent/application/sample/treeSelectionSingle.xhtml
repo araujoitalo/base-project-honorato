@@ -5,7 +5,7 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui">
-	
+
 <h:head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<title>Nome do Sistema</title>
@@ -19,34 +19,55 @@
 <h:body>
 
 	<div id="headerPrincipal">
-		<div class="wrapper">
-			Header
-		</div>
+		<div class="wrapper">Header</div>
 	</div>
-
+	<p:outputPanel autoUpdate="true">
+		<p:messages id="mensagensContact" showDetail="false"
+			showSummary="true" />
+	</p:outputPanel>
 	<div class="wrapper">
 		<!-- end #header -->
 		<div id="bodyPrincipal">
 			<div id="content">
 				<div class="content1">
 
-<h:form id="form">  
-  
-    <p:growl id="messages" showDetail="true" />  
-  
-    <p:tree id="treeSingle" value="#{treeBean.root}" var="node"  
-            selectionMode="single"  
-            selection="#{treeBean.selectedNode}">  
-  
-        <p:treeNode> 
-         <h:outputText value="#{node}" />  
-        </p:treeNode>  
-    </p:tree>  
-  
-    <p:commandButton value="Display Selected" update="messages"  
-                    actionListener="#{treeBean.displaySelectedSingle}" id="btnDisplay"/>  
-  
-</h:form>  
+					<h:form id="form">
+
+						<p:growl id="messages" showDetail="true" />
+
+						<p:tree id="treeSingle" value="#{treeBean.root}" var="node"
+							selection="#{treeBean.selectedNode}" expanded="true"
+							expandAnim="FADE_IN" collapseAnim="FADE_OUT"
+							propagateSelectionUp="true" propagateSelectionDown="true"
+							selectionMode="single">
+
+							<p:treeNode>
+								<h:outputText value="#{node}" />
+							</p:treeNode>
+						</p:tree>
+
+						<p:commandButton value="Display Selected" update="messages"
+							actionListener="#{treeBean.displaySelectedSingle}"
+							id="btnDisplay" />
+
+						<p:commandButton value="+" id="btnAddNode" 
+							process="@this,treeSingle" 
+							update="panelEditModule"
+							action="#{treeBean.addNode()}">
+						</p:commandButton>
+
+						<p:dialog id="panelEditModule" 
+							visible="#{treeBean.showDialog}"
+							rendered="true"
+							widgetVar="dlgModule"
+							resizable="false" closable="false" showHeader="false"
+							position="center" modal="true" showEffect="clip"
+							hideEffect="fold">
+							<ui:include src="moduleEdit.xhtml" >
+								<ui:param name="idRender" value=":form:treeSingle" />
+							</ui:include>
+						</p:dialog>
+					</h:form>
 
 				</div>
 				<div style="clear: both;">&nbsp;</div>
@@ -60,8 +81,7 @@
 	<div style="clear: both;">&nbsp;</div>
 
 	<div id="footerPrincipal">
-		<div class="wrapper">
-		</div>
+		<div class="wrapper"></div>
 	</div>
 
 </h:body>

@@ -1,0 +1,54 @@
+<h:panelGroup xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+	<h:panelGroup layout="block">
+		
+			<h:panelGroup layout="block" style="text-align:left">
+				<h:outputText value="Contato" />
+				<p:separator />
+			</h:panelGroup>
+			
+			<h:form id="forms">
+			<p:growl id="growl2" showDetail="true" life="4000" redisplay="false"
+				infoIcon="img_edit.png"
+				rendered="#{facesContext.maximumSeverity eq 'INFO 0'}" />
+			<p:outputPanel autoUpdate="true">
+				<p:messages id="mensagensContact" showDetail="false"
+					showSummary="true" />
+			</p:outputPanel>
+			<br />
+			<p:panel>
+				<h:panelGrid style="background-color:red;width:100%">
+
+					<h:panelGrid columns="2" style="margin-bottom:10px;">
+
+						<h:outputLabel for="nodeName" value="Tipo de Contato:" />
+						<h:inputText value="#{treeBean.newNode.data}" id="nodeName" />
+						<h:message for="nodeName" />
+					</h:panelGrid>
+
+
+					<h:panelGroup>
+						<p:spacer width="10" />
+						<p:commandButton id="submitButton2" value="Submit"
+							update="#{idRender}" action="#{treeBean.putNode}"
+							process="@form" />
+						<p:commandButton value="Sair" oncomplete="dlgModule.hide();"
+							rendered="#{!empty idRender}" update="#{idRender}"
+							process="@this" />
+					</h:panelGroup>
+
+
+				</h:panelGrid>
+			</p:panel>
+
+			<br />
+
+
+		</h:form>
+	</h:panelGroup>
+
+</h:panelGroup>
