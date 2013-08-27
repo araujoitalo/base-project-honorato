@@ -68,12 +68,12 @@ public class UserDAO extends JpaDAO<User> {
 			
 		} else {
 
-			if (!"".equals(userFilter.getLogin())){
+			if (!"".equals(userFilter.getLogin()) && null!=userFilter.getLogin()){
 				Predicate loginPredicate = getCriteriaBuilder().equal(getFromRoot().get("login"), userFilter.getLogin());
 				getPredicates().add(loginPredicate);
 			}
 
-			if (!"".equals(userFilter.getName())){
+			if (!"".equals(userFilter.getName()) && null!=userFilter.getName()){
 				Predicate namePredicate = getCriteriaBuilder().like(getCriteriaBuilder().lower(getFromRoot().get(type.getDeclaredSingularAttribute("name", String.class))), userFilter.getName().toLowerCase() + "%");
 				getPredicates().add(namePredicate);
 			}
