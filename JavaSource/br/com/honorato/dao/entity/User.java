@@ -15,9 +15,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
@@ -56,6 +59,13 @@ public class User implements Serializable {
 	@NotBlank(message = "Campo no não pode ser branco nem vazio")
 	@Length(max=100,message="Informe no máximo 100 caracteres")
 	private String name;
+	
+	
+	@ManyToOne(fetch = FetchType.EAGER)  
+	@JoinColumn(name = "ID_CHANGE_PASSWORD")
+	/*TODO RECUPERAR DO BUNDLE*/
+	@NotNull(message = "Campo no não pode ser branco nem vazio")
+	private DYesNo changePassword;	
 	
 	@Enumerated(EnumType.STRING)
 	/*@SampleStatusCheck(properties={"status","name"})*/
@@ -124,6 +134,14 @@ public class User implements Serializable {
 	public void setContactList(List<Contact> contactList) {
 		this.contactList = contactList;
 	}
+	
+	public DYesNo getChangePassword() {
+		return changePassword;
+	}
+
+	public void setChangePassword(DYesNo changePassword) {
+		this.changePassword = changePassword;
+	}	
 
 	@Override
 	 public boolean equals(Object obj) {
@@ -151,5 +169,6 @@ public class User implements Serializable {
 
 		 return "Identificador: " + idUser + " Login: " + login;
 
-	 }	
+	 }
+	
 }
