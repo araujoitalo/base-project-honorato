@@ -9,7 +9,7 @@ import javax.faces.convert.FacesConverter;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
-import br.com.honorato.dao.entity.TypeContact;
+import br.com.honorato.dao.entity.DTypeContact;
 import br.com.honorato.ejb.service.implement.TypeContactEJB;
 import br.com.honorato.exception.EJBException;
 
@@ -21,7 +21,7 @@ public class TypeContactConverter implements Converter {
 	@Override
 	public Object getAsObject(FacesContext arg0, UIComponent arg1, String value) {
 
-		TypeContact typeContact = null;
+		DTypeContact typeContact = null;
 
 		if (!"Selecione".equals(value) && !"".equals(value)) {
 			try {
@@ -44,8 +44,8 @@ public class TypeContactConverter implements Converter {
 	public String getAsString(FacesContext context, UIComponent component, Object value) {
 
 		if(value != null ) {
-			if(value instanceof TypeContact){
-				return String.valueOf(((TypeContact) value).getIdDomain());
+			if(value instanceof DTypeContact){
+				return String.valueOf(((DTypeContact) value).getIdDomain());
 			} else {
 			if ("Selecione".equals(value))  
 				return null;

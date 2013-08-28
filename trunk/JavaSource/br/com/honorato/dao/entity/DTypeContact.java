@@ -7,7 +7,7 @@ import javax.persistence.Entity;
 
 @Entity
 @DiscriminatorValue("TP_CONTACT")
-public class TypeContact extends DomainBase implements Serializable {
+public class DTypeContact extends DomainBase implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 

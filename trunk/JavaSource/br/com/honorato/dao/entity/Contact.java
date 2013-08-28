@@ -43,7 +43,7 @@ public class Contact implements Serializable {
 	@ManyToOne(fetch = FetchType.EAGER)  
 	@JoinColumn(name = "ID_TYPE_CONTACT")
 	@NotNull(message = "Campo no não pode ser branco nem vazio")
-	private TypeContact type;
+	private DTypeContact type;
 
     @ManyToOne
 	@JoinColumn(name="ID_USER")
@@ -69,11 +69,11 @@ public class Contact implements Serializable {
 		this.content = content;
 	}
 
-	public TypeContact getType() {
+	public DTypeContact getType() {
 		return type;
 	}
 
-	public void setType(TypeContact type) {
+	public void setType(DTypeContact type) {
 		this.type = type;
 	}
 
