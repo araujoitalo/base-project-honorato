@@ -3,15 +3,13 @@ package br.com.honorato.view.managedbean;
 import java.io.Serializable;
 
 import javax.ejb.EJB;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
 
 import br.com.honorato.ejb.service.implement.UserEJB;
 import br.com.honorato.exception.EJBException;
-import br.com.honorato.exception.EncriptException;
-import br.com.honorato.util.Hashing;
+import br.com.honorato.util.FacesUtil;
+import br.com.honorato.util.PasswordValidator;
 
 @ManagedBean(name = "changePasswordBean")
 @ViewScoped
@@ -51,36 +49,40 @@ public class ChangePasswordBean extends BaseBean implements Serializable {
 	public String changePassword(){
 
 		String out = "";
-		
-		if (null==currentPassword || "".equals(currentPassword)){
-			/*TODO: RECUPERAR MENSAGEM DO BUNDLE*/
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Senha inválida. Não é possível incluir senha vazia ou nula."));
-			return out;
+		if (password==null){
+			password = "";
 		}
 
-		if (null==this.password || "".equals(this.confirmPassword)){
-			/*TODO: RECUPERAR MENSAGEM DO BUNDLE*/
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Senha inválida. Não é possível incluir senha vazia ou nula."));
-			return out;
-		}else if(!this.password.equals(this.confirmPassword)){
-			/*TODO: RECUPERAR MENSAGEM DO BUNDLE*/
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Senha de confirmação diferente da nova senha."));
-			return out;
-		}else{
+		if (new PasswordValidator().validate(password)){
+
+			if(this.password.equals(this.confirmPassword)){
+
+				try {
 			
-			try {
-				getUserEJB().changePassword(getAppSessionBean().getLoggedUser().getLogin(), currentPassword, password);
-				getAppSessionBean().setLoggedUser(null);
-				getAppSessionBean().getLoggedUser();
-				/*TODO: RECUPERAR MENSAGEM DO BUNDLE*/
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Senha alterada com sucesso!"));
+					getUserEJB().changePassword(getAppSessionBean().getLoggedUser().getLogin(), currentPassword, password);
+					getAppSessionBean().setLoggedUser(null);
+					getAppSessionBean().getLoggedUser();
+					/*TODO: RECUPERAR MENSAGEM DO BUNDLE*/
+					FacesUtil.showSucessMessage("Senha alterada com sucesso!", "Senha alterada com sucesso!", true);
+				} catch (EJBException e) {
+
+					/*TODO: RECUPERAR MENSAGEM DO BUNDLE*/
+					FacesUtil.showErrorMessage(e.getMessage(), e.getMessage(), true);
+					return out;
+				}
+
+			}else{
 				
-			} catch (EJBException e) {
 				/*TODO: RECUPERAR MENSAGEM DO BUNDLE*/
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(e.getMessage()));
+				FacesUtil.showErrorMessage("Senha de confirmação diferente da nova senha.", "message", true);
 				return out;
-			}
+			}			
 			
+		}else{
+
+			/*TODO: RECUPERAR MENSAGEM DO BUNDLE*/
+			FacesUtil.showErrorMessage("Senha fora do padrão.","A senha deve conter de 6 a 20 caracteres com pelo menos um caracter maiúsculos, um mainúsculos e um número.", true);
+			return out;
 		}
 		
 		return out;

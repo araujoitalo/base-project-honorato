@@ -30,7 +30,7 @@
 	<http pattern="/loggedout.jsp" security="none" />
 
 	<http use-expressions="true" auto-config="true">
-		<intercept-url pattern="/application/home.jsf" access="isAuthenticated()" />
+		<intercept-url pattern="/application/homeFinal.jsf" access="isAuthenticated()" />
 		<!-- <intercept-url pattern="/application/**" access="hasRole('supervisor')"/> -->
 		<!--<intercept-url pattern="/application/**" access="isAuthenticated()" 
 			/> -->

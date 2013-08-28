@@ -10,6 +10,8 @@ import javax.faces.context.FacesContext;
 import org.springframework.security.web.savedrequest.DefaultSavedRequest;
 import org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestWrapper;
 
+import br.com.honorato.util.Constants;
+
 @ManagedBean(name = "loginBean")
 @ViewScoped
 public class LoginBean extends BaseBean implements Serializable {
@@ -18,16 +20,19 @@ public class LoginBean extends BaseBean implements Serializable {
 	private String userLogin = "admin";
 	private String password = "admin";
 
-//	@ManagedProperty(value = "#{authenticationService}")
-//	private AuthenticationService authenticationService; // injected Spring defined service for bikes
+	//	@ManagedProperty(value = "#{authenticationService}")
+	//	private AuthenticationService authenticationService; // injected Spring defined service for bikes
 
 	public String login() {
 
 		boolean success = getAppSessionBean().getAuthenticationService().login(userLogin, password);
+
 		String defaultPage = "/application/home?faces-redirect=true";
 		String loginPage = "/public/login?faces-redirect=true";
-		
+
+
 		if (success){
+
 			if (null!=getSpringSecuritySavedRequestKey()){
 				defaultPage = getSpringSecuritySavedRequestKey() + "?faces-redirect=true";
 			}
@@ -61,14 +66,14 @@ public class LoginBean extends BaseBean implements Serializable {
 		this.password = password;
 	}
 
-//	public void setAuthenticationService(AuthenticationService authenticationService) {
-//		this.authenticationService = authenticationService;
-//	}
-//
+	//	public void setAuthenticationService(AuthenticationService authenticationService) {
+	//		this.authenticationService = authenticationService;
+	//	}
+	//
 	public String getSpringSecuritySavedRequestKey(){
 
 		String out = null;
-		
+
 		try{
 			out = ((DefaultSavedRequest)((SecurityContextHolderAwareRequestWrapper)FacesContext.getCurrentInstance().getExternalContext().getRequest()).getSession().getAttribute("SPRING_SECURITY_SAVED_REQUEST")).getServletPath();
 		}catch(NullPointerException exception){
@@ -78,5 +83,5 @@ public class LoginBean extends BaseBean implements Serializable {
 		return out;
 
 	}
-	
+
 }
