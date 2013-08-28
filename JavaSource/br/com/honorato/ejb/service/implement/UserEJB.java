@@ -3,12 +3,14 @@ package br.com.honorato.ejb.service.implement;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
 import javax.interceptor.Interceptors;
 
-import br.com.honorato.dao.entity.TypeContact;
+import br.com.honorato.dao.entity.DTypeContact;
+import br.com.honorato.dao.entity.DYesNo;
 import br.com.honorato.dao.entity.User;
 import br.com.honorato.dao.enumeration.EUserStatus;
 import br.com.honorato.dao.implement.TypeContactDAO;
@@ -16,6 +18,7 @@ import br.com.honorato.dao.implement.UserDAO;
 import br.com.honorato.exception.DAOException;
 import br.com.honorato.exception.EJBException;
 import br.com.honorato.exception.EncriptException;
+import br.com.honorato.util.Constants;
 import br.com.honorato.util.Depurador;
 import br.com.honorato.util.Hashing;
 import br.com.honorato.util.InterceptorDeCallback;
@@ -28,6 +31,9 @@ import br.com.honorato.util.LoggerInterceptor;
 @TransactionManagement(TransactionManagementType.CONTAINER)
 @Interceptors({Depurador.class, InterceptorDeCallback.class})
 public class UserEJB extends BaseEJB {
+	
+	@EJB
+	private DYesNoEJB DYesNoEJB;	
 
 	public UserEJB() {
 	}
@@ -105,6 +111,7 @@ public class UserEJB extends BaseEJB {
 
 				if(currentUser.getPassword().equals(Hashing.toMD5Hashing(currentPassword))){
 					currentUser.setPassword(Hashing.toMD5Hashing(newPassord));
+					currentUser.setChangePassword(DYesNoEJB.getDYesNoByCode(Constants.NO));
 					saveUser(currentUser);
 				}else{
 					throw new EJBException("changePassword", "Senha atual não confere.");
@@ -124,7 +131,7 @@ public class UserEJB extends BaseEJB {
 
 	}	
 
-	public List<TypeContact> getTypeContactList() throws EJBException {
+	public List<DTypeContact> getTypeContactList() throws EJBException {
 
 		return new TypeContactDAO(getEm()).selectAll();
 
