@@ -69,8 +69,7 @@
 			dismissable="false" showCloseIcon="true">
 			<p:commandButton oncomplete="dlgChangePassword.show()" process="@this" value="Alterar senha BUNDLE!!"/>
 		</p:overlayPanel>
-
-		<p:dialog id="panelEdit" widgetVar="dlgChangePassword"
+		<p:dialog id="panelEdit" visible="#{appSessionBean.loggedUser.changePassword.code eq constants.getYes()}" widgetVar="dlgChangePassword"
 			resizable="false" closable="false" showHeader="false"
 			position="center" modal="true" showEffect="clip" hideEffect="fold">
 			<ui:include src="/public/changePassword.xhtml"/>

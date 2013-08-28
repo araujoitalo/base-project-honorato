@@ -13,7 +13,7 @@ import javax.faces.context.FacesContext;
 
 import samples.CustomerService;
 import br.com.honorato.dao.entity.Contact;
-import br.com.honorato.dao.entity.TypeContact;
+import br.com.honorato.dao.entity.DTypeContact;
 import br.com.honorato.dao.entity.User;
 import br.com.honorato.dao.enumeration.EUserStatus;
 import br.com.honorato.ejb.service.implement.UserEJB;
@@ -214,16 +214,16 @@ public class UserBean extends BaseBean implements Serializable {
 		
 		newContact = new Contact();
 		
-		for (TypeContact type : getTypeContactList()) {
+		for (DTypeContact type : getTypeContactList()) {
 			newContact.setType(type);
 			break;
 		}
 		
 	}	
 
-	public List<TypeContact> getTypeContactList() {
+	public List<DTypeContact> getTypeContactList() {
 		
-		List<TypeContact> out = null;
+		List<DTypeContact> out = null;
 		try {
 			out = userEJB.getTypeContactList();
 		} catch (EJBException e) {
