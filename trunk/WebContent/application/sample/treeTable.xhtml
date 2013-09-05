@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>Nome do Sistema</title>
+
+	<h:outputStylesheet name="style.css" library="css" />
+	<h:outputScript name="jtooltip.js" library="js" />
+	<h:outputScript name="primefaceslocales.js" library="js" />
+
+</h:head>
+
+<h:body>
+
+	<div id="headerPrincipal">
+		<div class="wrapper">Header</div>
+	</div>
+	<p:outputPanel autoUpdate="true">
+		<p:messages id="mensagensContact" showDetail="false"
+			showSummary="true" />
+	</p:outputPanel>
+	<div class="wrapper">
+		<!-- end #header -->
+		<div id="bodyPrincipal">
+			<div id="content">
+				<div class="content1">
+
+<h:form id="form">  
+  
+    <p:treeTable id="treetable" value="#{documentsController.root}" var="document">  
+        <f:facet name="header">  
+            Document Viewer  
+        </f:facet>  
+  
+        <p:column style="width:32%">  
+            <f:facet name="header">  
+                Name  
+            </f:facet>  
+            <h:outputText value="#{document.name}" />  
+        </p:column>  
+  
+        <p:column style="width:32%">  
+            <f:facet name="header">  
+                Size  
+            </f:facet>  
+            <h:outputText value="#{document.code}" />  
+        </p:column>  
+  
+        <p:column style="width:4%">  
+            <p:commandLink update=":form:documentPanel" oncomplete="documentDialog.show()" title="View Detail" styleClass="ui-icon ui-icon-search">  
+                <f:setPropertyActionListener value="#{document}"   
+                    target="#{documentsController.selectedDocument}" />  
+            </p:commandLink>  
+        </p:column>  
+    </p:treeTable>  
+  
+    <p:dialog id="dialog" header="Document Detail" showEffect="fade" widgetVar="documentDialog" modal="true">  
+        <p:outputPanel id="documentPanel">  
+            <h:panelGrid  columns="2" cellpadding="5" rendered="#{not empty documentsController.selectedDocument}">  
+                <h:outputLabel for="name" value="Name: " />  
+                <h:outputText id="name" value="#{documentsController.selectedDocument.name}" style="font-weight:bold" />  
+                <ui:include src="moduleEdit.xhtml" >
+                	<ui:param name="idRender" value=":form:treetable" />
+				</ui:include>
+            </h:panelGrid>  
+        </p:outputPanel>  
+    </p:dialog>  
+  
+</h:form> 
+					
+
+				</div>
+				<div style="clear: both;">&nbsp;</div>
+			</div>
+			<!-- end #content -->
+		</div>
+		<!-- end #page -->
+
+	</div>
+
+	<div style="clear: both;">&nbsp;</div>
+
+	<div id="footerPrincipal">
+		<div class="wrapper"></div>
+	</div>
+
+</h:body>
+</html>
