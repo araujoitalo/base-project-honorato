@@ -12,7 +12,7 @@ public class Constants implements Serializable {
 	private static final long serialVersionUID = 1L;
 	public static final String YES = "YES";
 	public static final String NO = "NO";
-
+	
 	public Constants(){
 	}
 

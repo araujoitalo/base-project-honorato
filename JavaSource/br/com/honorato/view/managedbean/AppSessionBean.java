@@ -58,4 +58,14 @@ public class AppSessionBean implements Serializable {
 		this.loggedUser = loggedUser;
 	}	
 	
+	public boolean login(String username, String password) {
+		
+		return getAuthenticationService().login(username, password);
+
+	}	
+	
+	public void logout() {
+		getAuthenticationService().logout();
+		loggedUser = null;
+	}	
 }

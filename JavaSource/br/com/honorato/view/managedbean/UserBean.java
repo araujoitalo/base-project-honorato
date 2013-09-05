@@ -16,6 +16,7 @@ import br.com.honorato.dao.entity.Contact;
 import br.com.honorato.dao.entity.DTypeContact;
 import br.com.honorato.dao.entity.User;
 import br.com.honorato.dao.enumeration.EUserStatus;
+import br.com.honorato.ejb.service.implement.DYesNoEJB;
 import br.com.honorato.ejb.service.implement.UserEJB;
 import br.com.honorato.exception.EJBException;
 import br.com.honorato.util.FacesUtil;
@@ -26,6 +27,9 @@ public class UserBean extends BaseBean implements Serializable {
 	
 	@EJB
 	private UserEJB userEJB;
+	@EJB
+	private DYesNoEJB yesNoEJB;
+	
 	private User user;
 	private User filter;
 	private Contact newContact;
@@ -187,6 +191,7 @@ public class UserBean extends BaseBean implements Serializable {
 		
 		try {
 		
+			user.setChangePassword(yesNoEJB.getYes());
 			userEJB.saveNewUser(user);
 			FacesUtil.showSucessMessage("Operação Efetuada com Sucesso!", "Sucesso", false);
 			//this.setDlgSucessOpen(true);
@@ -290,6 +295,14 @@ public class UserBean extends BaseBean implements Serializable {
 
 	public void setUserEJB(UserEJB userEJB) {
 		this.userEJB = userEJB;
+	}
+
+	public DYesNoEJB getYesNoEJB() {
+		return yesNoEJB;
+	}
+
+	public void setYesNoEJB(DYesNoEJB yesNoEJB) {
+		this.yesNoEJB = yesNoEJB;
 	}
 
 }

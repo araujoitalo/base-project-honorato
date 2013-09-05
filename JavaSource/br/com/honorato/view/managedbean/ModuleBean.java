@@ -18,7 +18,7 @@ public class ModuleBean implements Serializable {
 	@EJB
 	private ResourceEJB moduleEJB;
 
-	List<Module> moduleList;
+	List<Resource> moduleList;
 	
 	private static final long serialVersionUID = 1L;
 
@@ -30,15 +30,15 @@ public class ModuleBean implements Serializable {
 	
 	public void searchModules(){
 		
-		moduleList = moduleEJB.selectAllModules();
+		moduleList = moduleEJB.selectBuildTree();
 		
 	}
 
-	public List<Module> getModuleList() {
+	public List<Resource> getModuleList() {
 		return moduleList;
 	}
 
-	public void setModuleList(List<Module> moduleList) {
+	public void setModuleList(List<Resource> moduleList) {
 		this.moduleList = moduleList;
 	}
 	

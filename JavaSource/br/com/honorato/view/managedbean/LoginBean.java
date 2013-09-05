@@ -10,8 +10,6 @@ import javax.faces.context.FacesContext;
 import org.springframework.security.web.savedrequest.DefaultSavedRequest;
 import org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestWrapper;
 
-import br.com.honorato.util.Constants;
-
 @ManagedBean(name = "loginBean")
 @ViewScoped
 public class LoginBean extends BaseBean implements Serializable {
@@ -24,6 +22,8 @@ public class LoginBean extends BaseBean implements Serializable {
 	//	private AuthenticationService authenticationService; // injected Spring defined service for bikes
 
 	public String login() {
+		
+		getAppSessionBean().setLoggedUser(null);
 
 		boolean success = getAppSessionBean().getAuthenticationService().login(userLogin, password);
 
@@ -32,7 +32,7 @@ public class LoginBean extends BaseBean implements Serializable {
 
 
 		if (success){
-
+			
 			if (null!=getSpringSecuritySavedRequestKey()){
 				defaultPage = getSpringSecuritySavedRequestKey() + "?faces-redirect=true";
 			}
@@ -45,8 +45,8 @@ public class LoginBean extends BaseBean implements Serializable {
 	}
 
 	public String logout() {
-		String defaultPage = "home.jsf";
-		getAppSessionBean().getAuthenticationService().logout();
+		String defaultPage = "/application/home?faces-redirect=true";
+		getAppSessionBean().logout();
 		return defaultPage;
 	}	
 
@@ -66,10 +66,6 @@ public class LoginBean extends BaseBean implements Serializable {
 		this.password = password;
 	}
 
-	//	public void setAuthenticationService(AuthenticationService authenticationService) {
-	//		this.authenticationService = authenticationService;
-	//	}
-	//
 	public String getSpringSecuritySavedRequestKey(){
 
 		String out = null;
