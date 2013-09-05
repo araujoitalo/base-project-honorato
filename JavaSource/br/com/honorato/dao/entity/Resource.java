@@ -19,7 +19,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
+
+import br.com.honorato.dao.enumeration.EModuleType;
 
 @Entity
 @Table(name="TB_MODULE", uniqueConstraints={@UniqueConstraint(columnNames={"ID_MODULE"})})
@@ -41,12 +44,15 @@ public class Resource implements Serializable {
 	private String name;
 
 	@ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)  
-	@JoinColumn(name = "ID_MODULE_REFERENCE", referencedColumnName = "ID_MODULE", updatable = false, insertable = false)
+	@JoinColumn(name = "ID_MODULE_REFERENCE", referencedColumnName = "ID_MODULE", updatable = false, insertable = true)
 	private Resource moduleReference;
 	
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "moduleReference")
 	@OrderBy("name")
-	private List<Resource> resources;	
+	private List<Resource> resources;
+	
+	@Transient
+	private EModuleType type;
 	
 	public Resource() {
     }
@@ -123,5 +129,13 @@ public class Resource implements Serializable {
             return false;
         }
         return true;
-    }	
+    }
+
+	public EModuleType getType() {
+		return type;
+	}
+
+	protected void setType(EModuleType type) {
+		this.type = type;
+	}	
 }
