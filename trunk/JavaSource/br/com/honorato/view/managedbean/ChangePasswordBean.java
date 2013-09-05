@@ -9,7 +9,7 @@ import javax.faces.bean.ViewScoped;
 import br.com.honorato.ejb.service.implement.UserEJB;
 import br.com.honorato.exception.EJBException;
 import br.com.honorato.util.FacesUtil;
-import br.com.honorato.util.PasswordValidator;
+import br.com.honorato.util.PasswordUtil;
 
 @ManagedBean(name = "changePasswordBean")
 @ViewScoped
@@ -53,7 +53,7 @@ public class ChangePasswordBean extends BaseBean implements Serializable {
 			password = "";
 		}
 
-		if (new PasswordValidator().validate(password)){
+		if (new PasswordUtil().validate(password)){
 
 			if(this.password.equals(this.confirmPassword)){
 

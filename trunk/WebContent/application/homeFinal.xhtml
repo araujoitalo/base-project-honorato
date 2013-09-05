@@ -36,39 +36,17 @@
 				<br/>
 				<h:commandLink action="/application/sample/sampleInsert.jsf"  value="Teste" />
 				<br/>
-				<h:commandLink action="/application/user/userInsert.jsf"  value="User" />
+				<h:commandLink actionListener="/application/userInsert.jsf"  value="User" />
 				<br/>
+										
 			Corpo</h:panelGrid>
 			</h:panelGroup>
 			<h:panelGroup layout="block" style="float:left;width:10%;">
-				<h:panelGrid columns="3">
-					<h:column>
-						<h:panelGrid style="text-align:right">
-							<h:column>
-								<h:outputLabel
-									style="font-family:Calibri;font-size:25px;text-align:right;color:#FAFAFA"
-									value="#{appSessionBean.loggedUser.name}" />
-							</h:column>
-							<h:column>
-								<h:outputLabel
-									style="font-family:Calibri;font-size:15px;text-align:right;color:#FAFAFA"
-									value="Honorato" />
-							</h:column>
-						</h:panelGrid>
-					</h:column>
-					<h:column>
-						<p:graphicImage id="imgUser" width="50" styleClass="imgUser"									value="#{resource['default/images:user.jpg']}" />
-					</h:column>
-				</h:panelGrid>
+				<ui:include src="/application/cockPit.xhtml"/>
 			</h:panelGroup>
 		</h:panelGroup>
 
 
-		<p:overlayPanel id="imgPanel" for="imgUser" showEffect="blind"
-			hideEffect="blind" showEvent="mouseover" hideEvent="mousedown"
-			dismissable="false" showCloseIcon="true">
-			<p:commandButton oncomplete="dlgChangePassword.show()" process="@this" value="Alterar senha BUNDLE!!"/>
-		</p:overlayPanel>
 		<p:dialog id="panelEdit" visible="#{appSessionBean.loggedUser.changePassword.code eq constants.getYes()}" widgetVar="dlgChangePassword"
 			resizable="false" closable="false" showHeader="false"
 			position="center" modal="true" showEffect="clip" hideEffect="fold">
