@@ -7,7 +7,7 @@
 	<h:panelGroup layout="block">
 		
 			<h:panelGroup layout="block" style="text-align:left">
-				<h:outputText value="Contato" />
+				<h:outputText value="Módulo BUNDLE!!!!" />
 				<p:separator />
 			</h:panelGroup>
 			
@@ -26,18 +26,21 @@
 					<h:panelGrid columns="2" style="margin-bottom:10px;">
 
 						<h:outputLabel for="nodeName" value="Tipo de Contato:" />
-						<h:inputText value="#{treeBean.newNode.data}" id="nodeName" />
+						<h:inputText value="#{documentsController.newResource.name}" id="nodeName" />
+						--#{documentsController.selectedDocument}csdsd
 						<h:message for="nodeName" />
 					</h:panelGrid>
 
 
 					<h:panelGroup>
 						<p:spacer width="10" />
-						<p:commandButton id="submitButton2" value="Submit"
-							update="#{idRender}" action="#{treeBean.putNode}"
-							process="@form" />
-						<p:commandButton value="Sair" oncomplete="dlgModule.hide();"
-							rendered="#{!empty idRender}" update="#{idRender}"
+						<p:commandButton id="submitButton2" value="Submit" action="#{documentsController.addNode}"
+							update="#{idRender}"
+							process="@form" >
+							</p:commandButton>
+							#{idRender}
+						<p:commandButton value="Sair" oncomplete="documentDialog.hide();"
+							update=":form:treetable"
 							process="@this" />
 					</h:panelGroup>
 

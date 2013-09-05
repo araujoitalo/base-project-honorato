@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>Nome do Sistema</title>
+
+	<h:outputStylesheet name="style.css" library="css" />
+	<h:outputScript name="jtooltip.js" library="js" />
+	<h:outputScript name="primefaceslocales.js" library="js" />
+
+</h:head>
+
+<h:body>
+
+	<div id="headerPrincipal">
+		<div class="wrapper">Header</div>
+	</div>
+	<p:outputPanel autoUpdate="true">
+		<p:messages id="mensagensContact" showDetail="false"
+			showSummary="true" />
+	</p:outputPanel>
+	<div class="wrapper">
+		<!-- end #header -->
+		<div id="bodyPrincipal">
+			<div id="content">
+				<div class="content1">
+
+					<h:form id="moduleForm">
+
+						<p:growl id="messages" showDetail="true" />
+
+						<p:treeTable value="#{documentsController.root}" var="document" id="docs"
+							selectionMode="single">
+
+							<p:column style="width:100px">
+								<f:facet name="header">Menu</f:facet>
+								<h:outputText value="#{document.name}" />
+							</p:column>
+							<p:column style="width:100px">
+								<f:facet name="header">Tipo BUNLDE</f:facet>
+								<h:outputText value="#{document.type.label}" />
+							</p:column>
+							<p:column style="width:10px">
+								<f:facet name="header">Ação</f:facet>
+								<h:outputText rendered="#{document.type != 'FUNCTION'}" value="#{document.type.label}" />
+							</p:column>
+							
+							<p:column style="width:4%">  
+            					<p:commandLink update=":moduleForm:panelEditModule" 
+            					oncomplete="dlgModule.show()" title="View Detail" styleClass="ui-icon ui-icon-search">  
+                					<f:setPropertyActionListener value="#{document}"   
+                    			target="#{documentsController.selectedDocument}" />  
+            				</p:commandLink>  
+							</p:column>  
+							<p:column headerText="Ações BUNDLE" style="width:140px;"
+								resizable="false">
+								<p:commandLink id="btnAddNode" 
+									rendered="#{document.type != 'FUNCTION'}"
+									update=":moduleForm:panelEditModule"
+									oncomplete="dlgModule.show()">
+									#{document}
+									<f:setPropertyActionListener value="#{document}"
+										target="#{documentsController.selectedDocument}" />
+										<p:graphicImage id="imgAddNode" width="16" styleClass="imgUser"
+										value="#{resource['default/images:coringa.png']}"
+										title="Incluir Módulo --- BUNDLE" />
+								</p:commandLink>
+								<p:spacer />
+							</p:column>
+						</p:treeTable>
+
+						<p:commandButton value="Display Selected" update="messages"
+							actionListener="#{treeBean.displaySelectedSingle}"
+							id="btnDisplay" />
+
+						<p:dialog id="panelEditModule" 
+							rendered="true"
+							widgetVar="dlgModule"
+							resizable="false" closable="false" showHeader="false"
+							position="center" modal="true" showEffect="clip"
+							hideEffect="fold">
+							<ui:include src="moduleEdit.xhtml" >
+								<ui:param name="idRender" value=":moduleForm:docs" />
+							</ui:include>
+						</p:dialog>
+					</h:form>
+
+				</div>
+				<div style="clear: both;">&nbsp;</div>
+			</div>
+			<!-- end #content -->
+		</div>
+		<!-- end #page -->
+
+	</div>
+
+	<div style="clear: both;">&nbsp;</div>
+
+	<div id="footerPrincipal">
+		<div class="wrapper"></div>
+	</div>
+
+</h:body>
+</html>
