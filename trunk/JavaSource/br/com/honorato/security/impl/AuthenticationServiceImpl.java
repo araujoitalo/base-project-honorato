@@ -40,6 +40,5 @@ public class AuthenticationServiceImpl implements br.com.honorato.security.Authe
 		SecurityContextHolder.getContext().setAuthentication(null);
 		//currentUser.unauthenticate();
 	}
-
 	
 }

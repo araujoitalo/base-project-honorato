@@ -10,7 +10,6 @@ import javax.ejb.TransactionManagementType;
 import javax.interceptor.Interceptors;
 
 import br.com.honorato.dao.entity.DTypeContact;
-import br.com.honorato.dao.entity.DYesNo;
 import br.com.honorato.dao.entity.User;
 import br.com.honorato.dao.enumeration.EUserStatus;
 import br.com.honorato.dao.implement.TypeContactDAO;
@@ -23,6 +22,7 @@ import br.com.honorato.util.Depurador;
 import br.com.honorato.util.Hashing;
 import br.com.honorato.util.InterceptorDeCallback;
 import br.com.honorato.util.LoggerInterceptor;
+import br.com.honorato.util.PasswordUtil;
 
 /**
  * Session Bean implementation class UserEJB
@@ -62,14 +62,10 @@ public class UserEJB extends BaseEJB {
 	@LoggerInterceptor
 	public void saveNewUser(User user) throws EJBException {
 
-		try {
-			//TODO: gerar senha automática
-			user.setPassword(Hashing.toMD5Hashing("1"));
-			saveUser(user);
-			//TODO: enviar senha por email
-		} catch ( EncriptException e ) {
-			throw new EJBException(e.getErrorCode(), e.getMessage());
-		}
+		//TODO: gerar senha automática
+		user.setPassword(PasswordUtil.getRandomPasswordMD5(6));
+		saveUser(user);
+		//TODO: enviar senha por email
 
 	}	
 
