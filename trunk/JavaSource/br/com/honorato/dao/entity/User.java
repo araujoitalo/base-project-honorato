@@ -62,7 +62,7 @@ public class User implements Serializable {
 	
 	
 	@ManyToOne(fetch = FetchType.EAGER)  
-	@JoinColumn(name = "ID_CHANGE_PASSWORD")
+	@JoinColumn(name = "ID_DM_CHANGE_PASSWORD")
 	/*TODO RECUPERAR DO BUNDLE*/
 	@NotNull(message = "Campo no não pode ser branco nem vazio")
 	private DYesNo changePassword;	
