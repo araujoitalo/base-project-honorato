@@ -8,6 +8,7 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceException;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -25,8 +26,9 @@ public class JpaDAO<T> implements GenericDAO<T>, Serializable {
 	protected Class<T> persistentClass;
 	private EntityManager manager;
 	private ArrayList<Predicate> predicates;
-	private CriteriaQuery<T> query;
+	private CriteriaQuery<T> criteriaQuery;
 	private Root<T> fromRoot;
+	private Query query;
 
 	@SuppressWarnings("unchecked")
 	public JpaDAO(EntityManager manager) {
@@ -104,12 +106,12 @@ public class JpaDAO<T> implements GenericDAO<T>, Serializable {
 		this.predicates = predicates;
 	}
 
-	public CriteriaQuery<T> getQuery() {
-		return query;
+	public CriteriaQuery<T> getCriteriaQuery() {
+		return criteriaQuery;
 	}
 
-	public void setQuery(CriteriaQuery<T> query) {
-		this.query = query;
+	public void setCriteriaQuery(CriteriaQuery<T> query) {
+		this.criteriaQuery = query;
 	}
 
 	public Root<T> getFromRoot() {
@@ -121,16 +123,33 @@ public class JpaDAO<T> implements GenericDAO<T>, Serializable {
 	}
 	
 	public TypedQuery<T> getTypeQuery(){
-		 return this.getEntityManager().createQuery(getQuery());
+		 return this.getEntityManager().createQuery(getCriteriaQuery());
 	}
 	
 	public void setWhereInQueryWhithPredicatea(){
 		
 		if (getPredicates().size() > 0){
 			Predicate[] params = new Predicate[getPredicates().size()];
-			getQuery().where(getPredicates().toArray(params));
+			getCriteriaQuery().where(getPredicates().toArray(params));
 		}		
 
 	}
-	
+
+	public Query getQuery() {
+		return query;
+	}
+
+	public void setQuery(Query query) {
+		this.query = query;
+	}
+
+	public final void setParameters(Query query, Object[] args) {
+
+		if ((args != null) && (query != null)) {	
+			for (int i = 0; i < args.length; i++) {	
+				Object arg = args[i];
+				query.setParameter(i+1, arg);
+			}
+		}
+	}	
 }

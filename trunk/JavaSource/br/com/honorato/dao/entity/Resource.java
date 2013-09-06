@@ -16,6 +16,8 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
@@ -28,6 +30,10 @@ import br.com.honorato.dao.enumeration.EModuleType;
 @Table(name="TB_MODULE", uniqueConstraints={@UniqueConstraint(columnNames={"ID_MODULE"})})
 @Inheritance(strategy=InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "IN_TYPE", discriminatorType = DiscriminatorType.STRING)
+@NamedQueries({
+    @NamedQuery(name="Resource.updateChildrenWithParentToRemove",
+    	    query=" UPDATE Resource o SET o.moduleReference =?1 WHERE o.moduleReference = ?2")
+})
 public class Resource implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
@@ -43,11 +49,11 @@ public class Resource implements Serializable {
 	@Column(name="NM_MODULE", nullable = false)
 	private String name;
 
-	@ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)  
-	@JoinColumn(name = "ID_MODULE_REFERENCE", referencedColumnName = "ID_MODULE", updatable = false, insertable = true)
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)  
+	@JoinColumn(name = "ID_MODULE_REFERENCE", referencedColumnName = "ID_MODULE",updatable = false, insertable = true)
 	private Resource moduleReference;
 	
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "moduleReference")
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH, mappedBy = "moduleReference")
 	@OrderBy("name")
 	private List<Resource> resources;
 	
@@ -137,5 +143,6 @@ public class Resource implements Serializable {
 
 	protected void setType(EModuleType type) {
 		this.type = type;
-	}	
+	}
+
 }

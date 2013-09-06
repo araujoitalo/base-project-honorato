@@ -5,13 +5,8 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 
-import br.com.honorato.dao.entity.Function;
-import br.com.honorato.dao.entity.Module;
-import br.com.honorato.dao.entity.Node;
 import br.com.honorato.dao.entity.Resource;
 
 public class ResourceDAO extends JpaDAO<Resource> {
@@ -44,16 +39,23 @@ public class ResourceDAO extends JpaDAO<Resource> {
 	
 	public List<Resource> selectBuildTree(){
 		
-		setQuery(getCriteriaBuilder().createQuery(Resource.class));
-		setFromRoot(getQuery().from(Resource.class));
-		getQuery().select(getFromRoot());
-		
+		setCriteriaQuery(getCriteriaBuilder().createQuery(Resource.class));
+		setFromRoot(getCriteriaQuery().from(Resource.class));
+		getCriteriaQuery().select(getFromRoot());
 		Predicate codePredicate = getCriteriaBuilder().isNull(getFromRoot().get("moduleReference"));
 		getPredicates().add(codePredicate);
 		setWhereInQueryWhithPredicatea();
 
 		return getTypeQuery().getResultList();
 	}
+	
+	public void updateChildrenWithParentToRemove(Resource newResource, Resource oldResource){
+		
+		setQuery(getEntityManager().createNamedQuery("Resource.updateChildrenWithParentToRemove"));
+		setParameters(getQuery(), new Object[]{newResource, oldResource});
+		getQuery().executeUpdate();
+		
+	}	
 
 //	public List<Module> selectAllModules(){
 //		CriteriaBuilder cb = this.getEntityManager().getCriteriaBuilder();
