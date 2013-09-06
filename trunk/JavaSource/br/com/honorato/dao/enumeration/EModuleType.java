@@ -4,8 +4,9 @@ package br.com.honorato.dao.enumeration;
 public enum EModuleType {
 
 	/*TODO: Pegar do bundle*/
-	MODULE("Módulo"),
-	FUNCTION("Função");
+	SYSTEM("Sistema"),
+	MODULE("Mï¿½dulo"),
+	FUNCTION("Funï¿½ï¿½o");
 
 	private final String label; 
 	

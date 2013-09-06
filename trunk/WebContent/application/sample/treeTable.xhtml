@@ -31,49 +31,78 @@
 			<div id="content">
 				<div class="content1">
 
-<h:form id="form">  
-  
-    <p:treeTable id="treetable" value="#{documentsController.root}" var="document">  
-        <f:facet name="header">  
-            Document Viewer  
-        </f:facet>  
-  
-        <p:column style="width:32%">  
-            <f:facet name="header">  
-                Name  
-            </f:facet>  
-            <h:outputText value="#{document.name}" />  
-        </p:column>  
-  
-        <p:column style="width:32%">  
-            <f:facet name="header">  
-                Size  
-            </f:facet>  
-            <h:outputText value="#{document.code}" />  
-        </p:column>  
-  
-        <p:column style="width:4%">  
-            <p:commandLink update=":form:documentPanel" oncomplete="documentDialog.show()" title="View Detail" styleClass="ui-icon ui-icon-search">  
-                <f:setPropertyActionListener value="#{document}"   
-                    target="#{documentsController.selectedDocument}" />  
-            </p:commandLink>  
-        </p:column>  
-    </p:treeTable>  
-  
-    <p:dialog id="dialog" header="Document Detail" showEffect="fade" widgetVar="documentDialog" modal="true">  
-        <p:outputPanel id="documentPanel">  
-            <h:panelGrid  columns="2" cellpadding="5" rendered="#{not empty documentsController.selectedDocument}">  
-                <h:outputLabel for="name" value="Name: " />  
-                <h:outputText id="name" value="#{documentsController.selectedDocument.name}" style="font-weight:bold" />  
-                <ui:include src="moduleEdit.xhtml" >
-                	<ui:param name="idRender" value=":form:treetable" />
-				</ui:include>
-            </h:panelGrid>  
-        </p:outputPanel>  
-    </p:dialog>  
-  
-</h:form> 
-					
+					<h:form id="form">
+
+						<p:treeTable id="treetable" value="#{documentsController.root}"
+							var="document">
+							<f:facet name="header">Document Viewer</f:facet>
+
+							<p:column style="width:32%">
+								<f:facet name="header">Nome Bundle</f:facet>
+								<h:outputText value="#{document.name}" />
+							</p:column>
+
+							<p:column style="width:32%">
+								<f:facet name="header">Size</f:facet>
+								<h:outputText value="#{document.code}" />
+							</p:column>
+
+							<p:column style="width:4%">
+							
+								<p:commandLink update=":form:documentPanel"
+									oncomplete="documentDialog.show()" title="View Detail"
+									styleClass="ui-icon ui-icon-plus">
+									<f:setPropertyActionListener value="#{document}"
+										target="#{documentsController.selectedDocument}" />
+								</p:commandLink>
+								<p:commandLink update=":form:removeModulePanel"
+									rendered="#{document.type == 'MODULE'}"
+									oncomplete="removeModuleDialog.show()" 
+									title="Excluir Modulo ---BUNDLE"
+									styleClass="ui-icon ui-icon-close">
+									<f:setPropertyActionListener value="#{document}"
+										target="#{documentsController.selectedDocument}" />
+								</p:commandLink>
+																
+							</p:column>
+						</p:treeTable>
+
+						<p:dialog id="documentDialog" header="Document Detail" showEffect="fade"
+							widgetVar="documentDialog" modal="true">
+							<p:outputPanel id="documentPanel">
+							--#{documentsController.selectedDocument}//
+							#{not empty documentsController.selectedDocument}
+							
+								<h:panelGrid columns="2" cellpadding="5"
+									rendered="#{not empty documentsController.selectedDocument}">
+									<h:outputLabel for="name" value="Name: " />
+									<h:outputText id="name"
+										value="#{documentsController.selectedDocument.name}"
+										style="font-weight:bold" />
+									<ui:include src="moduleEdit.xhtml">
+										<ui:param name="idRender" value=":form:treetable" />
+									</ui:include>
+								</h:panelGrid>
+							</p:outputPanel>
+						</p:dialog>
+						
+						<p:dialog id="removeModuleDialog" header="ds" showEffect="fade" widgetVar="removeModuleDialog" modal="true">
+							<p:outputPanel id="removeModulePanel">
+							--#{documentsController.selectedDocument}//
+							#{not empty documentsController.selectedDocument}
+								<h:panelGrid columns="2" cellpadding="5"
+									rendered="#{not empty documentsController.selectedDocument}">
+									<ui:include src="moduleRemove.xhtml">
+										<ui:param name="idRender" value=":form:treetable" />
+										<ui:param name="jsAction" value="removeModuleDialog.hide()" />
+									</ui:include>
+								</h:panelGrid>
+							</p:outputPanel>
+						</p:dialog>
+						
+
+					</h:form>
+
 
 				</div>
 				<div style="clear: both;">&nbsp;</div>
