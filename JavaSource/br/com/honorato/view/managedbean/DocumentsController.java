@@ -17,6 +17,7 @@ import br.com.honorato.ejb.service.implement.ResourceEJB;
 import br.com.honorato.exception.EJBException;
 import br.com.honorato.util.FacesUtil;
 
+@SuppressWarnings("serial")
 @ManagedBean(name = "documentsController")
 @ViewScoped
 public class DocumentsController implements Serializable {  
@@ -82,7 +83,7 @@ public class DocumentsController implements Serializable {
 		}
 	}	
 	
-	private TreeNode gerTreeNodeSelected(TreeNode root, String code){
+	private TreeNode getTreeNodeSelected(TreeNode root, String code){
 		
 		TreeNode out = null;
 		
@@ -91,7 +92,7 @@ public class DocumentsController implements Serializable {
 			if (code.equals(((Resource)node.getData()).getCode())){
 				out = node;
 			}else{
-				out = gerTreeNodeSelected(node, code);
+				out = getTreeNodeSelected(node, code);
 			}
 			
 			if (out!=null){
@@ -108,11 +109,7 @@ public class DocumentsController implements Serializable {
 
 		System.out.println(selectedDocument);
 
-		selectedNode =  gerTreeNodeSelected(root,selectedDocument.getCode());
-		//Resource addResource = newResource;
-		//TreeNode addNode =  new DefaultTreeNode(addResource, selectedNode);
-		//newResource = null;
-		//newNode =  new DefaultTreeNode(newResource, selectedNode);
+		selectedNode =  getTreeNodeSelected(root,selectedDocument.getCode());
 		
 		System.out.println(selectedNode);
 		
@@ -120,7 +117,8 @@ public class DocumentsController implements Serializable {
 			newResource.setCode(newResource.getName());
 			newResource.setModuleReference(selectedDocument);
 			moduleEJB.saveResource(newResource);
-			FacesUtil.showSucessMessage("Operação Efetuada com Sucesso!", "Sucesso", false);
+			//TODO: bundle
+			FacesUtil.showSucessMessage("Operaï¿½ï¿½o Efetuada com Sucesso!", "Sucesso", false);
 			newResource = null;
 			init();
 			//this.setDlgSucessOpen(true);
@@ -130,8 +128,29 @@ public class DocumentsController implements Serializable {
 		}		
 		
 	}
-
 	
+	public void removeNode() {
+
+
+		if (selectedDocument==null){
+			//TODO: bundle
+			FacesUtil.showErrorMessage("Selectione um mÃ³dulo para exclusÃ£o!", "Erro", false);
+
+		}else{
+
+			try {
+
+				moduleEJB.deleteResource(selectedDocument);
+				init();
+				///TODO: bundle
+				FacesUtil.showSucessMessage("Operaï¿½ï¿½o Efetuada com Sucesso!", "Sucesso", false);
+
+			} catch (EJBException err) {
+				FacesUtil.showFatalMessage(err.getErrorCode(), err.getMessage(),false);
+			}
+
+		}
+	}
 
 	public TreeNode getNewNode() {
 		if (newNode==null)

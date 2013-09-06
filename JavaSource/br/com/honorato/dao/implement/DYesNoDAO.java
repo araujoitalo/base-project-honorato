@@ -15,9 +15,9 @@ public class DYesNoDAO extends JpaDAO<DYesNo> {
 	
 	public DYesNo recoverySingleByCriteria (DYesNo DYesNoFilter){
 
-		setQuery(getCriteriaBuilder().createQuery(DYesNo.class));
-		setFromRoot(getQuery().from(DYesNo.class));
-		getQuery().select(getFromRoot());
+		setCriteriaQuery(getCriteriaBuilder().createQuery(DYesNo.class));
+		setFromRoot(getCriteriaQuery().from(DYesNo.class));
+		getCriteriaQuery().select(getFromRoot());
 
 		if (!"".equals(DYesNoFilter.getCode())){
 			Predicate codePredicate = getCriteriaBuilder().equal(getFromRoot().get("code"), DYesNoFilter.getCode());

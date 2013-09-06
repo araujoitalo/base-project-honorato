@@ -39,9 +39,9 @@ public class UserDAO extends JpaDAO<User> {
 
 	public User recoverySingleByCriteria (User userFilter){
 
-		setQuery(getCriteriaBuilder().createQuery(User.class));
-		setFromRoot(getQuery().from(User.class));
-		getQuery().select(getFromRoot());
+		setCriteriaQuery(getCriteriaBuilder().createQuery(User.class));
+		setFromRoot(getCriteriaQuery().from(User.class));
+		getCriteriaQuery().select(getFromRoot());
 
 		if (!"".equals(userFilter.getLogin())){
 			Predicate loginPredicate = getCriteriaBuilder().equal(getFromRoot().get("login"), userFilter.getLogin());
@@ -56,15 +56,15 @@ public class UserDAO extends JpaDAO<User> {
 
 	public List<User> recoveryByCriteria (User userFilter) throws DAOException {
 
-		setQuery(getCriteriaBuilder().createQuery(User.class));
-		setFromRoot(getQuery().from(User.class));
-		getQuery().select(getFromRoot());
+		setCriteriaQuery(getCriteriaBuilder().createQuery(User.class));
+		setFromRoot(getCriteriaQuery().from(User.class));
+		getCriteriaQuery().select(getFromRoot());
 		EntityType<User> type = getEntityManager().getMetamodel().entity(User.class);
 
 		if (userFilter==null){
 
 			/*TODO: recuperar do bundle*/
-			throw new DAOException("CODIGO","filro de usuário não informado");
+			throw new DAOException("CODIGO","filro de usuï¿½rio nï¿½o informado");
 			
 		} else {
 
