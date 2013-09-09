@@ -15,9 +15,10 @@ import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
 
 import br.com.honorato.dao.entity.Function;
-import br.com.honorato.dao.entity.Module;
 import br.com.honorato.dao.entity.Resource;
+import br.com.honorato.dao.entity.SystemModule;
 import br.com.honorato.ejb.service.implement.ResourceEJB;
+import br.com.honorato.exception.EJBException;
 
 @SuppressWarnings("serial")
 @ManagedBean(name = "treeBean")
@@ -55,12 +56,20 @@ public class TreeBean implements Serializable {
 
 		root = new DefaultTreeNode("Root", null);
 
-		List<Resource> lista = moduleEJB.selectBuildTree();
+		List<SystemModule> lista;
+		try {
 
-		for (Resource module : lista) {
+			lista = moduleEJB.selectSystemTree();
+			for (Resource module : lista) {
 
-			buildTree(root,module);
+				buildTree(root,module);
 
+			}
+			
+		} catch (EJBException e) {
+			// TODO RECUPOERAR MENSAGEM DO BUNDLE
+			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_FATAL, "Nao e possivel CRIAR A HIERARQUIA DE MODULOS", "");  
+			FacesContext.getCurrentInstance().addMessage(null, message);			
 		}
 
 	}    
@@ -82,16 +91,16 @@ public class TreeBean implements Serializable {
 		if(selectedNode == null) {
 			
 			showDialog = false;
-			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Nenhum nó selecionado", "");  
+			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Nenhum noh selecionado", "");  
 			FacesContext.getCurrentInstance().addMessage(null, message);
 			
 		}else{
 
 			if (selectedNode.getData() instanceof Function){
 			
-				System.out.println("é função");
+				System.out.println("eh funcao");
 				showDialog = false;
-				FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Não é possível incluir em funcionalidade", "");  
+				FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Nao e possivel incluir em funcionalidade", "");  
 				FacesContext.getCurrentInstance().addMessage(null, message);
 				
 			}else{
@@ -127,7 +136,7 @@ public class TreeBean implements Serializable {
 
 //		if(selectedNode == null) {  
 //			showDialog = false;
-//			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "É necessário selecionar um nó", "");  
+//			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "ï¿½ necessï¿½rio selecionar um nï¿½", "");  
 //			FacesContext.getCurrentInstance().addMessage(null, message);  
 //		}else{
 			showDialog = true;

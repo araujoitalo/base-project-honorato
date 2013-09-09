@@ -7,7 +7,7 @@
 	<h:panelGroup layout="block">
 		
 			<h:panelGroup layout="block" style="text-align:left">
-				<h:outputText value="Módulo BUNDLE!!!!" />
+				<h:outputText value="Cadastro de Módulo BUNDLE!!!!" />
 				<p:separator />
 			</h:panelGroup>
 			
@@ -21,16 +21,23 @@
 			</p:outputPanel>
 			<br />
 			<p:panel>
-				<h:panelGrid style="background-color:red;width:100%">
+				<h:panelGrid style="width:100%">
+				
 
 					<h:panelGrid columns="2" style="margin-bottom:10px;">
 
-						<h:outputLabel for="nodeName" value="Tipo de Contato:" />
+						<h:outputLabel for="name" value="Módulo agregador: BUNDLE" />
+						<h:outputText id="name" value="#{documentsController.selectedDocument.name}" style="font-weight:bold" />				
+						<h:outputLabel for="nodeName" value="Nome do Módulo: BUNDLE" />
 						<h:inputText value="#{documentsController.newResource.name}" id="nodeName" />
-						--#{documentsController.selectedDocument}csdsd
 						<h:message for="nodeName" />
+						
+						<h:selectOneRadio value="#{documentsController.newResource.type}" id="moduleType" converter="typeModuleConverter" >
+   							<f:selectItems value="#{documentsController.getEModuloTypeList()}" 
+   							var="typeModuleEval" itemLabel="#{typeModuleEval.label}"  /> 
+   						</h:selectOneRadio>
+						<h:message for="typeModuleEval" />
 					</h:panelGrid>
-
 
 					<h:panelGroup>
 						<p:spacer width="10" />
@@ -38,8 +45,7 @@
 							update="#{idRender}"
 							process="@form" >
 							</p:commandButton>
-							#{idRender}
-						<p:commandButton value="Sair" oncomplete="documentDialog.hide();"
+						<p:commandButton value="Sair" oncomplete="moduleDialog.hide();"
 							update=":form:treetable"
 							process="@this" />
 					</h:panelGroup>

@@ -28,12 +28,6 @@ public class ModuleBean implements Serializable {
 		
 	}
 	
-	public void searchModules(){
-		
-		moduleList = moduleEJB.selectBuildTree();
-		
-	}
-
 	public List<Resource> getModuleList() {
 		return moduleList;
 	}
