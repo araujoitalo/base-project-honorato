@@ -64,7 +64,7 @@ public class UserDAO extends JpaDAO<User> {
 		if (userFilter==null){
 
 			/*TODO: recuperar do bundle*/
-			throw new DAOException("CODIGO","filro de usu�rio n�o informado");
+			throw new DAOException("CODIGO","filro de usuario nao informado");
 			
 		} else {
 

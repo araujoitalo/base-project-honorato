@@ -8,6 +8,7 @@ import javax.persistence.TypedQuery;
 import javax.persistence.criteria.Predicate;
 
 import br.com.honorato.dao.entity.Resource;
+import br.com.honorato.dao.enumeration.EModuleType;
 
 public class ResourceDAO extends JpaDAO<Resource> {
 
@@ -42,7 +43,7 @@ public class ResourceDAO extends JpaDAO<Resource> {
 		setCriteriaQuery(getCriteriaBuilder().createQuery(Resource.class));
 		setFromRoot(getCriteriaQuery().from(Resource.class));
 		getCriteriaQuery().select(getFromRoot());
-		Predicate codePredicate = getCriteriaBuilder().isNull(getFromRoot().get("moduleReference"));
+		Predicate codePredicate = getCriteriaBuilder().equal(getFromRoot().get("IN_TYPE"),EModuleType.SYSTEM);
 		getPredicates().add(codePredicate);
 		setWhereInQueryWhithPredicatea();
 

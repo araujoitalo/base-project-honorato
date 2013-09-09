@@ -50,7 +50,8 @@
 							<p:column style="width:4%">
 							
 								<p:commandLink update=":form:documentPanel"
-									oncomplete="documentDialog.show()" title="View Detail"
+									rendered="#{document.type != 'FUNCTION'}"
+									oncomplete="moduleDialog.show()" title="View Detail"
 									styleClass="ui-icon ui-icon-plus">
 									<f:setPropertyActionListener value="#{document}"
 										target="#{documentsController.selectedDocument}" />
@@ -63,22 +64,21 @@
 									<f:setPropertyActionListener value="#{document}"
 										target="#{documentsController.selectedDocument}" />
 								</p:commandLink>
-																
+								<p:commandLink update=":form:documentPanel"
+									rendered="#{document.type == 'FUNCTION'}"
+									oncomplete="moduleDialog.show()" title="desassociar BUNDLE"
+									styleClass="ui-icon ui-icon-extlink">
+									<f:setPropertyActionListener value="#{document}"
+										target="#{documentsController.selectedDocument}" />
+								</p:commandLink>
 							</p:column>
 						</p:treeTable>
 
-						<p:dialog id="documentDialog" header="Document Detail" showEffect="fade"
-							widgetVar="documentDialog" modal="true">
+						<p:dialog id="moduleDialog" showHeader="false" resizable="false" showEffect="fade"
+							widgetVar="moduleDialog" modal="true">
 							<p:outputPanel id="documentPanel">
-							--#{documentsController.selectedDocument}//
-							#{not empty documentsController.selectedDocument}
-							
 								<h:panelGrid columns="2" cellpadding="5"
 									rendered="#{not empty documentsController.selectedDocument}">
-									<h:outputLabel for="name" value="Name: " />
-									<h:outputText id="name"
-										value="#{documentsController.selectedDocument.name}"
-										style="font-weight:bold" />
 									<ui:include src="moduleEdit.xhtml">
 										<ui:param name="idRender" value=":form:treetable" />
 									</ui:include>

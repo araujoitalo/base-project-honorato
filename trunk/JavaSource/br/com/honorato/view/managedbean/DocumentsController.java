@@ -5,15 +5,20 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
 
 import br.com.honorato.dao.entity.Module;
 import br.com.honorato.dao.entity.Resource;
+import br.com.honorato.dao.entity.SystemModule;
+import br.com.honorato.dao.enumeration.EModuleType;
 import br.com.honorato.ejb.service.implement.ResourceEJB;
+import br.com.honorato.ejb.service.implement.TypeModuleEJB;
 import br.com.honorato.exception.EJBException;
 import br.com.honorato.util.FacesUtil;
 
@@ -26,6 +31,9 @@ public class DocumentsController implements Serializable {
 
 	@EJB
 	private ResourceEJB moduleEJB;  
+	
+	@EJB
+	private TypeModuleEJB typeModuleEJB;  
 	
 	private Resource selectedDocument;
 	private Module newResource;
@@ -55,13 +63,24 @@ public class DocumentsController implements Serializable {
 
 		root = new DefaultTreeNode("Root", null);
 
-		List<Resource> lista = moduleEJB.selectBuildTree();
+		List<SystemModule> lista;
+		try {
 
-		for (Resource module : lista) {
+			lista = moduleEJB.selectSystemTree();
+			for (Resource module : lista) {
 
-			buildTree(root,module);
+				buildTree(root,module);
 
+			}
+			
+		} catch (EJBException e) {
+
+			// TODO RECUPOERAR MENSAGEM DO BUNDLE
+			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_FATAL, "Nao e possivel CRIAR A HIERARQUIA DE MODULOS", "");  
+			FacesContext.getCurrentInstance().addMessage(null, message);					
+			
 		}
+
 
 	}
 
@@ -118,7 +137,7 @@ public class DocumentsController implements Serializable {
 			newResource.setModuleReference(selectedDocument);
 			moduleEJB.saveResource(newResource);
 			//TODO: bundle
-			FacesUtil.showSucessMessage("Opera��o Efetuada com Sucesso!", "Sucesso", false);
+			FacesUtil.showSucessMessage("Operacao Efetuada com Sucesso!", "Sucesso", false);
 			newResource = null;
 			init();
 			//this.setDlgSucessOpen(true);
@@ -143,7 +162,7 @@ public class DocumentsController implements Serializable {
 				moduleEJB.deleteResource(selectedDocument);
 				init();
 				///TODO: bundle
-				FacesUtil.showSucessMessage("Opera��o Efetuada com Sucesso!", "Sucesso", false);
+				FacesUtil.showSucessMessage("OperaCAo Efetuada com Sucesso!", "Sucesso", false);
 
 			} catch (EJBException err) {
 				FacesUtil.showFatalMessage(err.getErrorCode(), err.getMessage(),false);
@@ -185,7 +204,22 @@ public class DocumentsController implements Serializable {
 
 	public void setRoot(TreeNode root) {
 		this.root = root;
-	}	
+	}
+	
+	public List<EModuleType> getEModuloTypeList(){
+		
+		List<EModuleType> out = null;
+		
+		try {
+			out = typeModuleEJB.getTypeModules();
+		} catch (EJBException err) {
+			// TODO BUNDLEAuto-generated catch block
+			FacesUtil.showFatalMessage(err.getErrorCode(), err.getMessage(),false);
+		}
+		
+		return out;
+		
+	}
 
 }
 //} 
