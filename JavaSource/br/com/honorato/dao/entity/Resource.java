@@ -24,8 +24,6 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 
-import br.com.honorato.dao.enumeration.EModuleType;
-
 @Entity
 @Table(name="TB_MODULE", uniqueConstraints={@UniqueConstraint(columnNames={"ID_MODULE"})})
 @Inheritance(strategy=InheritanceType.SINGLE_TABLE)
@@ -58,8 +56,8 @@ public class Resource implements Serializable {
 	private List<Resource> resources;
 	
 	@Transient
-	private EModuleType type;
-	
+	private DTypeModule type;
+
 	public Resource() {
     }
     
@@ -108,6 +106,16 @@ public class Resource implements Serializable {
 	public void setResources(List<Resource> resources) {
 		this.resources = resources;
 	}
+	
+	@Transient
+	public DTypeModule getType() {
+		return type;
+	}
+
+	@Transient
+	protected void setType(DTypeModule type) {
+		this.type = type;
+	}
 
 	@Override
 	public String toString() {
@@ -136,13 +144,5 @@ public class Resource implements Serializable {
         }
         return true;
     }
-
-	public EModuleType getType() {
-		return type;
-	}
-
-	protected void setType(EModuleType type) {
-		this.type = type;
-	}
 
 }
