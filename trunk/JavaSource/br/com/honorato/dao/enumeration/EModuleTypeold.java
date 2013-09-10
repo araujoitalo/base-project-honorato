@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 
-public enum EModuleType  {
+public enum EModuleTypeold  {
 
 	/*TODO: Pegar do bundle*/
 	SYSTEM("SYSTEM", "Sistema"),
@@ -14,7 +14,7 @@ public enum EModuleType  {
 	private final String code; 
 	private final String label;
 	
-	private EModuleType(String code, String label) {
+	private EModuleTypeold(String code, String label) {
 		this.code = code;
 		this.label = label; 
 	} 
@@ -27,8 +27,8 @@ public enum EModuleType  {
 		return this.label; 
 	}
 
-	public static List<EModuleType> getListValues() { 
-		return Arrays.asList(EModuleType.values()); 
+	public static List<EModuleTypeold> getListValues() { 
+		return Arrays.asList(EModuleTypeold.values()); 
 	}
 	
 }
