@@ -3,12 +3,11 @@ package br.com.honorato.dao.implement;
 import java.util.List;
 
 import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
-import javax.persistence.TypedQuery;
 import javax.persistence.criteria.Predicate;
 
+import br.com.honorato.dao.entity.DTypeModule;
 import br.com.honorato.dao.entity.Resource;
-import br.com.honorato.dao.enumeration.EModuleType;
+import br.com.honorato.exception.DAOException;
 
 public class ResourceDAO extends JpaDAO<Resource> {
 
@@ -18,36 +17,52 @@ public class ResourceDAO extends JpaDAO<Resource> {
 		super(manager);
 	}
 	
-	public Resource getFullTree(String rootCode){
-		
-		Resource result;
-
-		TypedQuery<Resource> consult = this.getEntityManager().createQuery("from Module m where m.code = :rootCode", this.persistentClass);
-		consult.setParameter("rootCode", rootCode);
-
-		try {
-			
-			result = consult.getSingleResult();
-			
-		} catch (NoResultException e) {
-			
-			result = null;
-			
-		}
-
-		return result;
-	}
+//	public Resource getFullTree(String rootCode){
+//		
+//		Resource result;
+//
+//		TypedQuery<Resource> consult = this.getEntityManager().createQuery("from Module m where m.code = :rootCode", this.persistentClass);
+//		consult.setParameter("rootCode", rootCode);
+//
+//		try {
+//			
+//			result = consult.getSingleResult();
+//			
+//		} catch (NoResultException e) {
+//			
+//			result = null;
+//			
+//		}
+//
+//		return result;
+//	}
 	
 	public List<Resource> selectBuildTree(){
 		
-		setCriteriaQuery(getCriteriaBuilder().createQuery(Resource.class));
-		setFromRoot(getCriteriaQuery().from(Resource.class));
-		getCriteriaQuery().select(getFromRoot());
-		Predicate codePredicate = getCriteriaBuilder().equal(getFromRoot().get("IN_TYPE"),EModuleType.SYSTEM);
-		getPredicates().add(codePredicate);
-		setWhereInQueryWhithPredicatea();
+		List<Resource> out = null;
+		
+		try {
 
-		return getTypeQuery().getResultList();
+			DTypeModuleDAO systemModuleDAO = new DTypeModuleDAO(this.getEntityManager());
+			DTypeModule systemModule;
+			
+			systemModule = systemModuleDAO.getSystem();
+
+			setCriteriaQuery(getCriteriaBuilder().createQuery(Resource.class));
+			setFromRoot(getCriteriaQuery().from(Resource.class));
+			getCriteriaQuery().select(getFromRoot());
+			Predicate codePredicate = getCriteriaBuilder().equal(getFromRoot().get("IN_TYPE"), systemModule);
+			getPredicates().add(codePredicate);
+			setWhereInQueryWhithPredicatea();
+			
+			out  = getTypeQuery().getResultList();
+			
+		} catch (DAOException e) {
+			// TODO erro do bundle
+			out = null; 
+		}
+		
+		return out;
 	}
 	
 	public void updateChildrenWithParentToRemove(Resource newResource, Resource oldResource){
