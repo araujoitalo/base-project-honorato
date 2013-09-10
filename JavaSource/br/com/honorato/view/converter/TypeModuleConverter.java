@@ -9,29 +9,26 @@ import javax.faces.convert.FacesConverter;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
-import br.com.honorato.dao.entity.DEModuleType;
-import br.com.honorato.dao.enumeration.EModuleType;
-import br.com.honorato.ejb.service.implement.TypeModuleEJB;
+import br.com.honorato.dao.entity.DTypeModule;
+import br.com.honorato.ejb.service.implement.DTypeModuleEJB;
 import br.com.honorato.exception.EJBException;
 
 @FacesConverter("typeModuleConverter")
 public class TypeModuleConverter implements Converter {
 	
-	private TypeModuleEJB typeModuleEJB;	
+	private DTypeModuleEJB dTypeModuleEJB;	
 
 	@Override
 	public Object getAsObject(FacesContext arg0, UIComponent arg1, String value) {
 
-		EModuleType eModuleType = null;
+		DTypeModule dTypeModule = null;
 		
 		 if (!"Selecione".equals(value) && !"".equals(value)) {
 			 
 			try {
 				InitialContext ini = new InitialContext();				
-				typeModuleEJB = (TypeModuleEJB) ini.lookup("java:module/TypeModuleEJB!br.com.honorato.ejb.service.implement.TypeModuleEJB");
-				
-				DEModuleType deModuleType = new DEModuleType();
-				deModuleType.seteModuleType(typeModuleEJB.getTypeModuleByCode(value));
+				dTypeModuleEJB = (DTypeModuleEJB) ini.lookup("java:module/DTypeModuleEJB!br.com.honorato.ejb.service.implement.DTypeModuleEJB");
+				dTypeModule = dTypeModuleEJB.getDTypeModuleByCode(value);
 			} catch (EJBException | NamingException e ) {
 				// TODO Logar erro e pegar do bundle
 				throw new ConverterException(new FacesMessage("Erro, entre em contato com o administrador do sistema!"));
@@ -41,7 +38,7 @@ public class TypeModuleConverter implements Converter {
 			return null;
 		}
 		
-		return eModuleType; 
+		return dTypeModule; 
 		
 	}
 
@@ -49,15 +46,14 @@ public class TypeModuleConverter implements Converter {
 	public String getAsString(FacesContext context, UIComponent component, Object value) {
 
 		if(value != null ) {
-			if(value instanceof EModuleType){
-				return String.valueOf(((EModuleType) value).getCode());
+			if(value instanceof DTypeModule){
+				return String.valueOf(((DTypeModule) value).getCode());
 			} else {
 			if ("Selecione".equals(value))  
 				return null;
 			}
 		}
 		return null;
-		
 	}
 
 }

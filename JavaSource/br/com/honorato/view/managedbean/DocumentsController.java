@@ -13,12 +13,12 @@ import javax.faces.context.FacesContext;
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
 
+import br.com.honorato.dao.entity.DTypeModule;
 import br.com.honorato.dao.entity.Module;
 import br.com.honorato.dao.entity.Resource;
 import br.com.honorato.dao.entity.SystemModule;
-import br.com.honorato.dao.enumeration.EModuleType;
+import br.com.honorato.ejb.service.implement.DTypeModuleEJB;
 import br.com.honorato.ejb.service.implement.ResourceEJB;
-import br.com.honorato.ejb.service.implement.TypeModuleEJB;
 import br.com.honorato.exception.EJBException;
 import br.com.honorato.util.FacesUtil;
 
@@ -33,7 +33,7 @@ public class DocumentsController implements Serializable {
 	private ResourceEJB moduleEJB;  
 	
 	@EJB
-	private TypeModuleEJB typeModuleEJB;  
+	private DTypeModuleEJB dTypeModuleEJB;  
 	
 	private Resource selectedDocument;
 	private Module newResource;
@@ -184,7 +184,12 @@ public class DocumentsController implements Serializable {
 	public Resource getNewResource() {
 		
 		if (newResource==null){
-			newResource = new Module();	
+			try {
+				newResource = new Module();
+			} catch (EJBException e) {
+				// TODO Bundle ou propagar erro
+				FacesUtil.showFatalMessage("Erro ao tentar recuperar modulo!", "Falha", false);
+			}	
 		}
 		
 		return newResource;
@@ -206,12 +211,12 @@ public class DocumentsController implements Serializable {
 		this.root = root;
 	}
 	
-	public List<EModuleType> getEModuloTypeList(){
+	public List<DTypeModule> getEModuloTypeList(){
 		
-		List<EModuleType> out = null;
+		List<DTypeModule> out = null;
 		
 		try {
-			out = typeModuleEJB.getTypeModules();
+			out = dTypeModuleEJB.getTypeModules();
 		} catch (EJBException err) {
 			// TODO BUNDLEAuto-generated catch block
 			FacesUtil.showFatalMessage(err.getErrorCode(), err.getMessage(),false);
