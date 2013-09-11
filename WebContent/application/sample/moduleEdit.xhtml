@@ -33,10 +33,12 @@
 						<h:message for="nodeName" />
 						
 						<h:selectOneRadio value="#{documentsController.newResource.type}" id="moduleType" converter="typeModuleConverter" >
-   							<f:selectItems value="#{documentsController.getEModuloTypeList()}" 
-   							var="typeModuleEval" itemLabel="#{typeModuleEval.label}"  /> 
+	   						<f:selectItems value="#{documentsController.getEModuloTypeList()}" 
+	   							var="typeModuleEval" itemLabel="#{typeModuleEval.label}"  itemValue="#{typeModuleEval}" />
+	   						<f:converter converterId="typeModuleConverter" /> 
    						</h:selectOneRadio>
-						<h:message for="typeModuleEval" />
+						<h:message for="moduleType" />
+																		
 					</h:panelGrid>
 
 					<h:panelGroup>
