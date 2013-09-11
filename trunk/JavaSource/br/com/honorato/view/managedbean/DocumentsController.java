@@ -13,11 +13,10 @@ import javax.faces.context.FacesContext;
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
 
-import br.com.honorato.dao.entity.DTypeModule;
 import br.com.honorato.dao.entity.Module;
 import br.com.honorato.dao.entity.Resource;
 import br.com.honorato.dao.entity.SystemModule;
-import br.com.honorato.ejb.service.implement.DTypeModuleEJB;
+import br.com.honorato.dao.enumeration.EModuleType;
 import br.com.honorato.ejb.service.implement.ResourceEJB;
 import br.com.honorato.exception.EJBException;
 import br.com.honorato.util.FacesUtil;
@@ -31,9 +30,6 @@ public class DocumentsController implements Serializable {
 
 	@EJB
 	private ResourceEJB moduleEJB;  
-	
-	@EJB
-	private DTypeModuleEJB dTypeModuleEJB;  
 	
 	private Resource selectedDocument;
 	private Module newResource;
@@ -211,18 +207,9 @@ public class DocumentsController implements Serializable {
 		this.root = root;
 	}
 	
-	public List<DTypeModule> getEModuloTypeList(){
+	public List<EModuleType> getEModuloTypeList(){
 		
-		List<DTypeModule> out = null;
-		
-		try {
-			out = dTypeModuleEJB.getTypeModules();
-		} catch (EJBException err) {
-			// TODO BUNDLEAuto-generated catch block
-			FacesUtil.showFatalMessage(err.getErrorCode(), err.getMessage(),false);
-		}
-		
-		return out;
+		return EModuleType.getListValues();
 		
 	}
 
