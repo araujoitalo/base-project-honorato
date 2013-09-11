@@ -5,9 +5,8 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.criteria.Predicate;
 
-import br.com.honorato.dao.entity.DTypeModule;
 import br.com.honorato.dao.entity.Resource;
-import br.com.honorato.exception.DAOException;
+import br.com.honorato.dao.enumeration.EModuleType;
 
 public class ResourceDAO extends JpaDAO<Resource> {
 
@@ -38,31 +37,16 @@ public class ResourceDAO extends JpaDAO<Resource> {
 //	}
 	
 	public List<Resource> selectBuildTree(){
-		
-		List<Resource> out = null;
-		
-		try {
 
-			DTypeModuleDAO systemModuleDAO = new DTypeModuleDAO(this.getEntityManager());
-			DTypeModule systemModule;
-			
-			systemModule = systemModuleDAO.getSystem();
+		setCriteriaQuery(getCriteriaBuilder().createQuery(Resource.class));
+		setFromRoot(getCriteriaQuery().from(Resource.class));
+		getCriteriaQuery().select(getFromRoot());
+		Predicate codePredicate = getCriteriaBuilder().equal(getFromRoot().get("IN_TYPE"), EModuleType.SYSTEM);
+		getPredicates().add(codePredicate);
+		setWhereInQueryWhithPredicatea();
 
-			setCriteriaQuery(getCriteriaBuilder().createQuery(Resource.class));
-			setFromRoot(getCriteriaQuery().from(Resource.class));
-			getCriteriaQuery().select(getFromRoot());
-			Predicate codePredicate = getCriteriaBuilder().equal(getFromRoot().get("IN_TYPE"), systemModule);
-			getPredicates().add(codePredicate);
-			setWhereInQueryWhithPredicatea();
-			
-			out  = getTypeQuery().getResultList();
-			
-		} catch (DAOException e) {
-			// TODO erro do bundle
-			out = null; 
-		}
-		
-		return out;
+		return getTypeQuery().getResultList();
+
 	}
 	
 	public void updateChildrenWithParentToRemove(Resource newResource, Resource oldResource){
