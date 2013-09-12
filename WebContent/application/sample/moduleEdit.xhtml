@@ -11,7 +11,6 @@
 			<p:separator />
 		</h:panelGroup>
 
-		<h:form id="editModuleForm">
 			<p:growl id="growl2" showDetail="true" life="4000" redisplay="false"
 				infoIcon="img_edit.png"
 				rendered="#{facesContext.maximumSeverity eq 'INFO 0'}" />
@@ -20,6 +19,7 @@
 					showSummary="true" />
 			</p:outputPanel>
 			<br />
+			<h:form>
 			<p:panel>
 				<h:panelGrid style="width:100%">
 
@@ -32,25 +32,23 @@
 						<h:outputLabel for="nodeName" value="Nome do Módulo: BUNDLE" />
 						<h:inputText value="#{documentsController.newResource.name}"
 							id="nodeName" />
-						<h:message for="nodeName" />sss
-#{documentsController.accumulatorFunction}ccc
-						<h:selectOneRadio
-							value="#{documentsController.getAccumulatorFunction()}"
+							<h:message for="nodeName" />
+						<h:message for="nodeName" />
+						<p:selectOneRadio 
+							value="#{documentsController.accumulatorFunction}"
 							id="isAccumulatorFunction" converter="dYesNoConverter">
-							<f:selectItems value="#{documentsController.getDYesNolist()}"
-								var="isAccumulatorFunction"
+							<f:selectItems value="#{documentsController.getDYesNolist()}" 
+								var="isAccumulatorFunction"  
 								itemLabel="#{isAccumulatorFunction.name}"
 								itemValue="#{isAccumulatorFunction}" />
-								<p:ajax event="click" update="freeFunctionsPanel" />
-						</h:selectOneRadio>
+								<p:ajax event="change" update="freeFunctionsPanel"  />
+						</p:selectOneRadio>
 						<h:message for="isAccumulatorFunction" />
-
 					</h:panelGrid>
-
-					<p:panel id="freeFunctionsPanel" >
-						<h:panelGrid style="width:100%">
-							<h:outputLabel value="Funcionalidades sem módulos BUNDLE!!!" />
-							<p:dataTable id="freeFunctions" var="freeFunction"
+					
+					<h:panelGroup id="freeFunctionsPanel">
+						<h:panelGrid id="mimi" style="width:100%">
+							<p:dataTable id="freeFunctionsw" var="freeFunction" rendered="#{documentsController.accumulatorFunction.code == 'YES'}"
 								value="#{documentsController.getFreeFunctions()}"
 								paginator="true" rows="10" paginatorPosition="bottom"
 								selection="#{documentsController.selectedFunctions}">
@@ -62,7 +60,7 @@
         						</p:column>
 							</p:dataTable>
 						</h:panelGrid>
-					</p:panel>
+					</h:panelGroup>
 
 
 					<h:panelGroup>
@@ -77,12 +75,13 @@
 
 
 				</h:panelGrid>
+				
 			</p:panel>
-
+</h:form>
 			<br />
 
 
-		</h:form>
+
 	</h:panelGroup>
 
 </h:panelGroup>
