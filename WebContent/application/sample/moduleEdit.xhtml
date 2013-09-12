@@ -5,13 +5,13 @@
 	xmlns:p="http://primefaces.org/ui">
 
 	<h:panelGroup layout="block">
-		
-			<h:panelGroup layout="block" style="text-align:left">
-				<h:outputText value="Cadastro de Módulo BUNDLE!!!!" />
-				<p:separator />
-			</h:panelGroup>
-			
-			<h:form id="editModuleForm">
+
+		<h:panelGroup layout="block" style="text-align:left">
+			<h:outputText value="Cadastro de Módulo BUNDLE!!!!" />
+			<p:separator />
+		</h:panelGroup>
+
+		<h:form id="editModuleForm">
 			<p:growl id="growl2" showDetail="true" life="4000" redisplay="false"
 				infoIcon="img_edit.png"
 				rendered="#{facesContext.maximumSeverity eq 'INFO 0'}" />
@@ -22,34 +22,57 @@
 			<br />
 			<p:panel>
 				<h:panelGrid style="width:100%">
-				
 
 					<h:panelGrid columns="2" style="margin-bottom:10px;">
 
 						<h:outputLabel for="name" value="Módulo agregador: BUNDLE" />
-						<h:outputText id="name" value="#{documentsController.selectedDocument.name}" style="font-weight:bold" />				
+						<h:outputText id="name"
+							value="#{documentsController.selectedDocument.name}"
+							style="font-weight:bold" />
 						<h:outputLabel for="nodeName" value="Nome do Módulo: BUNDLE" />
-						<h:inputText value="#{documentsController.newResource.name}" id="nodeName" />
-						<h:message for="nodeName" />
-						
-						<h:selectOneRadio value="#{documentsController.newResource.type}" id="moduleType" converter="typeModuleConverter" >
-	   						<f:selectItems value="#{documentsController.getEModuloTypeList()}" 
-	   							var="typeModuleEval" itemLabel="#{typeModuleEval.label}"  itemValue="#{typeModuleEval}" />
-	   						<f:converter converterId="typeModuleConverter" /> 
-   						</h:selectOneRadio>
-						<h:message for="moduleType" />
-																		
+						<h:inputText value="#{documentsController.newResource.name}"
+							id="nodeName" />
+						<h:message for="nodeName" />sss
+#{documentsController.accumulatorFunction}ccc
+						<h:selectOneRadio
+							value="#{documentsController.getAccumulatorFunction()}"
+							id="isAccumulatorFunction" converter="dYesNoConverter">
+							<f:selectItems value="#{documentsController.getDYesNolist()}"
+								var="isAccumulatorFunction"
+								itemLabel="#{isAccumulatorFunction.name}"
+								itemValue="#{isAccumulatorFunction}" />
+								<p:ajax event="click" update="freeFunctionsPanel" />
+						</h:selectOneRadio>
+						<h:message for="isAccumulatorFunction" />
+
 					</h:panelGrid>
+
+					<p:panel id="freeFunctionsPanel" >
+						<h:panelGrid style="width:100%">
+							<h:outputLabel value="Funcionalidades sem módulos BUNDLE!!!" />
+							<p:dataTable id="freeFunctions" var="freeFunction"
+								value="#{documentsController.getFreeFunctions()}"
+								paginator="true" rows="10" paginatorPosition="bottom"
+								selection="#{documentsController.selectedFunctions}">
+
+								<p:column selectionMode="multiple" style="width:2%" />
+
+								<p:column headerText="Nome BUNDLE!!" style="width:25%">  
+            						#{freeFunction.name}  
+        						</p:column>
+							</p:dataTable>
+						</h:panelGrid>
+					</p:panel>
+
 
 					<h:panelGroup>
 						<p:spacer width="10" />
-						<p:commandButton id="submitButton2" value="Submit" action="#{documentsController.addNode}"
-							update="#{idRender}"
-							process="@form" >
-							</p:commandButton>
+						<p:commandButton id="submitButton2" value="Submit"
+							action="#{documentsController.addNode}" update="#{idRender}"
+							process="@form">
+						</p:commandButton>
 						<p:commandButton value="Sair" oncomplete="moduleDialog.hide();"
-							update=":form:treetable"
-							process="@this" />
+							update=":form:treetable" process="@this" />
 					</h:panelGroup>
 
 

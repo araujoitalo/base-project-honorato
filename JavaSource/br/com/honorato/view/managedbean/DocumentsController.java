@@ -13,13 +13,17 @@ import javax.faces.context.FacesContext;
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
 
+import br.com.honorato.dao.entity.DYesNo;
+import br.com.honorato.dao.entity.Function;
 import br.com.honorato.dao.entity.Module;
 import br.com.honorato.dao.entity.Resource;
 import br.com.honorato.dao.entity.SystemModule;
 import br.com.honorato.dao.enumeration.EModuleType;
+import br.com.honorato.ejb.service.implement.DYesNoEJB;
 import br.com.honorato.ejb.service.implement.ResourceEJB;
 import br.com.honorato.exception.EJBException;
 import br.com.honorato.util.FacesUtil;
+import br.com.honorato.view.components.FunctionDataModel;
 
 @SuppressWarnings("serial")
 @ManagedBean(name = "documentsController")
@@ -31,14 +35,26 @@ public class DocumentsController implements Serializable {
 	@EJB
 	private ResourceEJB moduleEJB;  
 	
+	@EJB
+	private DYesNoEJB dYesNoEJB;  
+	
+	@EJB
+	private ResourceEJB resourceEJB;  
+	
 	private Resource selectedDocument;
 	private Module newResource;
 	
 	private TreeNode selectedNode;
-	private TreeNode newNode;	
-
+	private TreeNode newNode;
+	
+	private DYesNo accumulatorFunction;
+	
+	private Function[] selectedFunctions;
+	private FunctionDataModel freeFunctions;
+	
 	public DocumentsController() {  
-		root = new DefaultTreeNode("root", null);  
+
+		root = new DefaultTreeNode("root", null);
 
 	}  
 
@@ -69,11 +85,13 @@ public class DocumentsController implements Serializable {
 
 			}
 			
+			accumulatorFunction = dYesNoEJB.getNo();
+			
 		} catch (EJBException e) {
 
 			// TODO RECUPOERAR MENSAGEM DO BUNDLE
 			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_FATAL, "Nao e possivel CRIAR A HIERARQUIA DE MODULOS", "");  
-			FacesContext.getCurrentInstance().addMessage(null, message);					
+			FacesContext.getCurrentInstance().addMessage(null, message);
 			
 		}
 
@@ -180,12 +198,7 @@ public class DocumentsController implements Serializable {
 	public Resource getNewResource() {
 		
 		if (newResource==null){
-			try {
-				newResource = new Module();
-			} catch (EJBException e) {
-				// TODO Bundle ou propagar erro
-				FacesUtil.showFatalMessage("Erro ao tentar recuperar modulo!", "Falha", false);
-			}	
+			newResource = new Module();
 		}
 		
 		return newResource;
@@ -212,93 +225,48 @@ public class DocumentsController implements Serializable {
 		return EModuleType.getListValues();
 		
 	}
+	
+	public List<DYesNo> getDYesNolist(){
+		
+		try {
+			return dYesNoEJB.dYesNoList();
+		} catch (EJBException err) {
+			FacesUtil.showFatalMessage(err.getErrorCode(), err.getMessage(),false);
+			return null;
+		} 
+		
+	}
+
+	public DYesNo getAccumulatorFunction() {
+		return accumulatorFunction;
+	}
+
+	public void setAccumulatorFunction(DYesNo accumulatorFunction) {
+		this.accumulatorFunction = accumulatorFunction;
+	}
+	
+	public Function[] getSelectedFunctions() {
+		return selectedFunctions;
+	}
+
+	public void setSelectedFunctions(Function[] selectedFunctions) {
+		this.selectedFunctions = selectedFunctions;
+	}
+
+	public void setFreeFunctions(FunctionDataModel freeFunctions) {
+		this.freeFunctions = freeFunctions;
+	}
+
+	public FunctionDataModel getFreeFunctions() {
+		
+		if (freeFunctions==null){
+			try {
+				freeFunctions = new FunctionDataModel(resourceEJB.selectFreeFunctions());
+			} catch (EJBException err) {
+				FacesUtil.showFatalMessage(err.getErrorCode(), err.getMessage(),false);
+			} 
+		}
+		return freeFunctions;
+	}	
 
 }
-//} 
-//public class DocumentsController implements Serializable {  
-//    
-//    private TreeNode root;  
-//  
-//    private Resource selectedResource;  
-//    private TreeNode newNode;
-//    
-//    @EJB
-//	private ResourceEJB moduleEJB;  
-//
-//	
-//    public DocumentsController() {  
-//        
-//    	  
-//    }  
-//
-//	@PostConstruct
-//	private void init(){
-//
-//		root = new DefaultTreeNode("Root", null);
-//
-//		List<Module> lista = moduleEJB.selectAllModules();
-//
-//		for (Resource module : lista) {
-//
-//			buildTree(root,module);
-//
-//		}
-//
-//	}
-//	
-//    public TreeNode getRoot() {  
-//        return root;  
-//    }  
-//      
-//    public Resource getSelectedResource() {  
-//        return selectedResource;  
-//    }  
-//  
-//    public void setSelectedResource(Resource selectedDocument) {  
-//        this.selectedResource = selectedDocument;  
-//    }
-//    
-
-//    
-//	public void buildTree(TreeNode root, Resource ress) {
-//
-//		System.out.println(ress.getCode());
-//				
-//		TreeNode node = new DefaultTreeNode(ress, root);
-//		for(Resource res: ress.getResources()) {
-//			buildTree(node, res);
-//		}
-//	}
-//	
-//	public ResourceEJB getModuleEJB() {
-//		return moduleEJB;
-//	}
-//
-//	public void setModuleEJB(ResourceEJB moduleEJB) {
-//		this.moduleEJB = moduleEJB;
-//	}
-//
-//	public void addNode() {
-//		
-//		System.out.println(selectedResource);
-//		
-//		TreeNode treeSelected =  dsd(root,selectedResource.getCode());
-//		
-//		System.out.println(treeSelected);
-////		Resource res = new Resource();
-////		res.setIdModule(selectedResource.getIdModule());
-////		//Salvo e releio a tela
-////		System.out.println(newNode);
-//
-//
-//	}
-//
-//	public TreeNode getNewNode() {
-//		return newNode;
-//	}
-//
-//	public void setNewNode(TreeNode newNode) {
-//		this.newNode = newNode;
-//	}	
-//	
-//}
