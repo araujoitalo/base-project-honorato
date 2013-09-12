@@ -9,57 +9,54 @@ import javax.faces.convert.FacesConverter;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
-import br.com.honorato.dao.entity.DTypeContact;
-import br.com.honorato.ejb.service.implement.TypeContactEJB;
+import br.com.honorato.dao.entity.DYesNo;
+import br.com.honorato.ejb.service.implement.DYesNoEJB;
 import br.com.honorato.exception.EJBException;
 
-@FacesConverter("typeContactConverter")
-public class TypeContactConverter implements Converter {
+@FacesConverter("dYesNoConverter")
+public class DYesNoConverter implements Converter {
 	
-	private TypeContactEJB typeContactEJB;	
-
+	private DYesNoEJB dYesNoEJB;	
+	
 	@Override
 	public Object getAsObject(FacesContext arg0, UIComponent arg1, String value) {
 
-		DTypeContact typeContact = null;
+		DYesNo dYesNo = null;
 		//TODO: recurepar de alguns lugar este valor (Selecione)
 		if (!"Selecione".equals(value) && !"".equals(value)) {
 			
 			try {
 			
 				InitialContext ini = new InitialContext();
-				typeContactEJB = (TypeContactEJB) ini.lookup("java:module/TypeContactEJB!br.com.honorato.ejb.service.implement.TypeContactEJB");
-				typeContact = typeContactEJB.getTypeContatcByKey(new Integer(value));
+				dYesNoEJB = (DYesNoEJB) ini.lookup("java:module/DYesNoEJB!br.com.honorato.ejb.service.implement.DYesNoEJB");
+				dYesNo = dYesNoEJB.getDYesNoByCode(new String(value));
 			
-			} catch (NumberFormatException | EJBException | NamingException e ) {
-			
+			} catch (EJBException | NamingException e ) {
 				// TODO Logar erro e pegar do bundle
 				throw new ConverterException(new FacesMessage("Erro, entre em contato com o administrador do sistema!"));
-			
 			}
 			
 		} else {
 			return null;
 		}
 		
-		return typeContact; 
-		
+		return dYesNo; 		
+
 	}
 
 	@Override
 	public String getAsString(FacesContext context, UIComponent component, Object value) {
 
 		if(value != null ) {
-			if(value instanceof DTypeContact){
-				return String.valueOf(((DTypeContact) value).getIdDomain());
+			if(value instanceof DYesNo){
+				return String.valueOf(((DYesNo) value).getCode());
 			} else {
-				//TODO: recurepar de alguns lugar este valor (Selecione)
+			//TODO: recurepar de alguns lugar este valor (Selecione)
 			if ("Selecione".equals(value))  
 				return null;
 			}
 		}
-		return null;
-		
+		return null;		
 	}
 
 }
