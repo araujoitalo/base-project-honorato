@@ -6,7 +6,6 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
 import br.com.honorato.dao.enumeration.EModuleType;
-import br.com.honorato.exception.EJBException;
 
 @Entity
 @DiscriminatorValue("FUNCTION")
@@ -14,7 +13,7 @@ public class Function extends Resource implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	
-	public Function() throws EJBException{
+	public Function() {
 		
 		this.setType(EModuleType.FUNCTION);
 		
