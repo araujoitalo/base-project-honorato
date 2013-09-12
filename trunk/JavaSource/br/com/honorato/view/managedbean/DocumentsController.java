@@ -268,5 +268,16 @@ public class DocumentsController implements Serializable {
 		}
 		return freeFunctions;
 	}	
+	
+	public List<Function> getlist() {
+
+		try {
+			System.out.println(accumulatorFunction.getCode());
+			return resourceEJB.selectFreeFunctions();
+		} catch (EJBException err) {
+			FacesUtil.showFatalMessage(err.getErrorCode(), err.getMessage(),false);
+		} 
+		return null;
+	}	
 
 }
