@@ -7,8 +7,10 @@ import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
 import javax.interceptor.Interceptors;
 
+import br.com.honorato.dao.entity.Function;
 import br.com.honorato.dao.entity.Resource;
 import br.com.honorato.dao.entity.SystemModule;
+import br.com.honorato.dao.implement.FunctionDAO;
 import br.com.honorato.dao.implement.ResourceDAO;
 import br.com.honorato.dao.implement.SystemDAO;
 import br.com.honorato.exception.DAOException;
@@ -25,25 +27,14 @@ import br.com.honorato.util.LoggerInterceptor;
 @Interceptors({Depurador.class, InterceptorDeCallback.class})
 public class ResourceEJB extends BaseEJB {
 	
-	ResourceDAO resourceDAO;
-	SystemDAO systemDAO;
-
 	public ResourceEJB() {
 		
-		resourceDAO = new ResourceDAO(getEm());
-		systemDAO = new SystemDAO(getEm());
 	}
-
-//	public List<Resource> selectBuildTree(){
-//		resourceDAO = new ResourceDAO(getEm());
-//		return resourceDAO.selectBuildTree();
-//	}
 
 	public List<SystemModule> selectSystemTree() throws EJBException{
 
-		systemDAO = new SystemDAO(getEm());
 		try {
-			return systemDAO.selectSystemTree();
+			return new SystemDAO(getEm()).selectSystemTree();
 		} catch (DAOException err) {
 			throw new EJBException(err.getErrorCode(), err.getMessage());
 		}
@@ -54,7 +45,7 @@ public class ResourceEJB extends BaseEJB {
 	public void saveResource(Resource resource) throws EJBException {
 
 		try {
-			resourceDAO.save(resource);
+			new ResourceDAO(getEm()).save(resource);
 		} catch ( DAOException e ) {
 			throw new EJBException(e.getErrorCode(), e.getMessage());
 		}
@@ -66,6 +57,7 @@ public class ResourceEJB extends BaseEJB {
 
 		try {
 			
+			ResourceDAO resourceDAO = new ResourceDAO(getEm());
 			resourceDAO.updateChildrenWithParentToRemove(resource.getModuleReference(), resource);
 			resource = resourceDAO.selectByKey(resource.getIdModule());
 			resourceDAO.delete(resource);
@@ -75,5 +67,15 @@ public class ResourceEJB extends BaseEJB {
 			throw new EJBException(e.getErrorCode(), e.getMessage());
 		}
 
+	}
+	
+	public List<Function> selectFreeFunctions() throws EJBException{
+
+		try {
+			return new FunctionDAO(getEm()).selectFreeFunctions();
+		} catch (DAOException err) {
+			throw new EJBException(err.getErrorCode(), err.getMessage());
+		}
+		
 	}	
 }

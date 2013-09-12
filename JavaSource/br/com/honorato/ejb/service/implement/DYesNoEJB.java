@@ -18,7 +18,7 @@ public class DYesNoEJB extends BaseEJB {
 	public DYesNoEJB() {
 	}
 	
-	public List<DYesNo> typeContatcList() throws EJBException {
+	public List<DYesNo> dYesNoList() throws EJBException {
 		
 		return (new DYesNoDAO(getEm()).selectAll());
 		
@@ -44,9 +44,16 @@ public class DYesNoEJB extends BaseEJB {
 		
 	}	
 
-	public DYesNo getYes() throws EJBException {
+	public DYesNo getYes() {
 		
-		return getDYesNoByCode(Constants.YES);
+		try {
+
+			return getDYesNoByCode(Constants.YES);
+			
+		} catch (EJBException e) {
+			// TODO logar erro
+			return null;
+		}
 		
 	}	
 }
