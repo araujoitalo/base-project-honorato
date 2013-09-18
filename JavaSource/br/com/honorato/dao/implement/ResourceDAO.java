@@ -1,12 +1,15 @@
 package br.com.honorato.dao.implement;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
-import javax.persistence.criteria.Predicate;
 
 import br.com.honorato.dao.entity.Resource;
 import br.com.honorato.dao.enumeration.EModuleType;
+import br.com.honorato.dao.util.EqualFilter;
+import br.com.honorato.dao.util.FilterQuery;
+import br.com.honorato.exception.DAOException;
 
 public class ResourceDAO extends JpaDAO<Resource> {
 
@@ -16,24 +19,17 @@ public class ResourceDAO extends JpaDAO<Resource> {
 		super(manager);
 	}
 	
-	public List<Resource> selectBuildTree(){
-
-		setCriteriaQuery(getCriteriaBuilder().createQuery(Resource.class));
-		setFromRoot(getCriteriaQuery().from(Resource.class));
-		getCriteriaQuery().select(getFromRoot());
-		Predicate codePredicate = getCriteriaBuilder().equal(getFromRoot().get("IN_TYPE"), EModuleType.SYSTEM);
-		getPredicates().add(codePredicate);
-		setWhereInQueryWhithPredicatea();
-
-		return getTypeQuery().getResultList();
+	public List<Resource> selectBuildTree() throws DAOException{
+		
+		ArrayList<FilterQuery> filterList = new ArrayList<FilterQuery>();
+		filterList.add(new EqualFilter("IN_TYPE",EModuleType.SYSTEM));
+		return recoveryByFilter(Resource.class, filterList);
 
 	}
 	
-	public void updateChildrenWithParentToRemove(Resource newResource, Resource oldResource){
+	public List<Resource> checkAvailabilityCode(ArrayList<FilterQuery> filters) throws DAOException{
 		
-		setQuery(getEntityManager().createNamedQuery("Resource.updateChildrenWithParentToRemove"));
-		setParameters(getQuery(), new Object[]{newResource, oldResource});
-		getQuery().executeUpdate();
+		return this.recoveryByFilter(Resource.class, filters);
 		
-	}		
+	}	
 }

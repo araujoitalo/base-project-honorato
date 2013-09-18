@@ -1,12 +1,15 @@
 package br.com.honorato.dao.implement;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.metamodel.EntityType;
+import javax.persistence.criteria.JoinType;
 
 import br.com.honorato.dao.entity.Function;
+import br.com.honorato.dao.util.FilterQuery;
+import br.com.honorato.dao.util.IsNullFilter;
+import br.com.honorato.dao.util.JoinFilter;
 import br.com.honorato.exception.DAOException;
 
 public class FunctionDAO extends JpaDAO<Function> {
@@ -17,45 +20,36 @@ public class FunctionDAO extends JpaDAO<Function> {
 		super(manager);
 	}
 	
-	public List<Function> recoveryByCriteria (Function functionFilter) throws DAOException {
-
-		setCriteriaQuery(getCriteriaBuilder().createQuery(Function.class));
-		setFromRoot((getCriteriaQuery().from(Function.class)));
-		getCriteriaQuery().select(getFromRoot());
-		EntityType<Function> type = getEntityManager().getMetamodel().entity(Function.class);
-		
-		if (functionFilter!=null){
-
-			if (!"".equals(functionFilter.getCode()) && null!=functionFilter.getCode()){
-				Predicate loginPredicate = getCriteriaBuilder().equal(getFromRoot().get("code"), functionFilter.getCode());
-				getPredicates().add(loginPredicate);
-			}
-
-			if (!"".equals(functionFilter.getName()) && null!=functionFilter.getName()){
-				Predicate namePredicate = getCriteriaBuilder().like(getCriteriaBuilder().lower(getFromRoot().get(type.getDeclaredSingularAttribute("name", String.class))), functionFilter.getName().toLowerCase() + "%");
-				getPredicates().add(namePredicate);
-			}
-		}
-		
-		setWhereInQueryWhithPredicatea();
-		
-		return getTypeQuery().getResultList();			
-
-	}		
-	
 	public List<Function> selectFreeFunctions () throws DAOException {
 
 		setCriteriaQuery(getCriteriaBuilder().createQuery(Function.class));
 		setFromRoot((getCriteriaQuery().from(Function.class)));
 		getCriteriaQuery().select(getFromRoot());
 		
-		Predicate namePredicate = getCriteriaBuilder().isNull(getFromRoot().get("moduleReference"));
-		getPredicates().add(namePredicate);
+		JoinFilter joinFilter = new JoinFilter(JoinType.LEFT,"referencesResources");
 		
-		setWhereInQueryWhithPredicatea();
+		joinFilter.getFilterList().add(new IsNullFilter("idModule"));
 		
-		return getTypeQuery().getResultList();			
+		ArrayList<FilterQuery> filterList = new ArrayList<FilterQuery>();
+		filterList.add(joinFilter);
+		
+		return this.recoveryByFilter(Function.class, filterList);
+		
+//		for (FilterQuery filter : jjj.getFilterList()) {
+//			
+//			if (filter instanceof IsNullFilter) {
+//				IsNullFilter isNull = (IsNullFilter) filter;
+//				Predicate codePredicate = getCriteriaBuilder().isNull(jjj.getJoin().get(isNull.getName()));
+//				getPredicates().add(codePredicate);
+//			}
+//		}		
+		
+		//Join join = getFromRoot().join("referencesResources", JoinType.LEFT);
+		//Predicate codePredicate = getCriteriaBuilder().isNull(join.get("idModule"));
+		//getPredicates().add(codePredicate);
+		//setWhereInQueryWhithPredicatea();
+		
+		//return getTypeQuery().getResultList();			
 
-	}	
-	
+	}
 }

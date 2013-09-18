@@ -12,9 +12,16 @@ import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.From;
+import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
+import br.com.honorato.dao.util.EqualFilter;
+import br.com.honorato.dao.util.FilterQuery;
+import br.com.honorato.dao.util.IsNullFilter;
+import br.com.honorato.dao.util.JoinFilter;
+import br.com.honorato.dao.util.LikeFilter;
 import br.com.honorato.exception.DAOException;
 
 public class JpaDAO<T> implements GenericDAO<T>, Serializable {
@@ -69,7 +76,7 @@ public class JpaDAO<T> implements GenericDAO<T>, Serializable {
 
 		try {
 
-			this.getEntityManager().merge(object);
+			object = this.getEntityManager().merge(object);
 			return object;
 
 		}catch(PersistenceException ex){
@@ -85,7 +92,7 @@ public class JpaDAO<T> implements GenericDAO<T>, Serializable {
 
 			this.getEntityManager().remove(object);
 
-		}catch(PersistenceException ex){
+		}catch(Exception  ex){
 			throw new DAOException("",ex.getMessage());
 		}
 
@@ -151,5 +158,105 @@ public class JpaDAO<T> implements GenericDAO<T>, Serializable {
 				query.setParameter(i+1, arg);
 			}
 		}
-	}	
+	}
+	
+	protected List<T> recoveryByFilter (Class<T> classe, ArrayList<FilterQuery> filters) throws DAOException {
+
+		setCriteriaQuery(getCriteriaBuilder().createQuery(classe));
+		setFromRoot((getCriteriaQuery().from(classe)));
+		getCriteriaQuery().select(getFromRoot());
+		
+		putPredicateRoot(filters,getFromRoot());
+		
+		//for (FilterQuery filter : filters) {
+			
+			
+			
+//			if (filter instanceof LikeFilter) {
+//				LikeFilter like = (LikeFilter) filter;
+//				Predicate codePredicate = getCriteriaBuilder().like(getFromRoot().<String>get(like.getName()), like.getFullExpression());
+//				getPredicates().add(codePredicate);
+//			}else if(filter instanceof EqualFilter){
+//				EqualFilter equal = (EqualFilter) filter;
+//				Predicate codePredicate = getCriteriaBuilder().equal(getFromRoot().get(equal.getName()), equal.getValue());
+//				getPredicates().add(codePredicate);
+//			}
+		//}		
+		
+		setWhereInQueryWhithPredicatea();
+		
+		return getTypeQuery().getResultList();			
+
+	}
+	
+	private void putPredicateRoot(List<FilterQuery> filters, From from){
+		
+		for (FilterQuery filter : filters) {
+			
+			if (filter instanceof LikeFilter) {
+				LikeFilter like = (LikeFilter) filter;
+				Predicate codePredicate = getCriteriaBuilder().like(getFromRoot().<String>get(like.getName()), like.getFullExpression());
+				getPredicates().add(codePredicate);
+			}else if(filter instanceof EqualFilter){
+				EqualFilter equal = (EqualFilter) filter;
+				Predicate codePredicate = getCriteriaBuilder().equal(getFromRoot().get(equal.getName()), equal.getValue());
+				getPredicates().add(codePredicate);
+			}else if(filter instanceof IsNullFilter){
+				IsNullFilter isNullFilter = (IsNullFilter) filter;
+				Predicate codePredicate = getCriteriaBuilder().isNull(getFromRoot().get(isNullFilter.getName()));
+				getPredicates().add(codePredicate);
+			}else if(filter instanceof JoinFilter){
+				
+				JoinFilter joinFilter = (JoinFilter) filter;
+				Join join = getFromRoot().join(joinFilter.getJoinName(), joinFilter.getJoinType());
+				Predicate codePredicate = getCriteriaBuilder().isNull(from.get("idModule"));
+				putPredicateRoot(joinFilter.getFilterList(),join);
+				
+				//Predicate codePredicate = getCriteriaBuilder().isNull(join.get("idModule"));
+				
+//				JoinFilter joinFilter = (JoinFilter) filter;
+//				joinFilter.makeJoin();
+//				putPredicateJoin(joinFilter.getFilterList(),joinFilter.getJoin());
+				
+			}
+		}			
+
+//		if (filter instanceof LikeFilter) {
+//			LikeFilter like = (LikeFilter) filter;
+//			Predicate codePredicate = getCriteriaBuilder().like(getFromRoot().<String>get(like.getName()), like.getFullExpression());
+//			getPredicates().add(codePredicate);
+//		}else if(filter instanceof EqualFilter){
+//			EqualFilter equal = (EqualFilter) filter;
+//			Predicate codePredicate = getCriteriaBuilder().equal(getFromRoot().get(equal.getName()), equal.getValue());
+//			getPredicates().add(codePredicate);
+//		}else if(filter instanceof JoinFilter){
+//			
+//			JoinFilter joinFilter = (JoinFilter) filter;
+//			joinFilter.makeJoin();
+//			putPredicate(joinFilter.getFilterList());
+//			
+//		}
+
+	}
+	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	private void putPredicateJoin(List<FilterQuery> filters,  Join join){
+		
+		for (FilterQuery filter : filters) {
+			
+			if (filter instanceof LikeFilter) {
+				LikeFilter like = (LikeFilter) filter;
+				Predicate codePredicate = getCriteriaBuilder().like(join.get(like.getName()), like.getFullExpression());
+				getPredicates().add(codePredicate);
+			}else if(filter instanceof EqualFilter){
+				EqualFilter equal = (EqualFilter) filter;
+				Predicate codePredicate = getCriteriaBuilder().equal(join.get(equal.getName()), equal.getValue());
+				getPredicates().add(codePredicate);
+			}else if(filter instanceof IsNullFilter){
+				IsNullFilter isNullFilter = (IsNullFilter) filter;
+				Predicate codePredicate = getCriteriaBuilder().isNull(join.get(isNullFilter.getName()));
+				getPredicates().add(codePredicate);
+			}
+		}		
+	}
 }
