@@ -13,16 +13,31 @@
 	<h:outputStylesheet name="style.css" library="css" />
 	<h:outputScript name="jtooltip.js" library="js" />
 	<h:outputScript name="primefaceslocales.js" library="js" />
+<style type="text/css" >
 
+	
+	@font-face{
+		fonta-family: HelveticaNeueLT;
+		src: url(../resources/default/fonts/HelveticaNeueLTCom-MdCn.otf);
+	}
+	
+	
+	.teste2{
+	
+		font-family: HelveticaNeueLT;
+		font-size: 25px;
+	
+	}	
+</style>
 </h:head>
 
 <h:body>
 
 	<div id="headerPrincipal">
-		<div class="wrapper">Header</div>
+		<div class="wrapper" style="font-family:teste">Header</div>
 	</div>
 	<p:outputPanel autoUpdate="true">
-		<p:messages id="mensagensContact" showDetail="false"
+		<p:messages id="mensagensContact" showDetail="false" rendered="#{facesContext.maximumSeverity eq 'INFO 0'}"
 			showSummary="true" />
 	</p:outputPanel>
 	<div class="wrapper">
@@ -39,12 +54,12 @@
 
 							<p:column style="width:32%">
 								<f:facet name="header">Nome Bundle</f:facet>
-								<h:outputText value="#{document.name}" />
+								<h:outputText value="#{document.name}" styleClass="teste" />
 							</p:column>
 
 							<p:column style="width:32%">
 								<f:facet name="header">Size</f:facet>
-								<h:outputText value="#{document.code}" />
+								<h:outputText value="#{document.code}" styleClass="teste2" />
 							</p:column>
 
 							<p:column style="width:4%">
