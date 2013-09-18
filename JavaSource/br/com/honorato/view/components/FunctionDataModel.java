@@ -21,10 +21,11 @@ public class FunctionDataModel extends ListDataModel<Function> implements Select
     public Function getRowData(String rowKey) {  
         //In a real app, a more efficient way like a query by rowKey should be implemented to deal with huge data  
           
-        List<Function> functions = (List<Function>) getWrappedData();  
+        @SuppressWarnings("unchecked")
+		List<Function> functions = (List<Function>) getWrappedData();  
           
         for(Function function : functions) {  
-            if(function.getIdModule().equals(rowKey))  
+            if(function.getIdModule().equals(new Integer(rowKey)))  
                 return function;  
         }  
           

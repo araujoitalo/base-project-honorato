@@ -14,10 +14,10 @@ public class BaseEJB {
 
 	@Resource 
 	protected SessionContext context;
-
+	
 	@PersistenceContext 
 	private EntityManager em;
-
+	
 	public BaseEJB() {
 	}
 
@@ -39,6 +39,5 @@ public class BaseEJB {
 
 	public void refresh(Object obj){
 		getEm().refresh(obj);
-	}	
-
+	}
 }
