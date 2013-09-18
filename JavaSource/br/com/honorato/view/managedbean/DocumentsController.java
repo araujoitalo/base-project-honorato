@@ -1,7 +1,6 @@
 package br.com.honorato.view.managedbean;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -20,8 +19,6 @@ import br.com.honorato.dao.entity.Module;
 import br.com.honorato.dao.entity.Resource;
 import br.com.honorato.dao.entity.SystemModule;
 import br.com.honorato.dao.enumeration.EModuleType;
-import br.com.honorato.dao.util.FilterQuery;
-import br.com.honorato.dao.util.LikeFilter;
 import br.com.honorato.ejb.service.implement.DYesNoEJB;
 import br.com.honorato.ejb.service.implement.ResourceEJB;
 import br.com.honorato.exception.EJBException;
@@ -301,7 +298,7 @@ public class DocumentsController implements Serializable {
 
 				if (!list.isEmpty()){
 					//TODO: recuperar do bundle
-					msgCheckAvailabilityCode = "Já existe este código"; 
+					msgCheckAvailabilityCode = "Ja existe este codigo"; 
 				}else{
 					msgCheckAvailabilityCode = "";
 				}		

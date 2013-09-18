@@ -35,21 +35,5 @@ public class FunctionDAO extends JpaDAO<Function> {
 		
 		return this.recoveryByFilter(Function.class, filterList);
 		
-//		for (FilterQuery filter : jjj.getFilterList()) {
-//			
-//			if (filter instanceof IsNullFilter) {
-//				IsNullFilter isNull = (IsNullFilter) filter;
-//				Predicate codePredicate = getCriteriaBuilder().isNull(jjj.getJoin().get(isNull.getName()));
-//				getPredicates().add(codePredicate);
-//			}
-//		}		
-		
-		//Join join = getFromRoot().join("referencesResources", JoinType.LEFT);
-		//Predicate codePredicate = getCriteriaBuilder().isNull(join.get("idModule"));
-		//getPredicates().add(codePredicate);
-		//setWhereInQueryWhithPredicatea();
-		
-		//return getTypeQuery().getResultList();			
-
 	}
 }

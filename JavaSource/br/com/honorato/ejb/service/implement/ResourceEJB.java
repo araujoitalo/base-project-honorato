@@ -110,11 +110,12 @@ public class ResourceEJB extends BaseEJB {
 
 		ArrayList<FilterQuery> filterList = new ArrayList<FilterQuery>();
 		filterList.add(new EqualFilter("code",code));
+		
 		try {
 			return new ResourceDAO(getEm()).checkAvailabilityCode(filterList);
 		} catch (DAOException e) {
 			// TODO recuperar do bundle ou propagar
-			throw new EJBException("sds", "Erro ao checar código do módulo!");
+			throw new EJBException("sds", "Erro ao checar codigo do modulo!");
 		}
 		
 	}
