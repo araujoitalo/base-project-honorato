@@ -53,7 +53,7 @@ public abstract class DomainBase implements Serializable {
 
 	@Column(name="DE_MASK",length=100)
 	/*TODO RECUPERAR DO BUNDLE*/
-	@Length(max=100, message= "Campo n�o pode exceder 100 caracteres")
+	@Length(max=100, message= "Campo nao pode exceder 100 caracteres")
 	private String mask;
 
 	@Column(name="NR_PRIORITY")

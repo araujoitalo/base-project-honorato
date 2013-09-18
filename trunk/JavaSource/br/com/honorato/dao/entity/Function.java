@@ -18,4 +18,16 @@ public class Function extends Resource implements Serializable {
 		this.setType(EModuleType.FUNCTION);
 		
 	}
+	
+	@Override
+	public String toString() {
+		
+		StringBuilder outBuilder = new StringBuilder();
+		outBuilder.append("");
+		if (this.getIdModule()!=null){
+			outBuilder.append(String.valueOf(this.getIdModule()));
+		}
+		
+		return outBuilder.toString();
+	}	
 }
