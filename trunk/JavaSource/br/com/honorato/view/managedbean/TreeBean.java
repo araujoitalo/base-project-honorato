@@ -46,9 +46,9 @@ public class TreeBean implements Serializable {
 		System.out.println(ress.getCode());
 
 		TreeNode node = new DefaultTreeNode(ress, root);
-		for(Resource res: ress.getResources()) {
-			buildTree(node, res);
-		}
+//		for(Resource res: ress.getResources()) {
+//			buildTree(node, res);
+//		}
 	}	
 
 	@PostConstruct
@@ -175,5 +175,8 @@ public class TreeBean implements Serializable {
 
 	public void setResource(Resource resource) {
 		this.resource = resource;
-	}	
+	}
+	
+	
+	
 }

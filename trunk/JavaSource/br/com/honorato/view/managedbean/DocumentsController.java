@@ -1,6 +1,7 @@
 package br.com.honorato.view.managedbean;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -19,6 +20,8 @@ import br.com.honorato.dao.entity.Module;
 import br.com.honorato.dao.entity.Resource;
 import br.com.honorato.dao.entity.SystemModule;
 import br.com.honorato.dao.enumeration.EModuleType;
+import br.com.honorato.dao.util.FilterQuery;
+import br.com.honorato.dao.util.LikeFilter;
 import br.com.honorato.ejb.service.implement.DYesNoEJB;
 import br.com.honorato.ejb.service.implement.ResourceEJB;
 import br.com.honorato.exception.EJBException;
@@ -42,7 +45,7 @@ public class DocumentsController implements Serializable {
 	private ResourceEJB resourceEJB;  
 	
 	private Resource selectedDocument;
-	private Module newResource;
+	private Module newModule;
 	
 	private TreeNode selectedNode;
 	private TreeNode newNode;
@@ -51,6 +54,8 @@ public class DocumentsController implements Serializable {
 	
 	private Function[] selectedFunctions;
 	private FunctionDataModel freeFunctions;
+	
+	private String msgCheckAvailabilityCode;
 	
 	public DocumentsController() {  
 
@@ -111,7 +116,7 @@ public class DocumentsController implements Serializable {
 		System.out.println(ress.getCode());
 
 		TreeNode node = new DefaultTreeNode(ress, root);
-		for(Resource res: ress.getResources()) {
+		for(Resource res: ress.getDependentResources()) {
 			buildTree(node, res);
 		}
 	}	
@@ -144,15 +149,21 @@ public class DocumentsController implements Serializable {
 
 		selectedNode =  getTreeNodeSelected(root,selectedDocument.getCode());
 		
-		System.out.println(selectedNode);
-		
 		try {
-			newResource.setCode(newResource.getName());
-			newResource.setModuleReference(selectedDocument);
-			moduleEJB.saveResource(newResource);
+			
+//			newModule.setCode(newModule.getName());
+			
+			if (selectedFunctions!=null){
+				for (Function selectFunction : selectedFunctions) {
+					newModule.getDependentResources().add(selectFunction);
+				}
+			}
+			
+			moduleEJB.saveResource(selectedDocument, newModule);
+			
 			//TODO: bundle
-			FacesUtil.showSucessMessage("Operacao Efetuada com Sucesso!", "Sucesso", false);
-			newResource = null;
+			FacesUtil.showSucessMessage("Operacao Efetuada com Sucesso!", "Sucesso", true);
+			newModule = null;
 			init();
 			//this.setDlgSucessOpen(true);
 
@@ -167,7 +178,7 @@ public class DocumentsController implements Serializable {
 
 		if (selectedDocument==null){
 			//TODO: bundle
-			FacesUtil.showErrorMessage("Selectione um mÃ³dulo para exclusÃ£o!", "Erro", false);
+			FacesUtil.showErrorMessage("Selectione um modulo para exclusao!", "Erro", false);
 
 		}else{
 
@@ -197,15 +208,15 @@ public class DocumentsController implements Serializable {
 
 	public Resource getNewResource() {
 		
-		if (newResource==null){
-			newResource = new Module();
+		if (newModule==null){
+			newModule = new Module();
 		}
 		
-		return newResource;
+		return newModule;
 	}
 
 	public void setNewResource(Module newResource) {
-		this.newResource = newResource;
+		this.newModule = newResource;
 	}
 
 	public TreeNode getSelectedNode() {
@@ -259,13 +270,13 @@ public class DocumentsController implements Serializable {
 
 	public FunctionDataModel getFreeFunctions() {
 		
-		if (freeFunctions==null){
+//		if (freeFunctions==null){
 			try {
 				freeFunctions = new FunctionDataModel(resourceEJB.selectFreeFunctions());
 			} catch (EJBException err) {
 				FacesUtil.showFatalMessage(err.getErrorCode(), err.getMessage(),false);
 			} 
-		}
+	//	}
 		return freeFunctions;
 	}	
 	
@@ -278,6 +289,49 @@ public class DocumentsController implements Serializable {
 			FacesUtil.showFatalMessage(err.getErrorCode(), err.getMessage(),false);
 		} 
 		return null;
+	}
+
+	public void checkAvailabilityCode() {
+
+		try {
+
+			if (this.getNewResource().getCode().length()>2){
+
+				List<Resource> list = resourceEJB.checkAvailabilityCode(newModule.getCode());
+
+				if (!list.isEmpty()){
+					//TODO: recuperar do bundle
+					msgCheckAvailabilityCode = "Já existe este código"; 
+				}else{
+					msgCheckAvailabilityCode = "";
+				}		
+			}else{
+				msgCheckAvailabilityCode = "";
+			}
+			
+		} catch (EJBException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		//		resourceEJB.saveResource(selectedDocument, newModule);
+		//		
+//		
+//		System.out.println(newNode.getData().toString());
+//		Resource folha = new Resource(new Integer(0), String.valueOf(newNode.getData()));
+//		newNode.setParent(selectedNode);
+//		
+//		TreeNode documents = new DefaultTreeNode(newNode, root);  
+//		
+//		System.out.println(folha.getCode());
+
+	}
+
+	public String getMsgCheckAvailabilityCode() {
+		return msgCheckAvailabilityCode;
+	}
+
+	public void setMsgCheckAvailabilityCode(String msgCheckAvailabilityCode) {
+		this.msgCheckAvailabilityCode = msgCheckAvailabilityCode;
 	}	
 
 }

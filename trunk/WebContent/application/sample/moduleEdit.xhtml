@@ -11,44 +11,49 @@
 			<p:separator />
 		</h:panelGroup>
 
-			<p:growl id="growl2" showDetail="true" life="4000" redisplay="false"
-				infoIcon="img_edit.png"
-				rendered="#{facesContext.maximumSeverity eq 'INFO 0'}" />
-			<p:outputPanel autoUpdate="true">
-				<p:messages id="mensagensContact" showDetail="false"
-					showSummary="true" />
-			</p:outputPanel>
-			<br />
-			<h:form>
-			<p:panel>
+		<p:growl id="growl2" showDetail="true" life="4000" redisplay="false"
+			infoIcon="img_edit.png"
+			rendered="#{facesContext.maximumSeverity eq 'INFO 0'}" />
+		<p:outputPanel autoUpdate="true">
+			<p:messages id="mensagensContact" showDetail="false" rendered="#{facesContext.maximumSeverity eq 'FATAL 3'}"  showSummary="true" />		
+		</p:outputPanel>
+		<br />
+		<h:form prependId="false">
+		
+			<p:panel id="moduleEditPanel">
+				<p:focus context="moduleEditPanel"/> 
 				<h:panelGrid style="width:100%">
 
-					<h:panelGrid columns="2" style="margin-bottom:10px;">
+					<h:panelGrid columns="3" style="margin-bottom:10px;">
 
-						<h:outputLabel for="name" value="Módulo agregador: BUNDLE" />
-						<h:outputText id="name"
-							value="#{documentsController.selectedDocument.name}"
-							style="font-weight:bold" />
-						<h:outputLabel for="nodeName" value="Nome do Módulo: BUNDLE" />
-						<h:inputText value="#{documentsController.newResource.name}"
-							id="nodeName" />
-							<h:message for="nodeName" />
-						<h:message for="nodeName" />
-						<p:selectOneRadio 
+						<h:outputLabel for="moduleUnion" value="Módulo agregador: BUNDLE" />
+						<h:outputText id="moduleUnion" value="#{documentsController.selectedDocument.name}" style="font-weight:bold" />
+						<p:spacer/>
+						<h:outputLabel for="moduleCode" value="Código do Módulo: BUNDLE" />
+						<h:inputText value="#{documentsController.newResource.code}" id="moduleCode" >
+							<p:ajax update="out1" event="keyup" listener="#{documentsController.checkAvailabilityCode}" />  
+						</h:inputText>
+						<h:outputText id="out1" value="#{documentsController.msgCheckAvailabilityCode}" /> 
+						<h:message for="moduleCode"/>
+						<h:outputLabel value="Nome do Módulo: BUNDLE" />
+						<h:inputText value="#{documentsController.newResource.name}" id="moduleName" />
+						<h:message for="moduleName" />
+						<p:selectOneRadio
 							value="#{documentsController.accumulatorFunction}"
 							id="isAccumulatorFunction" converter="dYesNoConverter">
-							<f:selectItems value="#{documentsController.getDYesNolist()}" 
-								var="isAccumulatorFunction"  
+							<f:selectItems value="#{documentsController.getDYesNolist()}"
+								var="isAccumulatorFunction"
 								itemLabel="#{isAccumulatorFunction.name}"
 								itemValue="#{isAccumulatorFunction}" />
-								<p:ajax event="change" update="freeFunctionsPanel"  />
+							<p:ajax event="change" update="freeFunctionsPanel" />
 						</p:selectOneRadio>
-						<h:message for="isAccumulatorFunction" />
+						<h:message for="isAccumulatorFunction"  />
 					</h:panelGrid>
-					
+
 					<h:panelGroup id="freeFunctionsPanel">
 						<h:panelGrid id="mimi" style="width:100%">
-							<p:dataTable id="freeFunctionsw" var="freeFunction" rendered="#{documentsController.accumulatorFunction.code == 'YES'}"
+							<p:dataTable id="freeFunctions" var="freeFunction"
+								rendered="#{documentsController.accumulatorFunction.code == 'YES'}"
 								value="#{documentsController.getFreeFunctions()}"
 								paginator="true" rows="10" paginatorPosition="bottom"
 								selection="#{documentsController.selectedFunctions}">
@@ -66,19 +71,19 @@
 					<h:panelGroup>
 						<p:spacer width="10" />
 						<p:commandButton id="submitButton2" value="Submit"
-							action="#{documentsController.addNode}" update="#{idRender}"
+							action="#{documentsController.addNode}"  update="moduleEditPanel"
 							process="@form">
 						</p:commandButton>
 						<p:commandButton value="Sair" oncomplete="moduleDialog.hide();"
-							update=":form:treetable" process="@this" />
+							 update="#{idRender}" process="@this" />
 					</h:panelGroup>
 
 
 				</h:panelGrid>
-				
+
 			</p:panel>
-</h:form>
-			<br />
+		</h:form>
+		<br />
 
 
 
