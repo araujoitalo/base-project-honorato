@@ -12,6 +12,8 @@ import br.com.honorato.dao.entity.Rule;
 import br.com.honorato.dao.entity.User;
 import br.com.honorato.dao.implement.RuleDAO;
 import br.com.honorato.dao.implement.UserDAO;
+import br.com.honorato.exception.DAOException;
+import br.com.honorato.exception.EJBException;
 
 /**
  * Session Bean implementation class LoginEJB
@@ -23,9 +25,19 @@ public class AuthenticationEJB extends BaseEJB {
 	public AuthenticationEJB() {
 	}
 
-	public org.springframework.security.core.userdetails.User authenticateUser(String login){
+	public org.springframework.security.core.userdetails.User authenticateUser(String login) throws EJBException{
 
-		User user = new UserDAO(getEm()).login(login);
+		User user = null;
+		try {
+		
+			user = new UserDAO(getEm()).login(login);
+		
+		} catch (DAOException e) {
+			// TODO Logar erro
+			user = null;
+			throw new EJBException(e); 
+		}
+		
 		List<Rule> ruleList = null;
 		
 		if (user==null){
