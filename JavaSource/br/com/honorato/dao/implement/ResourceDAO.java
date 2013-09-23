@@ -23,13 +23,13 @@ public class ResourceDAO extends JpaDAO<Resource> {
 		
 		ArrayList<FilterQuery> filterList = new ArrayList<FilterQuery>();
 		filterList.add(new EqualFilter("IN_TYPE",EModuleType.SYSTEM));
-		return recoveryByFilter(Resource.class, filterList);
+		return recoveryListByFilter(Resource.class, filterList);
 
 	}
 	
 	public List<Resource> checkAvailabilityCode(ArrayList<FilterQuery> filters) throws DAOException{
 		
-		return this.recoveryByFilter(Resource.class, filters);
+		return this.recoveryListByFilter(Resource.class, filters);
 		
 	}	
 }
