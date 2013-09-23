@@ -43,13 +43,13 @@ public class Resource implements Serializable {
 	private Integer idModule;
 
 	@Column(name="CD_MODULE", nullable = false, unique=true)
-	@NotBlank(message = "{code.noBlank}")
-	@Length(max=30, message= "{code.MaxLength}")
+	@NotBlank(message = "{resource.code.noBlank}")
+	@Length(max=30, message= "{resource.code.MaxLength}")
 	private String code;
 
 	@Column(name="NM_MODULE", nullable = false)
-	@NotBlank(message = "{name.noBlank}")
-	@Length(max=150, message= "{name.MaxLength}")
+	@NotBlank(message = "{resource.name.noBlank}")
+	@Length(max=150, message= "{resource.name.MaxLength}")
 	private String name;
 
 	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)

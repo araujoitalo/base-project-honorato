@@ -46,8 +46,8 @@ public class User implements Serializable {
 
 	@Column(name="CD_LOGIN")
 	/*TODO RECUPERAR DO BUNDLE*/
-	@NotBlank(message = "Campo no não pode ser branco nem vazio")
-	@Length(max=100,message="Informe no máximo 100 caracteres")
+	@NotBlank(message = "{contact.login.notBlank}")
+	@Length(max=100,message="{contact.login.MaxLength}")
 	@UniqueLoginCheck(value="CD_LOGIN")
 	private String login;
 
@@ -56,20 +56,20 @@ public class User implements Serializable {
 
 	@Column(name="NM_USER")
 	/*TODO RECUPERAR DO BUNDLE*/
-	@NotBlank(message = "Campo no não pode ser branco nem vazio")
-	@Length(max=100,message="Informe no máximo 100 caracteres")
+	@NotBlank(message = "{contact.name.notBlank}")
+	@Length(max=100,message="{contact.name.MaxLength}")
 	private String name;
 	
 	
 	@ManyToOne(fetch = FetchType.EAGER)  
 	@JoinColumn(name = "ID_DM_CHANGE_PASSWORD")
 	/*TODO RECUPERAR DO BUNDLE*/
-	@NotNull(message = "Campo no não pode ser branco nem vazio")
+	@NotNull(message = "{contact.changePassword.notNull}")
 	private DYesNo changePassword;	
 	
 	@Enumerated(EnumType.STRING)
-	/*@SampleStatusCheck(properties={"status","name"})*/
-	@Column(name ="IN_STATUS", nullable = false)
+	@Column(name ="IN_STATUS")
+	@NotNull(message = "{contact.status.notNull}")
 	public EUserStatus status;
 	
 	@OneToMany(mappedBy="owner",cascade=CascadeType.ALL,fetch=FetchType.EAGER)
