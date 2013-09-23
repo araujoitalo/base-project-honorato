@@ -160,7 +160,7 @@ public class JpaDAO<T> implements GenericDAO<T>, Serializable {
 		}
 	}
 	
-	protected List<T> recoveryByFilter (Class<T> classe, ArrayList<FilterQuery> filters) throws DAOException {
+	protected List<T> recoveryListByFilter (Class<T> classe, ArrayList<FilterQuery> filters) throws DAOException {
 
 		setCriteriaQuery(getCriteriaBuilder().createQuery(classe));
 		setFromRoot((getCriteriaQuery().from(classe)));
@@ -171,6 +171,20 @@ public class JpaDAO<T> implements GenericDAO<T>, Serializable {
 		setWhereInQueryWhithPredicatea();
 		
 		return getTypeQuery().getResultList();			
+
+	}
+	
+	protected T recoverySingleByFilter (Class<T> classe, ArrayList<FilterQuery> filters) throws DAOException {
+
+		setCriteriaQuery(getCriteriaBuilder().createQuery(classe));
+		setFromRoot((getCriteriaQuery().from(classe)));
+		getCriteriaQuery().select(getFromRoot());
+		
+		putPredicate(filters,getFromRoot());
+		
+		setWhereInQueryWhithPredicatea();
+		
+		return (T)getTypeQuery().getSingleResult();			
 
 	}
 	

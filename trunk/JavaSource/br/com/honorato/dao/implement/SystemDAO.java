@@ -19,7 +19,7 @@ public class SystemDAO extends JpaDAO<SystemModule> {
 	
 	public List<SystemModule> selectSystemTree() throws DAOException{
 		
-		return recoveryByFilter(SystemModule.class, new ArrayList<FilterQuery>());
+		return recoveryListByFilter(SystemModule.class, new ArrayList<FilterQuery>());
 		
 	}
 }

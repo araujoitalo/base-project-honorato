@@ -1,9 +1,12 @@
 package br.com.honorato.dao.implement;
 
+import java.util.ArrayList;
+
 import javax.persistence.EntityManager;
-import javax.persistence.criteria.Predicate;
 
 import br.com.honorato.dao.entity.DYesNo;
+import br.com.honorato.dao.util.FilterQuery;
+import br.com.honorato.exception.DAOException;
 
 public class DYesNoDAO extends JpaDAO<DYesNo> {
 
@@ -13,20 +16,9 @@ public class DYesNoDAO extends JpaDAO<DYesNo> {
 		super(manager);
 	}
 	
-	public DYesNo recoverySingleByCriteria (DYesNo DYesNoFilter){
-
-		setCriteriaQuery(getCriteriaBuilder().createQuery(DYesNo.class));
-		setFromRoot(getCriteriaQuery().from(DYesNo.class));
-		getCriteriaQuery().select(getFromRoot());
-
-		if (!"".equals(DYesNoFilter.getCode())){
-			Predicate codePredicate = getCriteriaBuilder().equal(getFromRoot().get("code"), DYesNoFilter.getCode());
-			getPredicates().add(codePredicate);
-		}
-
-		setWhereInQueryWhithPredicatea();
-
-		return getTypeQuery().getSingleResult();
-
+	public DYesNo recoverySingleByCriteria (ArrayList<FilterQuery> filterList) throws DAOException{
+		
+		return this.recoverySingleByFilter(DYesNo.class, filterList);
+		
 	}	
 }

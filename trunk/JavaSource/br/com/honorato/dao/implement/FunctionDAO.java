@@ -22,18 +22,13 @@ public class FunctionDAO extends JpaDAO<Function> {
 	
 	public List<Function> selectFreeFunctions () throws DAOException {
 
-		setCriteriaQuery(getCriteriaBuilder().createQuery(Function.class));
-		setFromRoot((getCriteriaQuery().from(Function.class)));
-		getCriteriaQuery().select(getFromRoot());
-		
 		JoinFilter joinFilter = new JoinFilter(JoinType.LEFT,"referencesResources");
-		
 		joinFilter.getFilterList().add(new IsNullFilter("idModule"));
 		
 		ArrayList<FilterQuery> filterList = new ArrayList<FilterQuery>();
 		filterList.add(joinFilter);
 		
-		return this.recoveryByFilter(Function.class, filterList);
+		return this.recoveryListByFilter(Function.class, filterList);
 		
 	}
 }
