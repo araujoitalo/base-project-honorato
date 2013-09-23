@@ -35,25 +35,25 @@ public abstract class DomainBase implements Serializable {
 
 	@Column(name="CD_DOMAIN", nullable = false, length=20)
 	/*TODO RECUPERAR DO BUNDLE*/
-	@NotBlank(message = "Campo no nAo pode ser vazio")
-	@Length(max=20, message= "Campo nao pode exceder 20 caracteres")
+	@NotBlank(message = "{domain.code.notNull}")
+	@Length(max=20, message= "{domain.code.MaxLength}")
 	private String code;
 
 	@Column(name="NM_DOMAIN", nullable = false, length=150)
 	/*TODO RECUPERAR DO BUNDLE*/
-	@NotBlank(message = "Campo no nao pode ser vazio")
-	@Length(max=150, message= "Campo nao pode exceder 150 caracteres")
+	@NotBlank(message = "{domain.name.notNull}")
+	@Length(max=150, message= "{domain.name.MaxLength}")
 	private String name;
 
 	@Column(name="DE_DOMAIN", nullable = false, length=250)
 	/*TODO RECUPERAR DO BUNDLE*/
-	@NotBlank(message = "Campo no nao pode ser vazio")	
-	@Length(max=250, message= "Campo nao pode exceder 250 caracteres")
+	@NotBlank(message = "{domain.description.notNull}")	
+	@Length(max=250, message= "{domain.description.MaxLength}")
 	private String description;
 
 	@Column(name="DE_MASK",length=100)
 	/*TODO RECUPERAR DO BUNDLE*/
-	@Length(max=100, message= "Campo nao pode exceder 100 caracteres")
+	@Length(max=100, message= "{domain.mask.MaxLength}")
 	private String mask;
 
 	@Column(name="NR_PRIORITY")

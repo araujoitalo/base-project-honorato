@@ -36,18 +36,18 @@ public class Contact implements Serializable {
 
 	@Column(name="DE_CONTENT")
 	/*TODO RECUPERAR DO BUNDLE*/
-	@NotBlank(message = "Campo no não pode ser branco nem vazio")
-	@Length(max=150,message="Informe no máximo 150 caracteres")
+	@NotBlank(message = "{contact.content.noBlank}")
+	@Length(max=150,message="{contact.content.MaxLength}")
 	private String content;
 	
 	@ManyToOne(fetch = FetchType.EAGER)  
 	@JoinColumn(name = "ID_TYPE_CONTACT")
-	@NotNull(message = "Campo no não pode ser branco nem vazio")
+	@NotNull(message = "{contact.type.notNull}")
 	private DTypeContact type;
 
     @ManyToOne
 	@JoinColumn(name="ID_USER")
-    @NotNull(message = "Campo não pode ser branco nem vazio")
+    @NotNull(message = "{contact.owner.notNull}")
 	private User owner;		
 	
 	public Contact() {
