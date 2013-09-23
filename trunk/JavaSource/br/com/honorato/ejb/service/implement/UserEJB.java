@@ -1,5 +1,6 @@
 package br.com.honorato.ejb.service.implement;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -14,6 +15,9 @@ import br.com.honorato.dao.entity.User;
 import br.com.honorato.dao.enumeration.EUserStatus;
 import br.com.honorato.dao.implement.TypeContactDAO;
 import br.com.honorato.dao.implement.UserDAO;
+import br.com.honorato.dao.util.EqualFilter;
+import br.com.honorato.dao.util.FilterQuery;
+import br.com.honorato.dao.util.LikeFilter;
 import br.com.honorato.exception.DAOException;
 import br.com.honorato.exception.EJBException;
 import br.com.honorato.exception.EncriptException;
@@ -62,7 +66,6 @@ public class UserEJB extends BaseEJB {
 	@LoggerInterceptor
 	public void saveNewUser(User user) throws EJBException {
 
-		//TODO: gerar senha automática
 		user.setPassword(PasswordUtil.getRandomPasswordMD5(6));
 		saveUser(user);
 		//TODO: enviar senha por email
@@ -84,10 +87,30 @@ public class UserEJB extends BaseEJB {
 
 	@LoggerInterceptor
 	//@RolesAllowed({"ROLE_USER_SEARCH"})
-	public List<User> searchUser(User filter) throws EJBException {
+	public List<User> searchUser(User userFilter) throws EJBException {
+		
+		ArrayList<FilterQuery> filterList = new ArrayList<FilterQuery>();
+		
+		if (userFilter==null){
+			/*TODO: recuperar do bundle*/
+			throw new EJBException("CODIGO","filro de usuario nao informado");			
+		}
+		
+		if (!"".equals(userFilter.getLogin()) && null!=userFilter.getLogin())
+			filterList.add(new EqualFilter("login",userFilter.getLogin()));
+
+		if (!"".equals(userFilter.getName()) && null!=userFilter.getName())
+			filterList.add(new LikeFilter(LikeFilter.BOTH,"name",userFilter.getName().toUpperCase()));
+
+		if (userFilter.getStatus()!=null){
+			filterList.add(new EqualFilter("status",userFilter.getStatus()));
+		}
+			
 
 		try {
-			return new UserDAO(getEm()).recoveryByCriteria(filter);
+
+			return new UserDAO(getEm()).recoveryListByCriteria(filterList);
+
 		} catch (DAOException e) {
 			/*TODO: RECUPERAR MENSAGEM DO BUNDLE*/
 			throw new EJBException(e.getErrorCode(), e.getMessage());
@@ -136,19 +159,13 @@ public class UserEJB extends BaseEJB {
 	@LoggerInterceptor
 	public User getUserByLogin(String login) throws EJBException {
 
-		User out = null;
-
 		try {
+			
+			ArrayList<FilterQuery> filterList = new ArrayList<FilterQuery>();
+			filterList.add(new EqualFilter("login",login));
 
-			User filter = new User();
-			filter.setLogin(login);
-			for (User user : new UserDAO(getEm()).recoveryByCriteria(filter)) {
-				out = user;
-				break;
-			}
-
-			return out;
-
+			return new UserDAO(getEm()).recoverySingleByCriteria(filterList);
+			
 		} catch (DAOException e) {
 			/*TODO: RECUPERAR MENSAGEM DO BUNDLE*/
 			throw new EJBException(e.getErrorCode(), e.getMessage());
