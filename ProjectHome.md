@@ -1,0 +1,1 @@
+Projeto básico de autenticação JSF + Spring Security 3.2
